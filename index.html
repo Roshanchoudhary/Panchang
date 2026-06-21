@@ -3,618 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🕉️ पूर्ण पंचांग - Panchang.org.in</title>
-    <meta name="description" content="संपूर्ण पंचांग, दैनिक, मासिक, मुहूर्त, कथा, विवाह, यज्ञोपवीत।">
+    <title>🏠 पंचांग - Panchang.org.in</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
-    <style>
-        /* ====== CSS रूट वेरिएबल्स ====== */
-        :root {
-            --primary: #7B2D26;
-            --primary-light: #A64B3F;
-            --secondary: #D4A373;
-            --gold: #C68A3C;
-            --bg-light: #FDF8F3;
-            --bg-card: #FFFFFF;
-            --text-dark: #2D1B12;
-            --text-muted: #5A4A3A;
-            --shadow: 0 8px 30px rgba(0,0,0,0.10);
-            --radius: 16px;
-            --transition: all 0.3s ease;
-            --font: 'Segoe UI', 'Noto Sans Devanagari', system-ui, sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: var(--font);
-            background: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-        }
-
-        /* ====== कंटेनर ====== */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ====== HEADER ====== */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 16px 0;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .logo span { color: var(--secondary); }
-        nav {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 6px 14px;
-            border-radius: 40px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: var(--transition);
-            background: rgba(255,255,255,0.08);
-        }
-        nav a:hover, nav a.active {
-            background: var(--secondary);
-            color: var(--primary);
-            transform: translateY(-2px);
-        }
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.8rem;
-            cursor: pointer;
-        }
-
-        /* ====== HERO ====== */
-        .hero {
-            background: linear-gradient(135deg, #f5e6d3, #e8d5c4);
-            padding: 40px 0 30px;
-            text-align: center;
-            border-bottom: 4px solid var(--secondary);
-        }
-        .hero h2 {
-            font-size: 2.2rem;
-            color: var(--primary);
-        }
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            max-width: 600px;
-            margin: 8px auto 0;
-        }
-
-        /* ====== सेक्शन ====== */
-        section {
-            padding: 40px 0;
-            border-bottom: 1px solid #eee;
-        }
-        section:last-child { border-bottom: none; }
-        .section-title {
-            font-size: 2rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .section-title small {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--text-muted);
-        }
-
-        /* ====== कार्ड ग्रिड ====== */
-        .card-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 16px;
-            background: var(--bg-card);
-            padding: 20px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-        .card-item {
-            background: #faf6f0;
-            padding: 14px 12px;
-            border-radius: 14px;
-            border-left: 4px solid var(--secondary);
-            transition: var(--transition);
-        }
-        .card-item:hover { transform: translateY(-3px); background: #f3ece2; }
-        .card-item .label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-        }
-        .card-item .value {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        /* ====== मासिक कैलेंडर ====== */
-        .monthly-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 4px;
-            background: var(--bg-card);
-            padding: 16px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-        }
-        .monthly-grid .day-name {
-            font-weight: 700;
-            text-align: center;
-            color: var(--primary);
-            padding: 8px 0;
-            background: #f5ede4;
-            border-radius: 8px;
-            font-size: 0.85rem;
-        }
-        .monthly-grid .day-cell {
-            text-align: center;
-            padding: 10px 4px;
-            border-radius: 8px;
-            background: #faf6f0;
-            font-size: 0.9rem;
-            transition: var(--transition);
-            cursor: default;
-        }
-        .monthly-grid .day-cell:hover { background: #e8d5c4; }
-        .monthly-grid .day-cell .tithi-sm {
-            display: block;
-            font-size: 0.6rem;
-            color: var(--text-muted);
-        }
-        .monthly-grid .day-cell.special {
-            background: #f3d9c0;
-            border: 1px solid var(--gold);
-        }
-        .monthly-grid .day-cell.empty { background: transparent; }
-
-        /* ====== मुहूर्त ====== */
-        .muhurt-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-        .muhurt-card {
-            background: var(--bg-card);
-            padding: 16px 18px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border-top: 5px solid var(--gold);
-        }
-        .muhurt-card h4 {
-            color: var(--primary);
-            font-size: 1.1rem;
-        }
-        .muhurt-card .time {
-            font-weight: 700;
-            color: var(--gold);
-            font-size: 1.2rem;
-        }
-
-        /* ====== कथा ====== */
-        .katha-box {
-            background: var(--bg-card);
-            padding: 25px 30px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            border-left: 6px solid var(--secondary);
-            font-size: 1.05rem;
-            line-height: 1.8;
-        }
-        .katha-box .story-title {
-            font-size: 1.4rem;
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        /* ====== FOOTER ====== */
-        footer {
-            background: var(--primary);
-            color: #ddd;
-            padding: 30px 0 20px;
-            margin-top: 20px;
-        }
-        footer .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            text-align: center;
-        }
-        footer .social a {
-            color: white;
-            font-size: 1.6rem;
-            margin: 0 10px;
-            text-decoration: none;
-            opacity: 0.8;
-            transition: var(--transition);
-        }
-        footer .social a:hover { opacity: 1; transform: scale(1.1); }
-        footer .copy {
-            font-size: 0.85rem;
-            opacity: 0.7;
-        }
-
-        /* ====== रिस्पॉन्सिव ====== */
-        @media (max-width: 768px) {
-            .menu-toggle { display: block; }
-            nav {
-                display: none;
-                width: 100%;
-                flex-direction: column;
-                align-items: center;
-                padding-top: 12px;
-            }
-            nav.open { display: flex; }
-            nav a { width: 100%; text-align: center; padding: 10px; }
-            .hero h2 { font-size: 1.7rem; }
-            .section-title { font-size: 1.5rem; flex-wrap: wrap; }
-            .monthly-grid { grid-template-columns: repeat(7, 1fr); gap: 3px; padding: 10px; }
-            .monthly-grid .day-cell { font-size: 0.75rem; padding: 6px 2px; }
-            .muhurt-list { grid-template-columns: 1fr; }
-        }
-        @media (max-width: 480px) {
-            .card-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
-            .card-item .value { font-size: 1rem; }
-        }
-    </style>
 </head>
 <body>
-
-<!-- ====== HEADER ====== -->
-<header>
-    <div class="container">
-        <div class="logo">🕉️ <span>Panchang</span>.org</div>
-        <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
-        <nav>
-            <a href="#daily" class="active">दैनिक</a>
-            <a href="#monthly">मासिक</a>
-            <a href="#muhurt">मुहूर्त</a>
-            <a href="#katha">कथा</a>
-        </nav>
-    </div>
-</header>
-
-<!-- ====== HERO ====== -->
-<div class="hero">
-    <div class="container">
-        <h2>🙏 संपूर्ण हिंदू पंचांग</h2>
-        <p>दैनिक, मासिक, मुहूर्त (विवाह, यज्ञोपवीत, गृहप्रवेश) और प्रेरणादायक कथाएँ</p>
-    </div>
-</div>
-
-<!-- ============================================ -->
-<!-- ====== सेक्शन 1: दैनिक पंचांग ====== -->
-<!-- ============================================ -->
-<section id="daily">
-    <div class="container">
-        <h2 class="section-title">📅 दैनिक पंचांग <small id="dailyDate">लोड हो रहा...</small></h2>
-        <div class="card-grid" id="dailyGrid">
-            <div style="grid-column:1/-1; text-align:center; color:#888;">⏳ गणना हो रही...</div>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">🕉️ <span>Panchang</span>.org</a>
+            <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+            <nav>
+                <a href="index.html" class="active">🏠 होम</a>
+                <a href="daily.html">📅 दैनिक</a>
+                <a href="monthly.html">📆 मासिक</a>
+                <a href="muhurt.html">🪔 मुहूर्त</a>
+                <a href="katha.html">📖 कथा</a>
+                <a href="login.html" id="loginLink">🔑 लॉगिन</a>
+                <span id="userDisplay" style="color:var(--secondary);font-weight:700;margin-left:6px;"></span>
+            </nav>
         </div>
-        <!-- सूर्योदय/अस्त -->
-        <div style="display:flex; justify-content:center; gap:30px; flex-wrap:wrap; margin-top:14px; background:var(--bg-card); padding:12px; border-radius:50px; box-shadow:var(--shadow);">
-            <span>🌅 सूर्योदय: <strong id="sunriseVal">--:--</strong></span>
-            <span>🌇 सूर्यास्त: <strong id="sunsetVal">--:--</strong></span>
-        </div>
-        <!-- माह + पक्ष -->
-        <div style="text-align:center; margin-top:12px; font-size:1.1rem; background:#f5ede4; padding:8px; border-radius:40px;">
-            📆 <span id="monthPaksh">माह और पक्ष लोड हो रहा...</span>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h2>🙏 संपूर्ण हिंदू पंचांग</h2>
+            <p>दैनिक, मासिक, मुहूर्त (विवाह, यज्ञोपवीत, गृहप्रवेश) और प्रेरणादायक कथाएँ</p>
+            <div class="city-badge">📍 दिल्ली, भारत</div>
         </div>
     </div>
-</section>
 
-<!-- ============================================ -->
-<!-- ====== सेक्शन 2: मासिक पंचांग ====== -->
-<!-- ============================================ -->
-<section id="monthly">
-    <div class="container">
-        <h2 class="section-title">📆 मासिक पंचांग <small id="monthlyTitle">लोड हो रहा...</small></h2>
-        <div class="monthly-grid" id="monthlyGrid">
-            <!-- JavaScript से भरेगा -->
+    <section>
+        <div class="container">
+            <h2 class="section-title">🕉️ स्वागत है <small>आज का विशेष</small></h2>
+            <div style="background:var(--bg-card);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);text-align:center;">
+                <p style="font-size:1.3rem;color:var(--primary);" id="homeTithi">⏳ लोड हो रहा...</p>
+                <p style="color:var(--text-muted);" id="homeDate"></p>
+                <div style="margin-top:14px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <a href="daily.html" style="background:var(--primary);color:white;padding:10px 28px;border-radius:40px;text-decoration:none;font-weight:600;">📅 आज का पंचांग देखें</a>
+                    <a href="muhurt.html" style="background:var(--gold);color:white;padding:10px 28px;border-radius:40px;text-decoration:none;font-weight:600;">🪔 शुभ मुहूर्त</a>
+                </div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- ============================================ -->
-<!-- ====== सेक्शन 3: मुहूर्त ====== -->
-<!-- ============================================ -->
-<section id="muhurt">
-    <div class="container">
-        <h2 class="section-title">🪔 शुभ मुहूर्त</h2>
-        <div class="muhurt-list" id="muhurtList">
-            <!-- JavaScript से भरेगा -->
+    <footer>
+        <div class="container">
+            <div class="social">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="YouTube">▶️</a>
+                <a href="#" title="Instagram">📸</a>
+            </div>
+            <div class="copy">© 2026 Panchang.org.in | 🙏 सभी धर्मों का सम्मान</div>
         </div>
-    </div>
-</section>
+    </footer>
 
-<!-- ============================================ -->
-<!-- ====== सेक्शन 4: कथा ====== -->
-<!-- ============================================ -->
-<section id="katha">
-    <div class="container">
-        <h2 class="section-title">📖 आज की कथा</h2>
-        <div class="katha-box" id="kathaBox">
-            <div class="story-title">🕉️ लोड हो रहा...</div>
-            <p id="kathaText">कृपया प्रतीक्षा करें...</p>
-        </div>
-    </div>
-</section>
-
-<!-- ====== FOOTER ====== -->
-<footer>
-    <div class="container">
-        <div class="social">
-            <a href="#" title="Facebook">📘</a>
-            <a href="#" title="YouTube">▶️</a>
-            <a href="#" title="Instagram">📸</a>
-            <a href="#" title="Twitter">🐦</a>
-        </div>
-        <div class="copy">© 2026 Panchang.org.in | 🙏 सभी धर्मों का सम्मान</div>
-    </div>
-</footer>
-
-<!-- ============================================ -->
-<!-- ====== JAVASCRIPT (पूरी वेबसाइट का लॉजिक) ====== -->
-<!-- ============================================ -->
-<script>
-(function() {
-    "use strict";
-
-    // ---------- 1. आज की तारीख ----------
-    const today = new Date();
-    const todayDate = today.getDate();
-    const todayMonth = today.getMonth();
-    const todayYear = today.getFullYear();
-
-    // ---------- 2. जूलियन दिन (खगोलीय गणना) ----------
-    function julianDay(year, month, day) {
-        if (month <= 2) { year--; month += 12; }
-        let A = Math.floor(year / 100);
-        let B = 2 - A + Math.floor(A / 4);
-        return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524.5;
-    }
-
-    // ---------- 3. सूर्य और चंद्र देशांतर ----------
-    function sunLongitude(jd) {
-        const D = jd - 2451545.0;
-        const g = (357.529 + 0.98560028 * D) % 360;
-        const q = (280.459 + 0.98564736 * D) % 360;
-        const L = q + 1.915 * Math.sin(g * Math.PI / 180) + 0.020 * Math.sin(2 * g * Math.PI / 180);
-        return ((L % 360) + 360) % 360;
-    }
-    function moonLongitude(jd) {
-        const D = jd - 2451545.0;
-        const Lp = (218.316 + 13.176396 * D) % 360;
-        const M = (134.963 + 13.064993 * D) % 360;
-        const N = (93.272 + 13.229350 * D) % 360;
-        const E = Lp + 6.289 * Math.sin(M * Math.PI / 180) + 1.274 * Math.sin((2 * N - M) * Math.PI / 180);
-        return ((E % 360) + 360) % 360;
-    }
-
-    // ---------- 4. लुकअप टेबल ----------
-    const rashis = ['मेष','वृषभ','मिथुन','कर्क','सिंह','कन्या','तुला','वृश्चिक','धनु','मकर','कुंभ','मीन'];
-    const nakshatras = ['अश्विनी','भरणी','कृत्तिका','रोहिणी','मृगशिरा','आर्द्रा','पुनर्वसु','पुष्य','आश्लेषा','मघा','पूर्वाफाल्गुनी','उत्तराफाल्गुनी','हस्त','चित्रा','स्वाती','विशाखा','अनुराधा','ज्येष्ठा','मूल','पूर्वाषाढ़ा','उत्तराषाढ़ा','श्रवण','धनिष्ठा','शतभिषा','पूर्वाभाद्रपदा','उत्तराभाद्रपदा','रेवती'];
-    const tithiNames = ['प्रतिपदा','द्वितीया','तृतीया','चतुर्थी','पंचमी','षष्ठी','सप्तमी','अष्टमी','नवमी','दशमी','एकादशी','द्वादशी','त्रयोदशी','चतुर्दशी','पूर्णिमा','प्रतिपदा','द्वितीया','तृतीया','चतुर्थी','पंचमी','षष्ठी','सप्तमी','अष्टमी','नवमी','दशमी','एकादशी','द्वादशी','त्रयोदशी','चतुर्दशी','अमावस्या'];
-    const weekdays = ['रविवार','सोमवार','मंगलवार','बुधवार','गुरुवार','शुक्रवार','शनिवार'];
-    const yogaNames = ['विष्कुम्भ','प्रीति','आयुष्मान','सौभाग्य','शोभन','अतिगण्ड','सुकर्मा','धृति','शूल','गण्ड','वृद्धि','ध्रुव','व्याघात','हर्षण','वज्र','सिद्धि','व्यतिपात','वरियान','परिघ','शिव','सिद्ध','साध्य','शुभ','शुक्ल','ब्रह्म','इन्द्र','वैधृति'];
-    const karanNames = ['बव','बालव','कौलव','तैतिल','गर','वणिज','विष्टि','शकुनी','चतुष्पाद','नाग','किंस्तुघ्न'];
-    const monthNames = ['चैत्र','वैशाख','ज्येष्ठ','आषाढ़','श्रावण','भाद्रपद','अश्विन','कार्तिक','अग्रहायण','पौष','माघ','फाल्गुन'];
-
-    // ---------- 5. मुख्य गणना फंक्शन ----------
-    function getPanchangForDate(year, month, day) {
-        const jd = julianDay(year, month + 1, day);
-        const sunLon = sunLongitude(jd);
-        const moonLon = moonLongitude(jd);
-        const sunLonNorm = (sunLon + 360) % 360;
-        const moonLonNorm = (moonLon + 360) % 360;
-
-        const moonRashi = rashis[Math.floor(moonLonNorm / 30)];
-        const sunRashi = rashis[Math.floor(sunLonNorm / 30)];
-        const nakshatra = nakshatras[Math.floor(moonLonNorm / (360/27))];
-
-        let diff = (moonLonNorm - sunLonNorm + 360) % 360;
-        let tithiIdx = Math.floor(diff / 12);
-        const tithi = tithiNames[tithiIdx];
-
-        // पक्ष (शुक्ल/कृष्ण) – तिथि 15 से पहले शुक्ल, 15 से कृष्ण
-        const paksh = (tithiIdx < 15) ? 'शुक्ल पक्ष' : 'कृष्ण पक्ष';
-
-        // योग
-        const yogaSum = (sunLonNorm + moonLonNorm) % 360;
-        const yogaIdx = Math.floor(yogaSum / (360/27));
-        const yoga = yogaNames[yogaIdx % 27];
-
-        // करण
-        const karanIdx = Math.floor((diff / 6) % 11);
-        const karan = karanNames[karanIdx % 11];
-
-        // वार
-        const weekday = weekdays[new Date(year, month, day).getDay()];
-
-        // माह (हिंदू माह – अनुमानित, सूर्य राशि के आधार पर)
-        const monthIdx = Math.floor(sunLonNorm / 30);
-        const hinduMonth = monthNames[monthIdx % 12];
-
-        return {
-            tithi, nakshatra, weekday, sunRashi, moonRashi, yoga, karan,
-            paksh, hinduMonth, sunLonNorm, moonLonNorm, jd
-        };
-    }
-
-    // ---------- 6. आज का पंचांग ----------
-    const todayPanchang = getPanchangForDate(todayYear, todayMonth, todayDate);
-
-    // ---------- 7. दैनिक पंचांग भरें ----------
-    function renderDaily() {
-        const dateDisplay = document.getElementById('dailyDate');
-        dateDisplay.textContent = today.toLocaleDateString('hi-IN', { 
+    <script src="js/panchang.js"></script>
+    <script src="js/geolocation.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // होम पेज पर आज का पंचांग दिखाएँ
+        const today = new Date();
+        const pan = Panchang.getPanchang(today.getFullYear(), today.getMonth(), today.getDate());
+        document.getElementById('homeTithi').textContent = '🕉️ आज ' + pan.weekday + ', ' + pan.tithi + ' (' + pan.paksh + ')';
+        document.getElementById('homeDate').textContent = today.toLocaleDateString('hi-IN', { 
             timeZone: 'Asia/Kolkata', year:'numeric', month:'long', day:'numeric' 
         });
-
-        const gridData = [
-            { label: '🗓️ तिथि', value: todayPanchang.tithi },
-            { label: '⭐ नक्षत्र', value: todayPanchang.nakshatra },
-            { label: '📅 वार', value: todayPanchang.weekday },
-            { label: '☀️ सूर्य राशि', value: todayPanchang.sunRashi },
-            { label: '🌙 चंद्र राशि', value: todayPanchang.moonRashi },
-            { label: '🕉️ योग', value: todayPanchang.yoga },
-            { label: '🔶 करण', value: todayPanchang.karan }
-        ];
-
-        let html = '';
-        gridData.forEach(item => {
-            html += `
-                <div class="card-item">
-                    <div class="label">${item.label}</div>
-                    <div class="value">${item.value}</div>
-                </div>
-            `;
-        });
-        document.getElementById('dailyGrid').innerHTML = html;
-
-        // माह + पक्ष
-        document.getElementById('monthPaksh').textContent = 
-            `${todayPanchang.hinduMonth} माह, ${todayPanchang.paksh}`;
-
-        // सूर्योदय/अस्त (स्थिर अनुमान, आप चाहें तो सटीक कर सकते हैं)
-        document.getElementById('sunriseVal').textContent = '06:15';
-        document.getElementById('sunsetVal').textContent = '18:45';
-    }
-
-    // ---------- 8. मासिक पंचांग (कैलेंडर) ----------
-    function renderMonthly() {
-        const monthTitle = document.getElementById('monthlyTitle');
-        monthTitle.textContent = today.toLocaleDateString('hi-IN', { 
-            timeZone: 'Asia/Kolkata', month:'long', year:'numeric' 
-        });
-
-        const firstDay = new Date(todayYear, todayMonth, 1).getDay();
-        const daysInMonth = new Date(todayYear, todayMonth + 1, 0).getDate();
-
-        let html = '';
-        // सप्ताह के नाम
-        const dayNames = ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'];
-        for (let i = 0; i < 7; i++) {
-            html += `<div class="day-name">${dayNames[i]}</div>`;
-        }
-
-        // खाली सेल
-        for (let i = 0; i < firstDay; i++) {
-            html += `<div class="day-cell empty"></div>`;
-        }
-
-        // महीने के दिन
-        for (let d = 1; d <= daysInMonth; d++) {
-            const pan = getPanchangForDate(todayYear, todayMonth, d);
-            const isToday = (d === todayDate) ? 'special' : '';
-            const tithiShort = pan.tithi.substring(0, 4);
-            html += `
-                <div class="day-cell ${isToday}">
-                    ${d}
-                    <span class="tithi-sm">${tithiShort}</span>
-                </div>
-            `;
-        }
-        document.getElementById('monthlyGrid').innerHTML = html;
-    }
-
-    // ---------- 9. मुहूर्त (विवाह, यज्ञोपवीत, गृहप्रवेश आदि) ----------
-    function renderMuhurt() {
-        // यहाँ हम कुछ शुभ योगों को दिखा रहे हैं (अनुमानित)
-        // वास्तविक मुहूर्त के लिए जटिल गणना चाहिए, लेकिन हम एक सरल प्रदर्शन कर रहे हैं
-        const muhurts = [
-            { name: 'विवाह मुहूर्त', time: '11:30 - 13:15', desc: 'शुभ योग, गुरुवार' },
-            { name: 'यज्ञोपवीत (जनेऊ)', time: '06:30 - 08:00', desc: 'ब्रह्म मुहूर्त' },
-            { name: 'गृह प्रवेश', time: '09:15 - 10:45', desc: 'अभिजीत मुहूर्त' },
-            { name: 'नामकरण', time: '16:00 - 17:30', desc: 'सायंकाल शुभ' },
-            { name: 'वाहन क्रय', time: '11:00 - 12:30', desc: 'रवि योग' }
-        ];
-
-        let html = '';
-        muhurts.forEach(m => {
-            html += `
-                <div class="muhurt-card">
-                    <h4>${m.name}</h4>
-                    <div class="time">🕐 ${m.time}</div>
-                    <div style="font-size:0.9rem;color:var(--text-muted);">${m.desc}</div>
-                </div>
-            `;
-        });
-        document.getElementById('muhurtList').innerHTML = html;
-    }
-
-    // ---------- 10. कथा (आज की प्रेरणादायक कहानी) ----------
-    function renderKatha() {
-        // कथाओं का एक संग्रह – आप इसे बढ़ा सकते हैं
-        const stories = [
-            {
-                title: '🌿 सत्यवादी राजा हरिश्चंद्र',
-                text: 'राजा हरिश्चंद्र ने सत्य के लिए अपना राज्य, पत्नी और पुत्र सब कुछ त्याग दिया। उनकी सत्यनिष्ठा ने देवताओं को भी प्रणाम करने पर मजबूर कर दिया। सत्य ही सबसे बड़ा धर्म है।'
-            },
-            {
-                title: '🕊️ भक्त प्रह्लाद और नृसिंह भगवान',
-                text: 'प्रह्लाद की भक्ति ने भगवान विष्णु को नृसिंह अवतार लेने पर बाध्य किया। उन्होंने अपने भक्त की रक्षा की और अधर्म का नाश किया। भक्ति से बड़ा कुछ नहीं।'
-            },
-            {
-                title: '🌟 दानवीर कर्ण',
-                text: 'कर्ण ने अपना कवच-कुंडल दान कर दिया, यह जानते हुए भी कि इससे उनकी मृत्यु होगी। उनके दान और उदारता की मिसाल आज भी दी जाती है।'
-            },
-            {
-                title: '🙏 श्री राम का वनवास',
-                text: 'श्री राम ने पिता के वचन का पालन करने के लिए 14 वर्षों का वनवास स्वीकार किया। उनके आदर्श, त्याग और कर्तव्यपरायणता सभी के लिए प्रेरणा हैं।'
-            }
-        ];
-
-        // आज की तारीख के हिसाब से कोई एक कथा चुनें (दिनांक modulo)
-        const idx = todayDate % stories.length;
-        const story = stories[idx];
-
-        document.querySelector('#kathaBox .story-title').textContent = story.title;
-        document.getElementById('kathaText').textContent = story.text;
-    }
-
-    // ---------- 11. सब कुछ रेंडर करें ----------
-    renderDaily();
-    renderMonthly();
-    renderMuhurt();
-    renderKatha();
-
-})();
-</script>
-
+    </script>
 </body>
 </html>
