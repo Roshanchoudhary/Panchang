@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📖 कथा - Panchang.org.in</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">🕉️ <span>Panchang</span>.org</a>
+            <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+            <nav>
+                <a href="index.html">🏠 होम</a>
+                <a href="daily.html">📅 दैनिक</a>
+                <a href="monthly.html">📆 मासिक</a>
+                <a href="muhurt.html">🪔 मुहूर्त</a>
+                <a href="katha.html" class="active">📖 कथा</a>
+                <a href="login.html" id="loginLink">🔑 लॉगिन</a>
+                <span id="userDisplay" style="color:var(--secondary);font-weight:700;margin-left:6px;"></span>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="container">
+            <h2>📖 आज की कथा</h2>
+            <p>प्रेरणादायक धार्मिक और पौराणिक कथाएँ</p>
+            <div class="city-badge">📍 दिल्ली, भारत</div>
+        </div>
+    </div>
+
+    <section>
+        <div class="container">
+            <h2 class="section-title">📖 <span id="kathaTitle">लोड हो रहा...</span></h2>
+            <div class="katha-box">
+                <p id="kathaText" style="font-size:1.1rem;line-height:1.9;">⏳ कथा लोड हो रही है...</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="YouTube">▶️</a>
+                <a href="#" title="Instagram">📸</a>
+            </div>
+            <div class="copy">© 2026 Panchang.org.in | 🙏 सभी धर्मों का सम्मान</div>
+        </div>
+    </footer>
+
+    <script src="js/panchang.js"></script>
+    <script src="js/geolocation.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        const stories = [
+            { title: '🌿 सत्यवादी राजा हरिश्चंद्र', text: 'राजा हरिश्चंद्र ने सत्य के लिए अपना राज्य, पत्नी और पुत्र सब कुछ त्याग दिया। उनकी सत्यनिष्ठा ने देवताओं को भी प्रणाम करने पर मजबूर कर दिया। सत्य ही सबसे बड़ा धर्म है।' },
+            { title: '🕊️ भक्त प्रह्लाद और नृसिंह भगवान', text: 'प्रह्लाद की भक्ति ने भगवान विष्णु को नृसिंह अवतार लेने पर बाध्य किया। उन्होंने अपने भक्त की रक्षा की और अधर्म का नाश किया। भक्ति से बड़ा कुछ नहीं।' },
+            { title: '🌟 दानवीर कर्ण', text: 'कर्ण ने अपना कवच-कुंडल दान कर दिया, यह जानते हुए भी कि इससे उनकी मृत्यु होगी। उनके दान और उदारता की मिसाल आज भी दी जाती है।' },
+            { title: '🙏 श्री राम का वनवास', text: 'श्री राम ने पिता के वचन का पालन करने के लिए 14 वर्षों का वनवास स्वीकार किया। उनके आदर्श, त्याग और कर्तव्यपरायणता सभी के लिए प्रेरणा हैं।' }
+        ];
+
+        const today = new Date();
+        const idx = today.getDate() % stories.length;
+        const story = stories[idx];
+
+        document.getElementById('kathaTitle').textContent = story.title;
+        document.getElementById('kathaText').textContent = story.text;
+    </script>
+</body>
+</html>
