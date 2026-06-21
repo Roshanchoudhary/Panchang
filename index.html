@@ -3,71 +3,563 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠 पंचांग - Panchang.org.in</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>🕉️ पूर्ण पंचांग - Panchang.org.in</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+    <style>
+        /* ====== पूरा CSS ====== */
+        :root {
+            --primary: #7B2D26;
+            --primary-light: #A64B3F;
+            --secondary: #D4A373;
+            --gold: #C68A3C;
+            --bg-light: #FDF8F3;
+            --bg-card: #FFFFFF;
+            --text-dark: #2D1B12;
+            --text-muted: #5A4A3A;
+            --shadow: 0 8px 30px rgba(0,0,0,0.10);
+            --radius: 16px;
+            --transition: all 0.3s ease;
+            --font: 'Segoe UI', 'Noto Sans Devanagari', system-ui, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font);
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ====== हेडर ====== */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: white;
+        }
+        .logo span { color: var(--secondary); }
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: rgba(255,255,255,0.08);
+        }
+        nav a:hover, nav a.active {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        .city-badge {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 4px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* ====== हीरो ====== */
+        .hero {
+            background: linear-gradient(135deg, #f5e6d3, #e8d5c4);
+            padding: 30px 0 25px;
+            text-align: center;
+            border-bottom: 4px solid var(--secondary);
+        }
+        .hero h1 {
+            font-size: 2.4rem;
+            color: var(--primary);
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 6px auto 0;
+        }
+
+        /* ====== सेक्शन ====== */
+        section {
+            padding: 35px 0 40px;
+            border-bottom: 1px solid #eee;
+        }
+        section:last-child { border-bottom: none; }
+        .section-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .section-title small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        /* ====== कार्ड ग्रिड ====== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .card-item {
+            background: #faf6f0;
+            padding: 14px 12px;
+            border-radius: 14px;
+            border-left: 4px solid var(--secondary);
+            transition: var(--transition);
+        }
+        .card-item:hover { transform: translateY(-3px); background: #f3ece2; }
+        .card-item .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+        .card-item .value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        /* ====== मासिक कैलेंडर ====== */
+        .monthly-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            background: var(--bg-card);
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .monthly-grid .day-name {
+            font-weight: 700;
+            text-align: center;
+            color: var(--primary);
+            padding: 8px 0;
+            background: #f5ede4;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+        .monthly-grid .day-cell {
+            text-align: center;
+            padding: 10px 4px;
+            border-radius: 8px;
+            background: #faf6f0;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: default;
+        }
+        .monthly-grid .day-cell:hover { background: #e8d5c4; }
+        .monthly-grid .day-cell .tithi-sm {
+            display: block;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+        .monthly-grid .day-cell.today {
+            background: var(--gold);
+            color: white;
+            font-weight: 700;
+        }
+        .monthly-grid .day-cell.today .tithi-sm { color: #fff; }
+        .monthly-grid .day-cell.empty { background: transparent; }
+        .monthly-grid .day-cell.special {
+            background: #f3d9c0;
+            border: 1px solid var(--gold);
+        }
+
+        /* ====== सूर्योदय/अस्त बैनर ====== */
+        .sun-time {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 14px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            margin-top: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .sun-time .icon { font-size: 1.4rem; margin-right: 6px; }
+
+        /* ====== फुटर ====== */
+        footer {
+            background: var(--primary);
+            color: #ddd;
+            padding: 25px 0 18px;
+            margin-top: 20px;
+        }
+        footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+        footer .social a {
+            color: white;
+            font-size: 1.6rem;
+            margin: 0 10px;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        footer .social a:hover { opacity: 1; transform: scale(1.1); }
+        footer .copy { font-size: 0.85rem; opacity: 0.7; }
+
+        /* ====== रिस्पॉन्सिव ====== */
+        @media (max-width: 768px) {
+            .menu-toggle { display: block; }
+            nav {
+                display: none;
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 12px;
+            }
+            nav.open { display: flex; }
+            nav a { width: 100%; text-align: center; padding: 10px; }
+            .hero h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.5rem; flex-wrap: wrap; }
+            .monthly-grid { gap: 3px; padding: 10px; }
+            .monthly-grid .day-cell { font-size: 0.75rem; padding: 6px 2px; }
+            .sun-time { flex-direction: column; gap: 8px; align-items: center; border-radius: 30px; }
+        }
+        @media (max-width: 480px) {
+            .card-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; }
+            .card-item .value { font-size: 1rem; }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <a href="index.html" class="logo">🕉️ <span>Panchang</span>.org</a>
-            <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
-            <nav>
-                <a href="index.html" class="active">🏠 होम</a>
-                <a href="daily.html">📅 दैनिक</a>
-                <a href="monthly.html">📆 मासिक</a>
-                <a href="muhurt.html">🪔 मुहूर्त</a>
-                <a href="katha.html">📖 कथा</a>
-                <a href="login.html" id="loginLink">🔑 लॉगिन</a>
-                <span id="userDisplay" style="color:var(--secondary);font-weight:700;margin-left:6px;"></span>
-            </nav>
-        </div>
-    </header>
 
-    <div class="hero">
-        <div class="container">
-            <h2>🙏 संपूर्ण हिंदू पंचांग</h2>
-            <p>दैनिक, मासिक, मुहूर्त (विवाह, यज्ञोपवीत, गृहप्रवेश) और प्रेरणादायक कथाएँ</p>
-            <div class="city-badge">📍 दिल्ली, भारत</div>
+<!-- ====== हेडर ====== -->
+<header>
+    <div class="container">
+        <a href="#" class="logo">🕉️ <span>Panchang</span>.org</a>
+        <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+        <nav>
+            <a href="#daily" class="active">📅 दैनिक</a>
+            <a href="#monthly">📆 मासिक</a>
+            <a href="#muhurt">🪔 मुहूर्त</a>
+            <a href="#festival">🎉 त्योहार</a>
+            <span class="city-badge" id="cityDisplay">📍 दिल्ली</span>
+        </nav>
+    </div>
+</header>
+
+<!-- ====== हीरो ====== -->
+<div class="hero">
+    <div class="container">
+        <h1>🙏 संपूर्ण हिंदू पंचांग</h1>
+        <p>आपकी Google Sheet से लिया गया सटीक दैनिक और मासिक पंचांग</p>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- ====== सेक्शन 1: दैनिक पंचांग ====== -->
+<!-- ================================================================ -->
+<section id="daily">
+    <div class="container">
+        <h2 class="section-title">📅 आज का दैनिक पंचांग <small id="dailyDate">लोड हो रहा...</small></h2>
+        <div class="card-grid" id="dailyGrid">
+            <div style="grid-column:1/-1;text-align:center;color:#888;">⏳ डेटा लोड हो रहा...</div>
+        </div>
+        <div class="sun-time" id="sunTimes">
+            <span><span class="icon">🌅</span> सूर्योदय: <strong id="sunriseVal">--:--</strong></span>
+            <span><span class="icon">🌇</span> सूर्यास्त: <strong id="sunsetVal">--:--</strong></span>
+        </div>
+        <div style="text-align:center;margin-top:12px;background:#f5ede4;padding:8px;border-radius:40px;font-weight:500;">
+            📆 <span id="monthPaksh">माह और पक्ष लोड हो रहा...</span>
         </div>
     </div>
+</section>
 
-    <section>
-        <div class="container">
-            <h2 class="section-title">🕉️ स्वागत है <small>आज का विशेष</small></h2>
-            <div style="background:var(--bg-card);padding:20px;border-radius:var(--radius);box-shadow:var(--shadow);text-align:center;">
-                <p style="font-size:1.3rem;color:var(--primary);" id="homeTithi">⏳ लोड हो रहा...</p>
-                <p style="color:var(--text-muted);" id="homeDate"></p>
-                <div style="margin-top:14px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-                    <a href="daily.html" style="background:var(--primary);color:white;padding:10px 28px;border-radius:40px;text-decoration:none;font-weight:600;">📅 आज का पंचांग देखें</a>
-                    <a href="muhurt.html" style="background:var(--gold);color:white;padding:10px 28px;border-radius:40px;text-decoration:none;font-weight:600;">🪔 शुभ मुहूर्त</a>
-                </div>
-            </div>
+<!-- ================================================================ -->
+<!-- ====== सेक्शन 2: मासिक पंचांग ====== -->
+<!-- ================================================================ -->
+<section id="monthly">
+    <div class="container">
+        <h2 class="section-title">📆 मासिक पंचांग <small id="monthlyTitle">लोड हो रहा...</small></h2>
+        <div class="monthly-grid" id="monthlyGrid"></div>
+    </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- ====== सेक्शन 3: मुहूर्त (उदाहरण) ====== -->
+<!-- ================================================================ -->
+<section id="muhurt">
+    <div class="container">
+        <h2 class="section-title">🪔 शुभ मुहूर्त <small>विवाह, यज्ञोपवीत आदि</small></h2>
+        <div class="card-grid" id="muhurtGrid">
+            <div class="card-item"><div class="label">विवाह</div><div class="value">11:30 - 13:15</div></div>
+            <div class="card-item"><div class="label">यज्ञोपवीत</div><div class="value">06:30 - 08:00</div></div>
+            <div class="card-item"><div class="label">गृह प्रवेश</div><div class="value">09:15 - 10:45</div></div>
+            <div class="card-item"><div class="label">नामकरण</div><div class="value">16:00 - 17:30</div></div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer>
-        <div class="container">
-            <div class="social">
-                <a href="#" title="Facebook">📘</a>
-                <a href="#" title="YouTube">▶️</a>
-                <a href="#" title="Instagram">📸</a>
-            </div>
-            <div class="copy">© 2026 Panchang.org.in | 🙏 सभी धर्मों का सम्मान</div>
+<!-- ================================================================ -->
+<!-- ====== सेक्शन 4: त्योहार (उदाहरण) ====== -->
+<!-- ================================================================ -->
+<section id="festival">
+    <div class="container">
+        <h2 class="section-title">🎉 आने वाले त्योहार</h2>
+        <div class="card-grid" id="festivalGrid">
+            <div style="grid-column:1/-1;text-align:center;color:#888;">⏳ लोड हो रहा...</div>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script src="js/panchang.js"></script>
-    <script src="js/geolocation.js"></script>
-    <script src="js/auth.js"></script>
-    <script>
-        // होम पेज पर आज का पंचांग दिखाएँ
-        const today = new Date();
-        const pan = Panchang.getPanchang(today.getFullYear(), today.getMonth(), today.getDate());
-        document.getElementById('homeTithi').textContent = '🕉️ आज ' + pan.weekday + ', ' + pan.tithi + ' (' + pan.paksh + ')';
-        document.getElementById('homeDate').textContent = today.toLocaleDateString('hi-IN', { 
-            timeZone: 'Asia/Kolkata', year:'numeric', month:'long', day:'numeric' 
+<!-- ====== फुटर ====== -->
+<footer>
+    <div class="container">
+        <div class="social">
+            <a href="#" title="Facebook">📘</a>
+            <a href="#" title="YouTube">▶️</a>
+            <a href="#" title="Instagram">📸</a>
+        </div>
+        <div class="copy">© 2026 Panchang.org.in | 🙏 Data from Google Sheet</div>
+    </div>
+</footer>
+
+<!-- ================================================================ -->
+<!-- ====== JAVASCRIPT ====== -->
+<!-- ================================================================ -->
+<script>
+(function() {
+    "use strict";
+
+    // ========== 1. आपकी Google Sheet का सैंपल डेटा (जैसा आपकी Sheet में है) ==========
+    // जब आपकी Sheet Public हो जाएगी, तो हम इसे API से बदल देंगे
+    const SAMPLE_DATA = [
+        { date: '30/07/2026', day: 'बृहस्पति', month: 'साओन', paksh: 'कृष्ण पक्ष (अन्हरिया)', tithi: 'पैरवा', tithiTime: '20:40', tithiDand: '38 - 17', sunrise: '05:21', sunset: '18:39' },
+        { date: '31/07/2026', day: 'शुक्र', month: 'साओन', paksh: 'कृष्ण पक्ष (अन्हरिया)', tithi: 'द्वितीया', tithiTime: '21:24', tithiDand: '35 - 32', sunrise: '05:21', sunset: '18:39' },
+        { date: '01/08/2026', day: 'शनि', month: 'साओन', paksh: 'कृष्ण पक्ष', tithi: 'तृतीया', tithiTime: '22:10', tithiDand: '32 - 45', sunrise: '05:22', sunset: '18:38' },
+        { date: '02/08/2026', day: 'रवि', month: 'साओन', paksh: 'कृष्ण पक्ष', tithi: 'चतुर्थी', tithiTime: '23:05', tithiDand: '29 - 30', sunrise: '05:23', sunset: '18:37' },
+    ];
+
+    // ========== 2. आज की तारीख (dd/mm/yyyy) ==========
+    function getTodayDate() {
+        const d = new Date();
+        const dd = String(d.getDate()).padStart(2, '0');
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const yyyy = d.getFullYear();
+        return dd + '/' + mm + '/' + yyyy;
+    }
+
+    // ========== 3. डेटा से आज का रिकॉर्ड खोजें ==========
+    function findTodayRecord(data, todayStr) {
+        return data.find(row => row.date === todayStr) || null;
+    }
+
+    // ========== 4. दैनिक पंचांग रेंडर करें ==========
+    function renderDaily(data) {
+        const todayStr = getTodayDate();
+        const record = findTodayRecord(data, todayStr);
+
+        // तारीख दिखाएँ
+        const dateEl = document.getElementById('dailyDate');
+        const dateObj = new Date();
+        dateEl.textContent = dateObj.toLocaleDateString('hi-IN', { 
+            timeZone: 'Asia/Kolkata', year: 'numeric', month: 'long', day: 'numeric' 
         });
-    </script>
+
+        if (record) {
+            // ग्रिड डेटा
+            const gridData = [
+                { label: '📅 दिन', value: record.day },
+                { label: '📆 महीना', value: record.month },
+                { label: '🌗 पक्ष', value: record.paksh },
+                { label: '🗓️ तिथि', value: record.tithi },
+                { label: '🕐 तिथि समय', value: record.tithiTime },
+                { label: '⚖️ तिथि दण्ड-पल', value: record.tithiDand }
+            ];
+
+            let html = '';
+            gridData.forEach(item => {
+                html += `
+                    <div class="card-item">
+                        <div class="label">${item.label}</div>
+                        <div class="value">${item.value}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('dailyGrid').innerHTML = html;
+
+            // सूर्योदय/अस्त
+            document.getElementById('sunriseVal').textContent = record.sunrise;
+            document.getElementById('sunsetVal').textContent = record.sunset;
+
+            // माह + पक्ष
+            document.getElementById('monthPaksh').textContent = record.month + ' माह, ' + record.paksh;
+
+        } else {
+            // अगर आज का डेटा नहीं मिला
+            document.getElementById('dailyGrid').innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;color:#c0392b;padding:20px;">
+                    ⚠️ आज (${todayStr}) का डेटा Google Sheet में नहीं मिला। कृपया डेटा अपडेट करें।
+                </div>
+            `;
+            document.getElementById('sunriseVal').textContent = '--:--';
+            document.getElementById('sunsetVal').textContent = '--:--';
+            document.getElementById('monthPaksh').textContent = 'डेटा उपलब्ध नहीं';
+        }
+    }
+
+    // ========== 5. मासिक पंचांग रेंडर करें ==========
+    function renderMonthly(data) {
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentYear = today.getFullYear();
+
+        // शीर्षक
+        document.getElementById('monthlyTitle').textContent = 
+            today.toLocaleDateString('hi-IN', { timeZone: 'Asia/Kolkata', month: 'long', year: 'numeric' });
+
+        // इस महीने के डेटा को फ़िल्टर करें
+        const monthData = data.filter(row => {
+            const parts = row.date.split('/');
+            const d = parseInt(parts[0]);
+            const m = parseInt(parts[1]) - 1; // महीना 0-11
+            const y = parseInt(parts[2]);
+            return (m === currentMonth && y === currentYear);
+        });
+
+        // कैलेंडर बनाएँ
+        const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+        const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+        const dayNames = ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'];
+
+        let html = '';
+        for (let i = 0; i < 7; i++) {
+            html += `<div class="day-name">${dayNames[i]}</div>`;
+        }
+        for (let i = 0; i < firstDay; i++) {
+            html += `<div class="day-cell empty"></div>`;
+        }
+
+        // हर दिन के लिए
+        for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr = String(d).padStart(2, '0') + '/' + 
+                           String(currentMonth + 1).padStart(2, '0') + '/' + 
+                           currentYear;
+            const record = monthData.find(row => row.date === dateStr);
+            const isToday = (d === today.getDate()) ? 'today' : '';
+            const tithiShort = record ? record.tithi.substring(0, 4) : '--';
+
+            html += `
+                <div class="day-cell ${isToday}">
+                    ${d}
+                    <span class="tithi-sm">${tithiShort}</span>
+                </div>
+            `;
+        }
+        document.getElementById('monthlyGrid').innerHTML = html;
+    }
+
+    // ========== 6. त्योहार (उदाहरण) ==========
+    function renderFestivals() {
+        const festivals = [
+            { name: 'मकर संक्रांति', date: '14 जनवरी', type: 'प्रमुख' },
+            { name: 'वसंत पंचमी', date: '23 जनवरी', type: 'धार्मिक' },
+            { name: 'महाशिवरात्रि', date: '15 फरवरी', type: 'प्रमुख' },
+            { name: 'होली', date: '2 मार्च', type: 'प्रमुख' },
+            { name: 'राम नवमी', date: '5 अप्रैल', type: 'प्रमुख' },
+        ];
+
+        let html = '';
+        festivals.forEach(f => {
+            html += `
+                <div class="card-item">
+                    <div class="label">🎉 ${f.type}</div>
+                    <div class="value">${f.name} <span style="font-size:0.8rem;color:var(--text-muted);">${f.date}</span></div>
+                </div>
+            `;
+        });
+        document.getElementById('festivalGrid').innerHTML = html;
+    }
+
+    // ========== 7. सब कुछ रेंडर करें ==========
+    function init() {
+        // डेटा लोड करें (अभी सैंपल डेटा, बाद में Google Sheet API से)
+        const data = SAMPLE_DATA;
+        renderDaily(data);
+        renderMonthly(data);
+        renderFestivals();
+
+        // सिटी डिटेक्ट (IP आधारित - सरल)
+        fetch('https://ipapi.co/json/')
+            .then(res => res.json())
+            .then(data => {
+                const city = data.city || 'दिल्ली';
+                document.getElementById('cityDisplay').textContent = '📍 ' + city;
+            })
+            .catch(() => {
+                document.getElementById('cityDisplay').textContent = '📍 दिल्ली';
+            });
+    }
+
+    // पेज लोड होने पर चलाएँ
+    document.addEventListener('DOMContentLoaded', init);
+
+    // ========== 8. मोबाइल मेनू टॉगल ==========
+    window.toggleMenu = function() {
+        document.querySelector('nav').classList.toggle('open');
+    };
+
+})();
+</script>
+
 </body>
 </html>
