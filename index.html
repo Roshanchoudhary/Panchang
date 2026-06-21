@@ -1,11 +1,131 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Panchang</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panchang.org.in</title>
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f8f8f8;
+  margin:0;
+  padding:20px;
+}
+
+header{
+  background:#8B0000;
+  color:white;
+  text-align:center;
+  padding:15px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  margin-top:20px;
+  border-radius:10px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+select{
+  padding:10px;
+  margin-top:15px;
+}
+
+.loading{
+  text-align:center;
+  padding:20px;
+}
+</style>
+
 </head>
 <body>
-<h1>Welcome to Panchang.org.in</h1>
-<p>Website is under construction.</p>
+
+<header>
+  <h1>🕉 Panchang.org.in</h1>
+
+  <select id="language">
+    <option value="en">English</option>
+    <option value="hi">Hindi</option>
+    <option value="bn">Bangla</option>
+    <option value="ta">Tamil</option>
+    <option value="te">Telugu</option>
+    <option value="gu">Gujarati</option>
+  </select>
+</header>
+
+<div id="content" class="loading">
+Loading Panchang...
+</div>
+
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycby49zpeFTHirUTn2X5PSvGk7zJtee-jsddtVNJV2kD3_VLm6obM4WJJCb1emV8dLo3O/exec";
+
+async function loadPanchang(language="en") {
+
+  try {
+
+    const response = await fetch(API_URL);
+    const result = await response.json();
+
+    console.log(result);
+
+    let data = result;
+
+    if(result.data){
+      data = result.data;
+    }
+
+    const row = data.find(r => r.Language === language);
+
+    if(!row){
+      document.getElementById("content").innerHTML =
+      "<h2>No Panchang Data Found</h2>";
+      return;
+    }
+
+    document.getElementById("content").innerHTML = `
+      <div class="card">
+        <h2>${row.Date}</h2>
+
+        <p><b>Tithi:</b> ${row.Tithi || "-"}</p>
+        <p><b>Nakshatra:</b> ${row.Nakshatra || "-"}</p>
+        <p><b>Yoga:</b> ${row.Yoga || "-"}</p>
+        <p><b>Karana:</b> ${row.Karana || "-"}</p>
+
+        <p><b>Sunrise:</b> ${row.Sunrise || "-"}</p>
+        <p><b>Sunset:</b> ${row.Sunset || "-"}</p>
+
+        <p><b>Rahu Kaal:</b> ${row.Rahu_Kaal || "-"}</p>
+        <p><b>Festival:</b> ${row.Festival || "-"}</p>
+
+        <p>${row.Description || ""}</p>
+      </div>
+    `;
+
+  } catch(err){
+
+    console.error(err);
+
+    document.getElementById("content").innerHTML =
+    "<h2>API Error</h2><p>" + err.message + "</p>";
+
+  }
+
+}
+
+document.getElementById("language")
+.addEventListener("change", function(){
+  loadPanchang(this.value);
+});
+
+loadPanchang("en");
+
+</script>
+
 </body>
 </html>
