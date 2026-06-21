@@ -20,6 +20,7 @@
             --radius: 16px;
             --transition: all 0.3s ease;
             --font: 'Segoe UI', 'Noto Sans Devanagari', system-ui, sans-serif;
+            --cell-min-height: 100px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -91,6 +92,14 @@
             font-size: 1.8rem;
             cursor: pointer;
         }
+        .city-badge {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 3px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
 
         /* ====== हीरो ====== */
         .hero {
@@ -136,7 +145,7 @@
             color: var(--text-muted);
         }
 
-        /* ====== मासिक कैलेंडर (नया डिज़ाइन) ====== */
+        /* ====== मासिक कैलेंडर ====== */
         .monthly-wrapper {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -150,24 +159,23 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 4px;
-            min-width: 700px;
+            min-width: 750px;
         }
 
-        /* हर दिन का सेल */
         .day-cell {
             background: #faf6f0;
             border-radius: 10px;
-            padding: 8px 4px;
+            padding: 10px 6px;
             text-align: center;
             transition: var(--transition);
             cursor: default;
-            position: relative;
-            min-height: 85px;
+            min-height: var(--cell-min-height);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             border: 1px solid #eee;
+            overflow: visible;
         }
 
         .day-cell:hover {
@@ -175,75 +183,96 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
-        /* तारीख */
         .day-cell .date-num {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: var(--text-dark);
-            line-height: 1.3;
+            line-height: 1.4;
         }
 
-        /* चंद्रमा का आइकन (मून फेज) */
         .day-cell .moon-icon {
-            font-size: 1.4rem;
-            line-height: 1.4;
+            font-size: 1.6rem;
+            line-height: 1.5;
             margin: 2px 0;
         }
 
-        /* तिथि का नाम (छोटा) */
         .day-cell .tithi-name {
+            font-size: 0.7rem;
+            color: var(--text-dark);
+            line-height: 1.3;
+            font-weight: 600;
+            word-break: keep-all;
+            white-space: nowrap;
+            background: rgba(255,255,255,0.5);
+            padding: 1px 6px;
+            border-radius: 12px;
+        }
+
+        .day-cell .sun-times {
             font-size: 0.6rem;
             color: var(--text-muted);
-            line-height: 1.2;
-            font-weight: 500;
-            word-break: break-word;
-            max-width: 100%;
+            line-height: 1.4;
+            margin-top: 3px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            width: 100%;
         }
-
-        /* सूर्योदय/अस्त (छोटा) */
-        .day-cell .sun-times {
+        .day-cell .sun-times .time-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 0.6rem;
+            width: 100%;
+            white-space: nowrap;
+        }
+        .day-cell .sun-times .time-row .ampm {
             font-size: 0.55rem;
-            color: var(--text-muted);
-            line-height: 1.2;
-            margin-top: 2px;
+            font-weight: 700;
+            padding: 0 3px;
+        }
+        .day-cell .sun-times .time-row .ampm.am {
+            color: #e67e22;
+        }
+        .day-cell .sun-times .time-row .ampm.pm {
+            color: #2c3e50;
+        }
+        .day-cell .sun-times .time-row .daynight-icon {
+            font-size: 0.7rem;
         }
 
-        /* दिन का नाम (शीर्ष पंक्ति) */
         .monthly-grid .day-name {
             font-weight: 700;
             text-align: center;
             color: var(--primary);
-            padding: 6px 0;
+            padding: 8px 0;
             background: #f5ede4;
             border-radius: 8px;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
         }
 
-        /* -- पक्ष के अनुसार चंद्रमा का रंग -- */
-        /* कृष्ण पक्ष (dark) */
+        /* पक्ष के अनुसार चंद्रमा */
         .day-cell.paksh-krishna .moon-icon {
             color: #1a1a1a;
             text-shadow: 0 0 2px #888;
         }
-        /* शुक्ल पक्ष (light) */
         .day-cell.paksh-shukla .moon-icon {
             color: #f5d742;
             text-shadow: 0 0 8px #f5d74288;
         }
-        /* अमावस्या (पूरा काला) */
         .day-cell.paksh-amavasya .moon-icon {
             color: #0a0a0a;
             text-shadow: 0 0 4px #444;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
         }
-        /* पूर्णिमा (पूरा सफेद) */
         .day-cell.paksh-purnima .moon-icon {
             color: #fff8dc;
             text-shadow: 0 0 14px #f5d742cc, 0 0 24px #f5d74266;
-            font-size: 1.6rem;
+            font-size: 1.8rem;
         }
 
-        /* आज की तारीख हाइलाइट */
         .day-cell.today {
             background: var(--gold);
             border-color: var(--gold);
@@ -259,7 +288,6 @@
             text-shadow: 0 0 12px rgba(255,255,255,0.5) !important;
         }
 
-        /* खाली सेल */
         .day-cell.empty {
             background: transparent;
             border: 1px solid transparent;
@@ -267,23 +295,23 @@
             min-height: 60px;
         }
 
-        /* ====== मुहूर्त सेक्शन ====== */
+        /* ====== मुहूर्त ====== */
         .muhurt-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
             margin-top: 10px;
         }
         .muhurt-card {
             background: var(--bg-card);
-            padding: 12px 14px;
+            padding: 14px 16px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border-top: 4px solid var(--gold);
         }
         .muhurt-card h4 {
             color: var(--primary);
-            font-size: 0.95rem;
+            font-size: 1rem;
         }
         .muhurt-card .time {
             font-weight: 700;
@@ -315,7 +343,7 @@
             letter-spacing: 1px;
         }
 
-        /* ====== डेट नेविगेशन ====== */
+        /* ====== नेविगेशन ====== */
         .date-nav {
             display: flex;
             justify-content: center;
@@ -376,7 +404,25 @@
         footer .social a:hover { opacity: 1; transform: scale(1.1); }
         footer .copy { font-size: 0.8rem; opacity: 0.7; }
 
+        /* ====== लोडिंग ====== */
+        .loading {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            grid-column: 1/-1;
+        }
+
         /* ====== रिस्पॉन्सिव ====== */
+        @media (max-width: 820px) {
+            .monthly-grid { min-width: 650px; }
+            .day-cell { min-height: 85px; padding: 8px 4px; }
+            .day-cell .date-num { font-size: 1rem; }
+            .day-cell .moon-icon { font-size: 1.3rem; }
+            .day-cell .tithi-name { font-size: 0.6rem; white-space: normal; }
+            .day-cell .sun-times .time-row { font-size: 0.5rem; }
+            .day-cell .sun-times .time-row .ampm { font-size: 0.45rem; }
+        }
+
         @media (max-width: 768px) {
             .menu-toggle { display: block; }
             nav {
@@ -390,26 +436,21 @@
             nav a { width: 100%; text-align: center; padding: 8px; }
             .hero h1 { font-size: 1.5rem; }
             .section-title { font-size: 1.3rem; }
-            .day-cell { min-height: 70px; padding: 6px 2px; }
-            .day-cell .date-num { font-size: 0.95rem; }
-            .day-cell .moon-icon { font-size: 1.2rem; }
-            .day-cell .tithi-name { font-size: 0.5rem; }
-            .day-cell .sun-times { font-size: 0.45rem; }
-            .monthly-grid { min-width: 600px; gap: 3px; }
             .date-nav .month-display { min-width: 120px; font-size: 0.95rem; }
             .date-nav button { padding: 5px 12px; font-size: 0.85rem; }
             .ad-container { min-height: 70px; padding: 14px 8px; }
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 500px) {
             .monthly-wrapper { padding: 8px; }
-            .day-cell { min-height: 60px; padding: 4px 2px; }
-            .day-cell .date-num { font-size: 0.8rem; }
-            .day-cell .moon-icon { font-size: 1rem; }
-            .day-cell .tithi-name { font-size: 0.45rem; }
-            .day-cell .sun-times { font-size: 0.4rem; }
-            .monthly-grid { gap: 2px; min-width: 480px; }
-            .muhurt-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .monthly-grid { min-width: 480px; gap: 2px; }
+            .day-cell { min-height: 70px; padding: 6px 2px; }
+            .day-cell .date-num { font-size: 0.85rem; }
+            .day-cell .moon-icon { font-size: 1.1rem; }
+            .day-cell .tithi-name { font-size: 0.5rem; white-space: normal; padding: 0 2px; }
+            .day-cell .sun-times .time-row { font-size: 0.4rem; gap: 2px; }
+            .day-cell .sun-times .time-row .ampm { font-size: 0.4rem; }
+            .muhurt-grid { grid-template-columns: 1fr; gap: 8px; }
         }
     </style>
 </head>
@@ -433,7 +474,7 @@
 <div class="hero">
     <div class="container">
         <h1>📆 मासिक पंचांग</h1>
-        <p>ज्येष्ठ माह, शुक्ल पक्ष, सप्तमी – 2083 Siddharthi</p>
+        <p id="heroSubtitle">लोड हो रहा...</p>
         <span class="city-badge">📍 New Delhi, India</span>
     </div>
 </div>
@@ -442,33 +483,30 @@
 <div class="container">
     <div class="ad-container" id="adTop">
         <span class="ad-label">📢 विज्ञापन</span>
-        <!-- यहाँ Google AdSense कोड डालें -->
         <div style="width:100%;max-width:728px;margin:0 auto;background:#e8e0d8;border-radius:8px;padding:12px;min-height:60px;">
             <span style="color:#888;font-size:0.8rem;">Google AdSense - 728x90</span>
         </div>
     </div>
 </div>
 
-<!-- ====== मासिक पंचांग सेक्शन ====== -->
+<!-- ====== मासिक पंचांग ====== -->
 <section>
     <div class="container">
         <div class="section-title">
-            📆 <span id="monthTitle">ज्येष्ठ 2083</span>
-            <small id="monthSubtitle">शुक्ल पक्ष, सप्तमी</small>
+            📆 <span id="monthTitle">लोड हो रहा...</span>
+            <small id="monthSubtitle"></small>
         </div>
 
-        <!-- डेट नेविगेशन -->
         <div class="date-nav">
             <button id="prevMonthBtn">◀ पिछला</button>
-            <span class="month-display" id="monthDisplay">जून 2026</span>
+            <span class="month-display" id="monthDisplay">लोड हो रहा...</span>
             <button id="nextMonthBtn">अगला ▶</button>
             <button class="today-btn" id="todayBtn">📅 आज</button>
         </div>
 
-        <!-- कैलेंडर -->
         <div class="monthly-wrapper">
             <div class="monthly-grid" id="monthlyGrid">
-                <!-- JavaScript से भरेगा -->
+                <div class="loading">⏳ डेटा लोड हो रहा...</div>
             </div>
         </div>
     </div>
@@ -484,31 +522,31 @@
     </div>
 </div>
 
-<!-- ====== मुहूर्त सेक्शन ====== -->
+<!-- ====== मुहूर्त ====== -->
 <section>
     <div class="container">
         <div class="section-title">
             🪔 शुभ मुहूर्त <small>विवाह, यज्ञोपवीत, गृह प्रवेश</small>
         </div>
-        <div class="muhurt-grid" id="muhurtGrid">
+        <div class="muhurt-grid">
             <div class="muhurt-card">
                 <h4>विवाह</h4>
-                <div class="time">🕐 11:30 - 13:15</div>
+                <div class="time">🕐 11:30 AM - 01:15 PM</div>
                 <div style="font-size:0.8rem;color:var(--text-muted);">शुभ योग</div>
             </div>
             <div class="muhurt-card">
                 <h4>यज्ञोपवीत</h4>
-                <div class="time">🕐 06:30 - 08:00</div>
+                <div class="time">🕐 06:30 AM - 08:00 AM</div>
                 <div style="font-size:0.8rem;color:var(--text-muted);">ब्रह्म मुहूर्त</div>
             </div>
             <div class="muhurt-card">
                 <h4>गृह प्रवेश</h4>
-                <div class="time">🕐 09:15 - 10:45</div>
+                <div class="time">🕐 09:15 AM - 10:45 AM</div>
                 <div style="font-size:0.8rem;color:var(--text-muted);">अभिजीत मुहूर्त</div>
             </div>
             <div class="muhurt-card">
                 <h4>नामकरण</h4>
-                <div class="time">🕐 16:00 - 17:30</div>
+                <div class="time">🕐 04:00 PM - 05:30 PM</div>
                 <div style="font-size:0.8rem;color:var(--text-muted);">सायंकाल शुभ</div>
             </div>
         </div>
@@ -544,49 +582,94 @@
 (function() {
     "use strict";
 
-    // ========== 1. डेटा (Google Sheet से आएगा) ==========
-    // यहाँ आपका डेटा होगा – फिलहाल सैंपल
-    const SAMPLE_DATA = [
-        // date, day, month, paksh, tithi, sunrise, sunset
-        { date: '01/06/2026', day: 'सोम', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'द्वितीया', sunrise: '05:24', sunset: '19:14' },
-        { date: '02/06/2026', day: 'मंगल', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'तृतीया', sunrise: '05:24', sunset: '19:14' },
-        { date: '03/06/2026', day: 'बुध', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'चतुर्थी', sunrise: '05:24', sunset: '19:14' },
-        { date: '04/06/2026', day: 'गुरु', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'पंचमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '05/06/2026', day: 'शुक्र', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'षष्ठी', sunrise: '05:24', sunset: '19:14' },
-        { date: '06/06/2026', day: 'शनि', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'सप्तमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '07/06/2026', day: 'रवि', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'अष्टमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '08/06/2026', day: 'सोम', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'नवमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '09/06/2026', day: 'मंगल', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'दशमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '10/06/2026', day: 'बुध', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'एकादशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '11/06/2026', day: 'गुरु', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'द्वादशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '12/06/2026', day: 'शुक्र', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'त्रयोदशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '13/06/2026', day: 'शनि', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'चतुर्दशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '14/06/2026', day: 'रवि', month: 'ज्येष्ठ', paksh: 'अमावस्या', tithi: 'अमावस्या', sunrise: '05:24', sunset: '19:14' },
-        { date: '15/06/2026', day: 'सोम', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'प्रतिपदा', sunrise: '05:24', sunset: '19:14' },
-        { date: '16/06/2026', day: 'मंगल', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'द्वितीया', sunrise: '05:24', sunset: '19:14' },
-        { date: '17/06/2026', day: 'बुध', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'तृतीया', sunrise: '05:24', sunset: '19:14' },
-        { date: '18/06/2026', day: 'गुरु', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'चतुर्थी', sunrise: '05:24', sunset: '19:14' },
-        { date: '19/06/2026', day: 'शुक्र', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'पंचमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '20/06/2026', day: 'शनि', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'षष्ठी', sunrise: '05:24', sunset: '19:14' },
-        { date: '21/06/2026', day: 'रवि', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'सप्तमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '22/06/2026', day: 'सोम', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'अष्टमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '23/06/2026', day: 'मंगल', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'नवमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '24/06/2026', day: 'बुध', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'दशमी', sunrise: '05:24', sunset: '19:14' },
-        { date: '25/06/2026', day: 'गुरु', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'एकादशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '26/06/2026', day: 'शुक्र', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'द्वादशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '27/06/2026', day: 'शनि', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'त्रयोदशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '28/06/2026', day: 'रवि', month: 'ज्येष्ठ', paksh: 'शुक्ल पक्ष', tithi: 'चतुर्दशी', sunrise: '05:24', sunset: '19:14' },
-        { date: '29/06/2026', day: 'सोम', month: 'ज्येष्ठ', paksh: 'पूर्णिमा', tithi: 'पूर्णिमा', sunrise: '05:24', sunset: '19:14' },
-        { date: '30/06/2026', day: 'मंगल', month: 'ज्येष्ठ', paksh: 'कृष्ण पक्ष', tithi: 'प्रतिपदा', sunrise: '05:24', sunset: '19:14' },
-    ];
+    // ========== 1. Google Sheet SETTINGS ==========
+    const SHEET_ID = '1EQ1kskWtlxFGGY8Ct0QjRyfrTWEjnwTV8ZfIJrCeLSE';
+    const SHEET_NAME = 'data';
 
     // ========== 2. स्टेट ==========
     let currentDate = new Date();
     let currentMonth = currentDate.getMonth();
     let currentYear = currentDate.getFullYear();
-    let allData = SAMPLE_DATA;
+    let allData = [];
+    let isLoading = false;
 
-    // ========== 3. हेल्पर ==========
+    // ========== 3. समय को 12-घंटे में बदलें ==========
+    function convertTo12Hour(timeStr) {
+        if (!timeStr || timeStr === '' || timeStr === '--:--') {
+            return { time: '--:--', ampm: '' };
+        }
+
+        // अगर पहले से AM/PM है तो वापस करें
+        if (timeStr.includes('AM') || timeStr.includes('PM')) {
+            const parts = timeStr.split(' ');
+            return { time: parts[0] || timeStr, ampm: parts[1] || '' };
+        }
+
+        const parts = timeStr.split(':');
+        if (parts.length < 2) return { time: timeStr, ampm: '' };
+
+        let hour = parseInt(parts[0]);
+        const minute = parts[1];
+
+        if (isNaN(hour)) return { time: timeStr, ampm: '' };
+
+        let ampm = 'AM';
+        if (hour >= 12) {
+            ampm = 'PM';
+            if (hour > 12) hour = hour - 12;
+        }
+        if (hour === 0) hour = 12;
+
+        const time12 = String(hour).padStart(2, ' ') + ':' + minute;
+        return { time: time12, ampm: ampm };
+    }
+
+    function getDayNightIcon(ampm) {
+        if (ampm === 'AM') return '☀️';
+        if (ampm === 'PM') return '🌙';
+        return '';
+    }
+
+    // ========== 4. Google Sheet से डेटा लाएँ ==========
+    async function fetchGoogleSheetData() {
+        try {
+            const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
+            
+            const response = await fetch(url);
+            if (!response.ok) throw new Error('Network response was not ok');
+            
+            const csvText = await response.text();
+            
+            const rows = csvText.split('\n').filter(row => row.trim() !== '');
+            if (rows.length < 2) throw new Error('No data found');
+            
+            const headers = rows[0].split(',').map(h => h.replace(/^"|"$/g, '').trim());
+            
+            const result = [];
+            for (let i = 1; i < rows.length; i++) {
+                const values = rows[i].split(',').map(v => v.replace(/^"|"$/g, '').trim());
+                const obj = {};
+                headers.forEach((header, idx) => {
+                    obj[header] = values[idx] || '';
+                });
+                if (obj.दिनांक && obj.दिनांक !== '') {
+                    // अगर हेडर हिंदी में हैं
+                    obj.date = obj.दिनांक;
+                }
+                if (obj.date && obj.date !== '') {
+                    result.push(obj);
+                }
+            }
+            
+            return result;
+            
+        } catch (error) {
+            console.error('❌ Google Sheet से डेटा लाने में त्रुटि:', error);
+            return null;
+        }
+    }
+
+    // ========== 5. हेल्पर फंक्शन ==========
     function formatDateKey(d) {
         const dd = String(d.getDate()).padStart(2, '0');
         const mm = String(d.getMonth() + 1).padStart(2, '0');
@@ -595,50 +678,47 @@
     }
 
     function getTithiShort(tithi) {
+        if (!tithi) return '--';
         const map = {
-            'प्रतिपदा': 'प्रति',
-            'द्वितीया': 'द्वि',
-            'तृतीया': 'तृ',
-            'चतुर्थी': 'च',
-            'पंचमी': 'पं',
-            'षष्ठी': 'ष',
-            'सप्तमी': 'स',
-            'अष्टमी': 'अ',
-            'नवमी': 'न',
-            'दशमी': 'द',
-            'एकादशी': 'ए',
-            'द्वादशी': 'द्वा',
-            'त्रयोदशी': 'त्र',
-            'चतुर्दशी': 'च',
-            'पूर्णिमा': 'पू',
-            'अमावस्या': 'अमा'
+            'प्रतिपदा': 'प्रतिपदा',
+            'द्वितीया': 'द्वितीया',
+            'तृतीया': 'तृतीया',
+            'चतुर्थी': 'चतुर्थी',
+            'पंचमी': 'पंचमी',
+            'षष्ठी': 'षष्ठी',
+            'सप्तमी': 'सप्तमी',
+            'अष्टमी': 'अष्टमी',
+            'नवमी': 'नवमी',
+            'दशमी': 'दशमी',
+            'एकादशी': 'एकादशी',
+            'द्वादशी': 'द्वादशी',
+            'त्रयोदशी': 'त्रयोदशी',
+            'चतुर्दशी': 'चतुर्दशी',
+            'पूर्णिमा': 'पूर्णिमा',
+            'अमावस्या': 'अमावस्या'
         };
-        return map[tithi] || tithi.substring(0, 3);
+        return map[tithi] || tithi;
     }
 
-    // ========== 4. मून फेज आइकन ==========
     function getMoonIcon(paksh, tithi) {
-        if (paksh === 'अमावस्या' || tithi === 'अमावस्या') {
-            return '🌚'; // पूरा काला
-        }
-        if (paksh === 'पूर्णिमा' || tithi === 'पूर्णिमा') {
-            return '🌝'; // पूरा सफेद
-        }
-        if (paksh.includes('शुक्ल')) {
-            return '🌕'; // सफेद (शुक्ल पक्ष)
-        }
-        if (paksh.includes('कृष्ण')) {
-            return '🌑'; // काला (कृष्ण पक्ष)
-        }
-        return '🌙'; // default
+        if (!paksh && !tithi) return '🌙';
+        const p = paksh || '';
+        const t = tithi || '';
+        if (p === 'अमावस्या' || t === 'अमावस्या') return '🌚';
+        if (p === 'पूर्णिमा' || t === 'पूर्णिमा') return '🌝';
+        if (p.includes('शुक्ल')) return '🌕';
+        if (p.includes('कृष्ण')) return '🌑';
+        return '🌙';
     }
 
-    // ========== 5. पक्ष क्लास ==========
     function getPakshClass(paksh, tithi) {
-        if (paksh === 'अमावस्या' || tithi === 'अमावस्या') return 'paksh-amavasya';
-        if (paksh === 'पूर्णिमा' || tithi === 'पूर्णिमा') return 'paksh-purnima';
-        if (paksh.includes('शुक्ल')) return 'paksh-shukla';
-        if (paksh.includes('कृष्ण')) return 'paksh-krishna';
+        if (!paksh && !tithi) return '';
+        const p = paksh || '';
+        const t = tithi || '';
+        if (p === 'अमावस्या' || t === 'अमावस्या') return 'paksh-amavasya';
+        if (p === 'पूर्णिमा' || t === 'पूर्णिमा') return 'paksh-purnima';
+        if (p.includes('शुक्ल')) return 'paksh-shukla';
+        if (p.includes('कृष्ण')) return 'paksh-krishna';
         return '';
     }
 
@@ -654,14 +734,19 @@
         title.textContent = monthNames[month] + ' ' + year;
         display.textContent = monthNames[month] + ' ' + year;
 
-        // हीरो में सबटाइटल (पहली तारीख का डेटा)
         const firstDate = new Date(year, month, 1);
         const firstKey = formatDateKey(firstDate);
         const firstRecord = allData.find(r => r.date === firstKey);
+        
         if (firstRecord) {
-            subtitle.textContent = firstRecord.paksh + ', ' + firstRecord.tithi;
+            const paksh = firstRecord.pक्ष || firstRecord.paksh || '';
+            const tithi = firstRecord.तिथि || firstRecord.tithi || '';
+            subtitle.textContent = paksh + ', ' + tithi;
+            document.getElementById('heroSubtitle').textContent = 
+                (firstRecord.महीना || firstRecord.month || '') + ' माह, ' + paksh + ', ' + tithi;
         } else {
             subtitle.textContent = 'मासिक पंचांग';
+            document.getElementById('heroSubtitle').textContent = 'मासिक पंचांग';
         }
 
         const firstDay = new Date(year, month, 1).getDay();
@@ -671,17 +756,14 @@
 
         let html = '';
 
-        // दिनों के नाम
         for (let i = 0; i < 7; i++) {
             html += `<div class="day-name">${dayNames[i]}</div>`;
         }
 
-        // खाली सेल
         for (let i = 0; i < firstDay; i++) {
             html += `<div class="day-cell empty"></div>`;
         }
 
-        // हर दिन
         for (let d = 1; d <= daysInMonth; d++) {
             const dateObj = new Date(year, month, d);
             const dateKey = formatDateKey(dateObj);
@@ -690,24 +772,51 @@
 
             let pakshClass = '';
             let moonIcon = '🌙';
-            let tithiShort = '--';
+            let tithiFull = '--';
             let sunrise = '--:--';
             let sunset = '--:--';
+            let sunriseAmpm = '';
+            let sunsetAmpm = '';
 
             if (record) {
-                pakshClass = getPakshClass(record.paksh, record.tithi);
-                moonIcon = getMoonIcon(record.paksh, record.tithi);
-                tithiShort = getTithiShort(record.tithi);
-                sunrise = record.sunrise || '--:--';
-                sunset = record.sunset || '--:--';
+                const paksh = record.pक्ष || record.paksh || '';
+                const tithi = record.तिथि || record.tithi || '';
+                pakshClass = getPakshClass(paksh, tithi);
+                moonIcon = getMoonIcon(paksh, tithi);
+                tithiFull = getTithiShort(tithi);
+                
+                const srise = record.सूर्योदय || record.sunrise || '';
+                const sset = record.सूर्यास्त || record.sunset || '';
+                
+                const riseResult = convertTo12Hour(srise);
+                const setResult = convertTo12Hour(sset);
+                
+                sunrise = riseResult.time;
+                sunriseAmpm = riseResult.ampm;
+                sunset = setResult.time;
+                sunsetAmpm = setResult.ampm;
             }
+
+            const riseIcon = getDayNightIcon(sunriseAmpm);
+            const setIcon = getDayNightIcon(sunsetAmpm);
 
             html += `
                 <div class="day-cell ${pakshClass} ${isToday}">
                     <span class="date-num">${d}</span>
                     <span class="moon-icon">${moonIcon}</span>
-                    <span class="tithi-name">${tithiShort}</span>
-                    <span class="sun-times">${sunrise} / ${sunset}</span>
+                    <span class="tithi-name">${tithiFull}</span>
+                    <div class="sun-times">
+                        <div class="time-row">
+                            <span class="daynight-icon">${riseIcon}</span>
+                            <span>${sunrise}</span>
+                            ${sunriseAmpm ? `<span class="ampm am">${sunriseAmpm}</span>` : ''}
+                        </div>
+                        <div class="time-row">
+                            <span class="daynight-icon">${setIcon}</span>
+                            <span>${sunset}</span>
+                            ${sunsetAmpm ? `<span class="ampm pm">${sunsetAmpm}</span>` : ''}
+                        </div>
+                    </div>
                 </div>
             `;
         }
@@ -715,7 +824,32 @@
         document.getElementById('monthlyGrid').innerHTML = html;
     }
 
-    // ========== 7. नेविगेशन ==========
+    // ========== 7. डेटा लोड करें और रेंडर करें ==========
+    async function loadDataAndRender() {
+        if (isLoading) return;
+        isLoading = true;
+
+        const grid = document.getElementById('monthlyGrid');
+        grid.innerHTML = `<div class="loading">⏳ डेटा लोड हो रहा...</div>`;
+
+        const data = await fetchGoogleSheetData();
+        
+        if (data && data.length > 0) {
+            allData = data;
+            renderMonthly(currentYear, currentMonth);
+        } else {
+            grid.innerHTML = `
+                <div class="loading" style="grid-column:1/-1;color:#c0392b;">
+                    ❌ Google Sheet से डेटा नहीं मिला।<br>
+                    <span style="font-size:0.8rem;">कृपया शीट चेक करें और Public करें।</span>
+                </div>
+            `;
+        }
+        
+        isLoading = false;
+    }
+
+    // ========== 8. नेविगेशन ==========
     function goToToday() {
         const today = new Date();
         currentMonth = today.getMonth();
@@ -743,7 +877,7 @@
         renderMonthly(currentYear, currentMonth);
     }
 
-    // ========== 8. इवेंट्स ==========
+    // ========== 9. इवेंट्स ==========
     document.addEventListener('DOMContentLoaded', function() {
         // सिटी डिटेक्ट
         fetch('https://ipapi.co/json/')
@@ -761,8 +895,8 @@
             document.querySelector('nav').classList.toggle('open');
         });
 
-        // रेंडर
-        renderMonthly(currentYear, currentMonth);
+        // डेटा लोड करें
+        loadDataAndRender();
 
         // बटन
         document.getElementById('prevMonthBtn').addEventListener('click', prevMonth);
