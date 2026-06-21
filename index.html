@@ -1,41 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>पंचांग - Panchang</title>
-    <style>
-        body { font-family: Arial; text-align: center; padding: 20px; background: #fef9f0; }
-        .card { background: white; padding: 20px; border-radius: 15px; max-width: 500px; margin: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #d84315; }
-        .item { font-size: 22px; margin: 12px 0; }
-        .label { color: #888; font-size: 16px; }
-    </style>
+<meta charset="UTF-8">
+<title>Panchang</title>
 </head>
 <body>
-    <div class="card">
-        <h1>📅 आज का पंचांग</h1>
-        <div id="panchangData">Loading...</div>
-    </div>
-    <script>
-        // Yeh code automatically user ki language detect karega
-        const lang = window.location.hostname.split('.')[0]; // "hi" from hi.panchang.org.in
-        const today = new Date().toISOString().split('T')[0]; // 2026-06-21
-
-        fetch(`https://panchang-worker.yourusername.workers.dev/?date=${today}&lang=${lang}`)
-            .then(res => res.json())
-            .then(data => {
-                let html = `
-                    <div class="item"><span class="label">तिथि (Tithi):</span> ${data.tithi}</div>
-                    <div class="item"><span class="label">नक्षत्र (Nakshatra):</span> ${data.nakshatra}</div>
-                    <div class="item"><span class="label">योग (Yoga):</span> ${data.yoga}</div>
-                    <div class="item"><span class="label">करण (Karana):</span> ${data.karana}</div>
-                    <div class="item"><span class="label">त्योहार (Festival):</span> ${data.festival || '❌ नहीं'}</div>
-                `;
-                document.getElementById('panchangData').innerHTML = html;
-            })
-            .catch(() => {
-                document.getElementById('panchangData').innerHTML = '❌ आज का डेटा लोड नहीं हुआ, कृपया बाद में देखें।';
-            });
-    </script>
+<h1>Welcome to Panchang.org.in</h1>
+<p>Website is under construction.</p>
 </body>
 </html>
