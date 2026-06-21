@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔑 लॉगिन - Panchang.org.in</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">🕉️ <span>Panchang</span>.org</a>
+            <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+            <nav>
+                <a href="index.html">🏠 होम</a>
+                <a href="daily.html">📅 दैनिक</a>
+                <a href="monthly.html">📆 मासिक</a>
+                <a href="muhurt.html">🪔 मुहूर्त</a>
+                <a href="katha.html">📖 कथा</a>
+                <a href="login.html" class="active">🔑 लॉगिन</a>
+                <span id="userDisplay" style="color:var(--secondary);font-weight:700;margin-left:6px;"></span>
+            </nav>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">
+            <div class="auth-form" id="authForm">
+                <h3 id="formTitle">🔑 लॉगिन</h3>
+                <div id="authMessage" style="text-align:center;color:green;margin-bottom:10px;"></div>
+                <label>👤 यूज़रनेम</label>
+                <input type="text" id="usernameInput" placeholder="यूज़रनेम दर्ज करें">
+                
+                <label>🔒 पासवर्ड</label>
+                <input type="password" id="passwordInput" placeholder="पासवर्ड दर्ज करें">
+                
+                <button id="authButton">लॉगिन करें</button>
+                
+                <div class="toggle-link">
+                    <a id="toggleAuth">नया यूज़र? रजिस्टर करें</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="social">
+                <a href="#" title="Facebook">📘</a>
+                <a href="#" title="YouTube">▶️</a>
+                <a href="#" title="Instagram">📸</a>
+            </div>
+            <div class="copy">© 2026 Panchang.org.in | 🙏 सभी धर्मों का सम्मान</div>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        (function() {
+            let isLogin = true;
+
+            const formTitle = document.getElementById('formTitle');
+            const authButton = document.getElementById('authButton');
+            const toggleLink = document.getElementById('toggleAuth');
+            const message = document.getElementById('authMessage');
+            const usernameInput = document.getElementById('usernameInput');
+            const passwordInput = document.getElementById('passwordInput');
+
+            function updateForm() {
+                if (isLogin) {
+                    formTitle.textContent = '🔑 लॉगिन';
+                    authButton.textContent = 'लॉगिन करें';
+                    toggleLink.textContent = 'नया यूज़र? रजिस्टर करें';
+                } else {
+                    formTitle.textContent = '📝 रजिस्टर';
+                    authButton.textContent = 'रजिस्टर करें';
+                    toggleLink.textContent = 'पहले से यूज़र? लॉगिन करें';
+                }
+                message.textContent = '';
+            }
+
+            function handleAuth() {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+
+                if (!username || !password) {
+                    message.textContent = '⚠️ कृपया सभी फील्ड भरें';
+                    message.style.color = 'red';
+                    return;
+                }
+
+                let result;
+                if (isLogin) {
+                    result = Auth.login(username, password);
+                } else {
+                    result = Auth.register(username, password);
+                }
+
+                message.textContent = result.message;
+                message.style.color = result.success ? 'green' : 'red';
+
+                if (result.success && isLogin) {
+                    // लॉगिन सफल – होम पेज पर रीडायरेक्ट
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+                }
+            }
+
+            toggleLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                isLogin = !isLogin;
+                updateForm();
+                message.textContent = '';
+            });
+
+            authButton.addEventListener('click', handleAuth);
+            passwordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') handleAuth();
+            });
+
+            // अगर पहले से लॉगिन है तो बटन बदलें
+            Auth.init();
+            if (Auth.isLoggedIn()) {
+                formTitle.textContent = '🙏 स्वागत है ' + Auth.currentUser.username;
+                authButton.textContent = 'लॉगआउट करें';
+                toggleLink.style.display = 'none';
+                authButton.onclick = function() {
+                    Auth.logout();
+                    window.location.href = 'index.html';
+                };
+            }
+
+            updateForm();
+        })();
+    </script>
+</body>
+</html>
