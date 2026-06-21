@@ -4,53 +4,196 @@
     <title>आज का पंचांग</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- यहाँ CSS (स्टाइल) आएगा -->
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f8f0e3; text-align: center; padding: 20px; }
-        .card { background: white; max-width: 500px; margin: auto; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        h1 { color: #b8860b; }
-        .detail { font-size: 1.2em; border-bottom: 1px solid #ddd; padding: 10px 0; }
-        .label { font-weight: bold; color: #555; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: linear-gradient(145deg, #f5e6d3 0%, #d4b8a8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            max-width: 550px;
+            width: 100%;
+            padding: 30px 25px;
+            border-radius: 40px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #8b5a2b;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .subhead {
+            text-align: center;
+            color: #6b4a2e;
+            border-bottom: 2px dashed #e8c9a0;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        .detail {
+            display: flex;
+            justify-content: space-between;
+            padding: 14px 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 1.1em;
+        }
+        .detail:last-child { border-bottom: none; }
+        .label {
+            font-weight: 600;
+            color: #5a3e2b;
+        }
+        .value {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        .special-day {
+            background: #ffeedb;
+            padding: 12px;
+            border-radius: 30px;
+            text-align: center;
+            margin-top: 20px;
+            color: #a0522d;
+            font-weight: bold;
+            border-left: 4px solid #ff8c00;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+            color: #7f6a5a;
+            font-size: 0.85em;
+        }
+        .error-msg {
+            color: #c0392b;
+            background: #fde8e8;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="card">
         <h1>🕉️ आज का पंचांग</h1>
+        <div class="subhead" id="date-display">📅 लोड हो रहा...</div>
         <div id="panchang-data">
-            <p>⏳ लोड हो रहा है... कृपया थोड़ी देर प्रतीक्षा करें</p>
+            <p style="text-align:center; color:#888;">⏳ गणना हो रही है...</p>
         </div>
+        <div id="special-day" class="special-day">✨ शुभ दिन की जानकारी</div>
+        <div class="footer">🌐 गणना आपके ब्राउज़र में ही होती है</div>
     </div>
 
-    <!-- यहाँ JavaScript (पंचांग कैलकुलेशन) आएगा -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- ✅ यह मुख्य लाइब्रेरी है (सभी गणना के लिए) -->
+    <script src="https://cdn.jsdelivr.net/npm/@bhaiyag/astro@latest/dist/astro.min.js"></script>
+    
     <script>
-        // सबसे आसान तरीका: एक फ्री API का उपयोग करें (क्योंकि drik-panchang थोड़ा जटिल है)
-        async function getPanchang() {
-            try {
-                // यह एक निःशुल्क API है (यह दिल्ली के लिए डेटा देगा)
-                const response = await fetch('https://api.prokerala.com/v2/astronomy/panchang?datetime=now&ayanamsa=1&coordinates=28.6139,77.2090');
-                const data = await response.json();
-                
-                // डेटा को HTML में दिखाएँ
-                document.getElementById('panchang-data').innerHTML = `
-                    <div class="detail"><span class="label">🗓️ तिथि:</span> ${data.data.tithi.name}</div>
-                    <div class="detail"><span class="label">⭐ नक्षत्र:</span> ${data.data.nakshatra.name}</div>
-                    <div class="detail"><span class="label">📅 वार:</span> ${data.data.weekday}</div>
-                    <div class="detail"><span class="label">🌞 सूर्योदय:</span> ${data.data.sunrise}</div>
-                    <div class="detail"><span class="label">🌙 सूर्यास्त:</span> ${data.data.sunset}</div>
-                    <div class="detail"><span class="label">☀️ राशि:</span> ${data.data.moon_sign.name}</div>
-                `;
-            } catch (error) {
-                document.getElementById('panchang-data').innerHTML = `
-                    <p style="color:red;">❌ डेटा लोड करने में समस्या आई। कृपया बाद में प्रयास करें।</p>
-                    <p>अगर आपको यह एरर दिखे, तो मुझे बताएँ, मैं दूसरा तरीका बताऊँगा।</p>
-                `;
-                console.error("Error:", error);
+        (function() {
+            // --- 1. आज की तारीख और स्थान सेट करें (दिल्ली) ---
+            const today = new Date();
+            const options = { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date-display').innerHTML = '📅 ' + today.toLocaleDateString('hi-IN', options);
+
+            // स्थान (अक्षांश, देशांतर, समय क्षेत्र)
+            const latitude = 28.6139;    // दिल्ली
+            const longitude = 77.2090;
+            const timezone = 5.5;        // UTC+5:30
+
+            // --- 2. पंचांग की गणना करने वाला फंक्शन ---
+            function calculatePanchang() {
+                try {
+                    // अगर लाइब्रेरी लोड नहीं हुई तो एरर दें
+                    if (typeof Astro === 'undefined') {
+                        throw new Error('लाइब्रेरी लोड नहीं हुई। इंटरनेट कनेक्शन चेक करें।');
+                    }
+
+                    // हम सूर्य और चंद्र की स्थिति निकालेंगे
+                    const sun = Astro.Sun(today, latitude, longitude, timezone);
+                    const moon = Astro.Moon(today, latitude, longitude, timezone);
+
+                    // --- 3. तिथि (सूर्य-चंद्र का कोण) ---
+                    // राशियाँ (12 राशियाँ, हर 30° पर)
+                    const zodiacSigns = ['मेष', 'वृषभ', 'मिथुन', 'कर्क', 'सिंह', 'कन्या', 'तुला', 'वृश्चिक', 'धनु', 'मकर', 'कुंभ', 'मीन'];
+                    const nakshatras = ['अश्विनी', 'भरणी', 'कृत्तिका', 'रोहिणी', 'मृगशिरा', 'आर्द्रा', 'पुनर्वसु', 'पुष्य', 'आश्लेषा', 'मघा', 'पूर्वाफाल्गुनी', 'उत्तराफाल्गुनी', 'हस्त', 'चित्रा', 'स्वाती', 'विशाखा', 'अनुराधा', 'ज्येष्ठा', 'मूल', 'पूर्वाषाढ़ा', 'उत्तराषाढ़ा', 'श्रवण', 'धनिष्ठा', 'शतभिषा', 'पूर्वाभाद्रपदा', 'उत्तराभाद्रपदा', 'रेवती'];
+
+                    // चंद्र की राशि और नक्षत्र
+                    const moonLong = (moon.longitude + 360) % 360;
+                    const moonSignIdx = Math.floor(moonLong / 30);
+                    const moonSign = zodiacSigns[moonSignIdx];
+                    const nakshatraIdx = Math.floor(moonLong / (360/27));
+                    const nakshatra = nakshatras[nakshatraIdx];
+
+                    // तिथि (सूर्य और चंद्र के बीच का अंतर)
+                    let sunLong = (sun.longitude + 360) % 360;
+                    let moonLong2 = (moon.longitude + 360) % 360;
+                    let diff = (moonLong2 - sunLong + 360) % 360;
+                    let tithiIndex = Math.floor(diff / 12); // 0 से 29 तक
+                    const tithiNames = ['प्रतिपदा', 'द्वितीया', 'तृतीया', 'चतुर्थी', 'पंचमी', 'षष्ठी', 'सप्तमी', 'अष्टमी', 'नवमी', 'दशमी', 'एकादशी', 'द्वादशी', 'त्रयोदशी', 'चतुर्दशी', 'पूर्णिमा', 'प्रतिपदा', 'द्वितीया', 'तृतीया', 'चतुर्थी', 'पंचमी', 'षष्ठी', 'सप्तमी', 'अष्टमी', 'नवमी', 'दशमी', 'एकादशी', 'द्वादशी', 'त्रयोदशी', 'चतुर्दशी', 'अमावस्या'];
+                    const tithi = tithiNames[tithiIndex];
+                    
+                    // वार (दिन)
+                    const weekdays = ['रविवार', 'सोमवार', 'मंगलवार', 'बुधवार', 'गुरुवार', 'शुक्रवार', 'शनिवार'];
+                    const weekday = weekdays[today.getDay()];
+
+                    // सूर्योदय/सूर्यास्त (एक सरल अनुमान)
+                    // वास्तविक गणना के लिए और कोड चाहिए, यहाँ हम स्थिर समय दे रहे हैं
+                    const sunrise = '06:15';
+                    const sunset = '18:45';
+
+                    // --- 4. विशेष दिन चेक करें ---
+                    let special = '';
+                    if (tithi === 'एकादशी') special = '🌺 आज एकादशी है! (भगवान विष्णु की पूजा)';
+                    else if (tithi === 'पूर्णिमा') special = '🌕 आज पूर्णिमा है! (गुरु पूर्णिमा/बुद्ध पूर्णिमा)';
+                    else if (tithi === 'अमावस्या') special = '🌑 आज अमावस्या है! (पितरों का दिन)';
+                    else if (weekday === 'रविवार') special = '☀️ रविवार (सूर्य देव की आराधना)';
+                    else if (weekday === 'गुरुवार') special = '🌳 गुरुवार (विष्णु/ब्रह्मा की पूजा)';
+                    else special = '🪔 आम दिन, फिर भी शुभ!';
+
+                    // --- 5. HTML में डेटा दिखाएँ ---
+                    document.getElementById('panchang-data').innerHTML = `
+                        <div class="detail"><span class="label">🗓️ तिथि</span><span class="value">${tithi}</span></div>
+                        <div class="detail"><span class="label">⭐ नक्षत्र</span><span class="value">${nakshatra}</span></div>
+                        <div class="detail"><span class="label">📅 वार</span><span class="value">${weekday}</span></div>
+                        <div class="detail"><span class="label">☀️ सूर्य राशि</span><span class="value">${zodiacSigns[Math.floor(((sun.longitude+360)%360)/30)]}</span></div>
+                        <div class="detail"><span class="label">🌙 चंद्र राशि</span><span class="value">${moonSign}</span></div>
+                        <div class="detail"><span class="label">🌅 सूर्योदय</span><span class="value">${sunrise}</span></div>
+                        <div class="detail"><span class="label">🌇 सूर्यास्त</span><span class="value">${sunset}</span></div>
+                    `;
+                    document.getElementById('special-day').innerHTML = special;
+
+                } catch (error) {
+                    // अगर कोई गड़बड़ी हो तो एरर दिखाएँ
+                    document.getElementById('panchang-data').innerHTML = `
+                        <div class="error-msg">
+                            ⚠️ गणना में त्रुटि: ${error.message}<br><br>
+                            <span style="font-size:0.9rem;">💡 क्या आपका इंटरनेट कनेक्शन सक्रिय है?</span>
+                        </div>
+                    `;
+                    document.getElementById('special-day').style.display = 'none';
+                    console.error('Panchang Error:', error);
+                }
             }
-        }
-        
-        // जब पेज लोड हो, तो पंचांग लाएँ
-        getPanchang();
+
+            // --- 6. थोड़ी देर रुककर गणना करें (लाइब्रेरी लोड होने के लिए) ---
+            setTimeout(calculatePanchang, 500);
+
+            // पेज पूरी तरह लोड होने पर भी एक बार और कोशिश करें
+            window.addEventListener('load', function() {
+                setTimeout(calculatePanchang, 300);
+            });
+
+        })();
     </script>
 </body>
 </html>
