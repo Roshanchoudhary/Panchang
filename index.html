@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🕉️ मासिक पंचांग - Panchang.org.in</title>
+    <title>🕉️ पूर्ण पंचांग - Panchang.org.in</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🕉️</text></svg>">
     <style>
         /* ====== CSS रूट वेरिएबल्स ====== */
@@ -125,11 +125,19 @@
             font-size: 0.8rem;
             margin-top: 4px;
         }
+        .hero .month-info {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-top: 4px;
+        }
 
         /* ====== सेक्शन ====== */
         section {
             padding: 25px 0 30px;
+            border-bottom: 1px solid #eee;
         }
+        section:last-child { border-bottom: none; }
         .section-title {
             font-size: 1.6rem;
             color: var(--primary);
@@ -142,6 +150,43 @@
         .section-title small {
             font-size: 0.8rem;
             font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        /* ====== दैनिक पंचांग कार्ड ====== */
+        .daily-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 14px;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+        .daily-item {
+            background: #faf6f0;
+            padding: 14px 12px;
+            border-radius: 14px;
+            border-left: 4px solid var(--secondary);
+            transition: var(--transition);
+        }
+        .daily-item:hover {
+            transform: translateY(-3px);
+            background: #f3ece2;
+        }
+        .daily-item .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+        .daily-item .value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .daily-item .sub-value {
+            font-size: 0.8rem;
             color: var(--text-muted);
         }
 
@@ -295,6 +340,21 @@
             min-height: 60px;
         }
 
+        /* ====== सूर्योदय/अस्त बैनर ====== */
+        .sun-banner {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            background: var(--bg-card);
+            padding: 14px 20px;
+            border-radius: 50px;
+            box-shadow: var(--shadow);
+            margin-top: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
         /* ====== मुहूर्त ====== */
         .muhurt-grid {
             display: grid;
@@ -436,9 +496,11 @@
             nav a { width: 100%; text-align: center; padding: 8px; }
             .hero h1 { font-size: 1.5rem; }
             .section-title { font-size: 1.3rem; }
+            .daily-grid { grid-template-columns: 1fr 1fr; gap: 10px; padding: 14px; }
             .date-nav .month-display { min-width: 120px; font-size: 0.95rem; }
             .date-nav button { padding: 5px 12px; font-size: 0.85rem; }
             .ad-container { min-height: 70px; padding: 14px 8px; }
+            .sun-banner { flex-direction: column; gap: 8px; align-items: center; border-radius: 30px; }
         }
 
         @media (max-width: 500px) {
@@ -450,6 +512,8 @@
             .day-cell .tithi-name { font-size: 0.5rem; white-space: normal; padding: 0 2px; }
             .day-cell .sun-times .time-row { font-size: 0.4rem; gap: 2px; }
             .day-cell .sun-times .time-row .ampm { font-size: 0.4rem; }
+            .daily-grid { grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
+            .daily-item .value { font-size: 0.95rem; }
             .muhurt-grid { grid-template-columns: 1fr; gap: 8px; }
         }
     </style>
@@ -462,9 +526,9 @@
         <a href="#" class="logo">🕉️ <span>Panchang</span>.org</a>
         <button class="menu-toggle" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
         <nav>
-            <a href="#" class="active">📆 मासिक</a>
-            <a href="#">📅 दैनिक</a>
-            <a href="#">🪔 मुहूर्त</a>
+            <a href="#daily" class="active">📅 दैनिक</a>
+            <a href="#monthly">📆 मासिक</a>
+            <a href="#muhurt">🪔 मुहूर्त</a>
             <span class="city-badge" id="cityDisplay">📍 दिल्ली</span>
         </nav>
     </div>
@@ -473,8 +537,9 @@
 <!-- ====== HERO ====== -->
 <div class="hero">
     <div class="container">
-        <h1>📆 मासिक पंचांग</h1>
+        <h1>🕉️ पूर्ण पंचांग</h1>
         <p id="heroSubtitle">लोड हो रहा...</p>
+        <div class="month-info" id="heroMonthInfo">📆 लोड हो रहा...</div>
         <span class="city-badge">📍 New Delhi, India</span>
     </div>
 </div>
@@ -489,12 +554,36 @@
     </div>
 </div>
 
-<!-- ====== मासिक पंचांग ====== -->
-<section>
+<!-- ================================================================ -->
+<!-- ====== सेक्शन 1: दैनिक पंचांग ====== -->
+<!-- ================================================================ -->
+<section id="daily">
     <div class="container">
         <div class="section-title">
-            📆 <span id="monthTitle">लोड हो रहा...</span>
-            <small id="monthSubtitle"></small>
+            📅 आज का दैनिक पंचांग
+            <small id="dailyDate">लोड हो रहा...</small>
+        </div>
+        <div class="daily-grid" id="dailyGrid">
+            <div style="grid-column:1/-1;text-align:center;color:#888;padding:20px;">⏳ डेटा लोड हो रहा...</div>
+        </div>
+        <div class="sun-banner" id="dailySunTimes">
+            <span>🌅 सूर्योदय: <strong id="dailySunrise">--:--</strong></span>
+            <span>🌇 सूर्यास्त: <strong id="dailySunset">--:--</strong></span>
+        </div>
+        <div style="text-align:center;margin-top:10px;background:#f5ede4;padding:8px;border-radius:40px;font-weight:500;">
+            📆 <span id="dailyMonthPaksh">महीना और पक्ष लोड हो रहा...</span>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================ -->
+<!-- ====== सेक्शन 2: मासिक पंचांग ====== -->
+<!-- ================================================================ -->
+<section id="monthly">
+    <div class="container">
+        <div class="section-title">
+            📆 मासिक पंचांग
+            <small id="monthlyTitle">लोड हो रहा...</small>
         </div>
 
         <div class="date-nav">
@@ -522,8 +611,10 @@
     </div>
 </div>
 
-<!-- ====== मुहूर्त ====== -->
-<section>
+<!-- ================================================================ -->
+<!-- ====== सेक्शन 3: मुहूर्त ====== -->
+<!-- ================================================================ -->
+<section id="muhurt">
     <div class="container">
         <div class="section-title">
             🪔 शुभ मुहूर्त <small>विवाह, यज्ञोपवीत, गृह प्रवेश</small>
@@ -584,7 +675,7 @@
 
     // ========== 1. Google Sheet SETTINGS ==========
     const SHEET_ID = '1EQ1kskWtlxFGGY8Ct0QjRyfrTWEjnwTV8ZfIJrCeLSE';
-    const SHEET_NAME = 'Panchang';
+    const SHEET_NAME = 'data';
 
     // ========== 2. स्टेट ==========
     let currentDate = new Date();
@@ -592,34 +683,28 @@
     let currentYear = currentDate.getFullYear();
     let allData = [];
     let isLoading = false;
+    let todayData = null; // आज का डेटा
 
     // ========== 3. समय को 12-घंटे में बदलें ==========
     function convertTo12Hour(timeStr) {
         if (!timeStr || timeStr === '' || timeStr === '--:--') {
             return { time: '--:--', ampm: '' };
         }
-
-        // अगर पहले से AM/PM है तो वापस करें
         if (timeStr.includes('AM') || timeStr.includes('PM')) {
             const parts = timeStr.split(' ');
             return { time: parts[0] || timeStr, ampm: parts[1] || '' };
         }
-
         const parts = timeStr.split(':');
         if (parts.length < 2) return { time: timeStr, ampm: '' };
-
         let hour = parseInt(parts[0]);
         const minute = parts[1];
-
         if (isNaN(hour)) return { time: timeStr, ampm: '' };
-
         let ampm = 'AM';
         if (hour >= 12) {
             ampm = 'PM';
             if (hour > 12) hour = hour - 12;
         }
         if (hour === 0) hour = 12;
-
         const time12 = String(hour).padStart(2, ' ') + ':' + minute;
         return { time: time12, ampm: ampm };
     }
@@ -634,17 +719,12 @@
     async function fetchGoogleSheetData() {
         try {
             const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`;
-            
             const response = await fetch(url);
             if (!response.ok) throw new Error('Network response was not ok');
-            
             const csvText = await response.text();
-            
             const rows = csvText.split('\n').filter(row => row.trim() !== '');
             if (rows.length < 2) throw new Error('No data found');
-            
             const headers = rows[0].split(',').map(h => h.replace(/^"|"$/g, '').trim());
-            
             const result = [];
             for (let i = 1; i < rows.length; i++) {
                 const values = rows[i].split(',').map(v => v.replace(/^"|"$/g, '').trim());
@@ -652,17 +732,21 @@
                 headers.forEach((header, idx) => {
                     obj[header] = values[idx] || '';
                 });
-                if (obj.दिनांक && obj.दिनांक !== '') {
-                    // अगर हेडर हिंदी में हैं
-                    obj.date = obj.दिनांक;
-                }
+                // हिंदी और अंग्रेज़ी दोनों कॉलम नाम सपोर्ट
+                obj.date = obj.दिनांक || obj.date || '';
+                obj.day = obj.दिन || obj.day || '';
+                obj.month = obj.महीना || obj.month || '';
+                obj.paksh = obj.पक्ष || obj.paksh || '';
+                obj.tithi = obj.तिथि || obj.tithi || '';
+                obj.tithiTime = obj['तिथिक समय'] || obj.tithiTime || '';
+                obj.tithiDand = obj['तिथिक दण्ड - पल'] || obj.tithiDand || '';
+                obj.sunrise = obj.सूर्योदय || obj.sunrise || '';
+                obj.sunset = obj.सूर्यास्त || obj.sunset || '';
                 if (obj.date && obj.date !== '') {
                     result.push(obj);
                 }
             }
-            
             return result;
-            
         } catch (error) {
             console.error('❌ Google Sheet से डेटा लाने में त्रुटि:', error);
             return null;
@@ -680,22 +764,12 @@
     function getTithiShort(tithi) {
         if (!tithi) return '--';
         const map = {
-            'प्रतिपदा': 'प्रतिपदा',
-            'द्वितीया': 'द्वितीया',
-            'तृतीया': 'तृतीया',
-            'चतुर्थी': 'चतुर्थी',
-            'पंचमी': 'पंचमी',
-            'षष्ठी': 'षष्ठी',
-            'सप्तमी': 'सप्तमी',
-            'अष्टमी': 'अष्टमी',
-            'नवमी': 'नवमी',
-            'दशमी': 'दशमी',
-            'एकादशी': 'एकादशी',
-            'द्वादशी': 'द्वादशी',
-            'त्रयोदशी': 'त्रयोदशी',
-            'चतुर्दशी': 'चतुर्दशी',
-            'पूर्णिमा': 'पूर्णिमा',
-            'अमावस्या': 'अमावस्या'
+            'प्रतिपदा': 'प्रतिपदा', 'द्वितीया': 'द्वितीया', 'तृतीया': 'तृतीया',
+            'चतुर्थी': 'चतुर्थी', 'पंचमी': 'पंचमी', 'षष्ठी': 'षष्ठी',
+            'सप्तमी': 'सप्तमी', 'अष्टमी': 'अष्टमी', 'नवमी': 'नवमी',
+            'दशमी': 'दशमी', 'एकादशी': 'एकादशी', 'द्वादशी': 'द्वादशी',
+            'त्रयोदशी': 'त्रयोदशी', 'चतुर्दशी': 'चतुर्दशी',
+            'पूर्णिमा': 'पूर्णिमा', 'अमावस्या': 'अमावस्या'
         };
         return map[tithi] || tithi;
     }
@@ -722,32 +796,75 @@
         return '';
     }
 
-    // ========== 6. रेंडर ==========
+    // ========== 6. दैनिक पंचांग रेंडर करें ==========
+    function renderDaily() {
+        const today = new Date();
+        const todayKey = formatDateKey(today);
+        const record = allData.find(r => r.date === todayKey);
+
+        // तारीख दिखाएँ
+        document.getElementById('dailyDate').textContent = 
+            today.toLocaleDateString('hi-IN', { timeZone: 'Asia/Kolkata', year: 'numeric', month: 'long', day: 'numeric' });
+
+        if (record) {
+            todayData = record;
+            const gridData = [
+                { label: '📅 दिन', value: record.day || '--' },
+                { label: '📆 महीना', value: record.month || '--' },
+                { label: '🌗 पक्ष', value: record.paksh || '--' },
+                { label: '🗓️ तिथि', value: record.tithi || '--' },
+                { label: '🕐 तिथि समय', value: record.tithiTime || '--' },
+                { label: '⚖️ दण्ड-पल', value: record.tithiDand || '--' }
+            ];
+
+            let html = '';
+            gridData.forEach(item => {
+                html += `
+                    <div class="daily-item">
+                        <div class="label">${item.label}</div>
+                        <div class="value">${item.value}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('dailyGrid').innerHTML = html;
+
+            // सूर्योदय/अस्त
+            const rise = convertTo12Hour(record.sunrise);
+            const set = convertTo12Hour(record.sunset);
+            document.getElementById('dailySunrise').innerHTML = 
+                rise.time + (rise.ampm ? ` <span style="font-size:0.7rem;color:#e67e22;">${rise.ampm}</span>` : '');
+            document.getElementById('dailySunset').innerHTML = 
+                set.time + (set.ampm ? ` <span style="font-size:0.7rem;color:#2c3e50;">${set.ampm}</span>` : '');
+
+            // महीना + पक्ष
+            document.getElementById('dailyMonthPaksh').textContent = 
+                (record.month || '') + ' माह, ' + (record.paksh || '');
+
+            // हीरो अपडेट
+            document.getElementById('heroSubtitle').textContent = 
+                (record.day || '') + ', ' + (record.tithi || '');
+            document.getElementById('heroMonthInfo').textContent = 
+                '📆 ' + (record.month || '') + ' माह, ' + (record.paksh || '');
+
+        } else {
+            document.getElementById('dailyGrid').innerHTML = `
+                <div style="grid-column:1/-1;text-align:center;color:#c0392b;padding:20px;">
+                    ⚠️ आज (${todayKey}) का डेटा नहीं मिला
+                </div>
+            `;
+            document.getElementById('dailySunrise').textContent = '--:--';
+            document.getElementById('dailySunset').textContent = '--:--';
+            document.getElementById('dailyMonthPaksh').textContent = 'डेटा उपलब्ध नहीं';
+        }
+    }
+
+    // ========== 7. मासिक पंचांग रेंडर करें ==========
     function renderMonthly(year, month) {
         const monthNames = ['जनवरी', 'फरवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर'];
         const dayNames = ['रवि', 'सोम', 'मंगल', 'बुध', 'गुरु', 'शुक्र', 'शनि'];
 
-        const title = document.getElementById('monthTitle');
-        const subtitle = document.getElementById('monthSubtitle');
-        const display = document.getElementById('monthDisplay');
-
-        title.textContent = monthNames[month] + ' ' + year;
-        display.textContent = monthNames[month] + ' ' + year;
-
-        const firstDate = new Date(year, month, 1);
-        const firstKey = formatDateKey(firstDate);
-        const firstRecord = allData.find(r => r.date === firstKey);
-        
-        if (firstRecord) {
-            const paksh = firstRecord.pक्ष || firstRecord.paksh || '';
-            const tithi = firstRecord.तिथि || firstRecord.tithi || '';
-            subtitle.textContent = paksh + ', ' + tithi;
-            document.getElementById('heroSubtitle').textContent = 
-                (firstRecord.महीना || firstRecord.month || '') + ' माह, ' + paksh + ', ' + tithi;
-        } else {
-            subtitle.textContent = 'मासिक पंचांग';
-            document.getElementById('heroSubtitle').textContent = 'मासिक पंचांग';
-        }
+        document.getElementById('monthlyTitle').textContent = monthNames[month] + ' ' + year;
+        document.getElementById('monthDisplay').textContent = monthNames[month] + ' ' + year;
 
         const firstDay = new Date(year, month, 1).getDay();
         const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -755,11 +872,9 @@
         const todayStr = formatDateKey(today);
 
         let html = '';
-
         for (let i = 0; i < 7; i++) {
             html += `<div class="day-name">${dayNames[i]}</div>`;
         }
-
         for (let i = 0; i < firstDay; i++) {
             html += `<div class="day-cell empty"></div>`;
         }
@@ -779,22 +894,17 @@
             let sunsetAmpm = '';
 
             if (record) {
-                const paksh = record.pक्ष || record.paksh || '';
-                const tithi = record.तिथि || record.tithi || '';
+                const paksh = record.paksh || '';
+                const tithi = record.tithi || '';
                 pakshClass = getPakshClass(paksh, tithi);
                 moonIcon = getMoonIcon(paksh, tithi);
                 tithiFull = getTithiShort(tithi);
-                
-                const srise = record.सूर्योदय || record.sunrise || '';
-                const sset = record.सूर्यास्त || record.sunset || '';
-                
-                const riseResult = convertTo12Hour(srise);
-                const setResult = convertTo12Hour(sset);
-                
-                sunrise = riseResult.time;
-                sunriseAmpm = riseResult.ampm;
-                sunset = setResult.time;
-                sunsetAmpm = setResult.ampm;
+                const rise = convertTo12Hour(record.sunrise);
+                const set = convertTo12Hour(record.sunset);
+                sunrise = rise.time;
+                sunriseAmpm = rise.ampm;
+                sunset = set.time;
+                sunsetAmpm = set.ampm;
             }
 
             const riseIcon = getDayNightIcon(sunriseAmpm);
@@ -824,7 +934,7 @@
         document.getElementById('monthlyGrid').innerHTML = html;
     }
 
-    // ========== 7. डेटा लोड करें और रेंडर करें ==========
+    // ========== 8. डेटा लोड करें और रेंडर करें ==========
     async function loadDataAndRender() {
         if (isLoading) return;
         isLoading = true;
@@ -836,6 +946,7 @@
         
         if (data && data.length > 0) {
             allData = data;
+            renderDaily();
             renderMonthly(currentYear, currentMonth);
         } else {
             grid.innerHTML = `
@@ -849,12 +960,13 @@
         isLoading = false;
     }
 
-    // ========== 8. नेविगेशन ==========
+    // ========== 9. नेविगेशन ==========
     function goToToday() {
         const today = new Date();
         currentMonth = today.getMonth();
         currentYear = today.getFullYear();
         renderMonthly(currentYear, currentMonth);
+        renderDaily(); // दैनिक भी अपडेट करें
     }
 
     function prevMonth() {
@@ -877,7 +989,7 @@
         renderMonthly(currentYear, currentMonth);
     }
 
-    // ========== 9. इवेंट्स ==========
+    // ========== 10. इवेंट्स ==========
     document.addEventListener('DOMContentLoaded', function() {
         // सिटी डिटेक्ट
         fetch('https://ipapi.co/json/')
