@@ -3,115 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="भारतीय पंचांग - दैनिक पंचांग, मासिक पंचांग, हिंदू पंचांग, मंत्र। सभी भारतीय भाषाओं में।">
-<meta name="keywords" content="पंचांग, panchang, hindu calendar, daily panchang, tithi, nakshatra">
+<meta name="description" content="भारतीय पंचांग - 22 भारतीय भाषाओं में दैनिक, मासिक पंचांग, क्षेत्रीय गणना सहित। Indian Panchang in all 22 official languages.">
+<meta name="keywords" content="पंचांग, panchang, hindu calendar, bengali panjika, tamil panchangam, telugu panchangam">
 <title>भारतीय पंचांग | Bharatiya Panchang</title>
 <style>
 :root{
-  --primary:#cc3300;
-  --secondary:#ff9933;
-  --accent:#ffcc00;
-  --dark:#4d1a00;
-  --bg:#fff8f0;
-  --card:#ffffff;
-  --text:#2d1500;
+  --primary:#cc3300;--secondary:#ff9933;--accent:#ffcc00;
+  --dark:#4d1a00;--bg:#fff8f0;--card:#fff;--text:#2d1500;
   --shadow:0 4px 18px rgba(204,51,0,.12);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
-body{
-  font-family:'Segoe UI',Tahoma,sans-serif;
-  background:linear-gradient(180deg,#fff8f0,#fff1e0);
-  color:var(--text);
-  line-height:1.6;
-}
-header{
-  background:linear-gradient(135deg,var(--primary),var(--secondary));
-  color:#fff;
-  padding:18px 16px;
-  text-align:center;
-  box-shadow:var(--shadow);
-  position:sticky;
-  top:0;
-  z-index:100;
-}
-header h1{font-size:1.8rem;letter-spacing:1px;}
-header .om{font-size:2rem;display:block;}
-.lang-bar{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:6px;
-  background:var(--dark);padding:10px;
-}
-.lang-bar button{
-  background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.3);
-  padding:6px 12px;border-radius:20px;cursor:pointer;font-size:.85rem;transition:.2s;
-}
-.lang-bar button:hover,.lang-bar button.active{
-  background:var(--accent);color:var(--dark);font-weight:bold;
-}
-nav{
-  display:flex;justify-content:center;gap:4px;flex-wrap:wrap;
-  background:var(--card);padding:10px;box-shadow:var(--shadow);
-  position:sticky;top:64px;z-index:90;
-}
-nav button{
-  background:none;border:none;padding:10px 18px;cursor:pointer;
-  font-size:1rem;font-weight:600;color:var(--primary);border-radius:8px;transition:.2s;
-}
-nav button:hover,nav button.active{background:var(--secondary);color:#fff;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(180deg,#fff8f0,#fff1e0);color:var(--text);line-height:1.6;}
+header{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;padding:16px;text-align:center;box-shadow:var(--shadow);position:sticky;top:0;z-index:100;}
+header h1{font-size:1.7rem;letter-spacing:1px;}
+header .om{font-size:1.9rem;display:block;}
+header .region{font-size:.9rem;opacity:.9;margin-top:4px;}
+.lang-bar{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;background:var(--dark);padding:10px;}
+.lang-bar a{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);padding:5px 11px;border-radius:18px;cursor:pointer;font-size:.82rem;text-decoration:none;transition:.2s;}
+.lang-bar a:hover,.lang-bar a.active{background:var(--accent);color:var(--dark);font-weight:bold;}
+nav{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;background:var(--card);padding:10px;box-shadow:var(--shadow);position:sticky;top:62px;z-index:90;}
+nav a{background:none;border:none;padding:9px 16px;cursor:pointer;font-size:.98rem;font-weight:600;color:var(--primary);border-radius:8px;transition:.2s;text-decoration:none;}
+nav a:hover,nav a.active{background:var(--secondary);color:#fff;}
 .container{max-width:1100px;margin:24px auto;padding:0 16px;}
 .page{display:none;animation:fade .4s;}
 .page.active{display:block;}
 @keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-.card{
-  background:var(--card);border-radius:16px;padding:22px;margin-bottom:20px;
-  box-shadow:var(--shadow);border-top:4px solid var(--secondary);
-}
-.card h2{color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.card{background:var(--card);border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:var(--shadow);border-top:4px solid var(--secondary);}
+.card h2{color:var(--primary);margin-bottom:14px;display:flex;align-items:center;gap:8px;font-size:1.3rem;}
 .panchang-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;}
-.pitem{
-  background:linear-gradient(135deg,#fff,#fff4e6);border-radius:12px;padding:14px;
-  border-left:4px solid var(--accent);
-}
-.pitem .label{font-size:.8rem;color:#a05000;text-transform:uppercase;letter-spacing:.5px;}
-.pitem .value{font-size:1.2rem;font-weight:bold;color:var(--dark);margin-top:4px;}
+.pitem{background:linear-gradient(135deg,#fff,#fff4e6);border-radius:12px;padding:14px;border-left:4px solid var(--accent);}
+.pitem .label{font-size:.78rem;color:#a05000;text-transform:uppercase;letter-spacing:.5px;}
+.pitem .value{font-size:1.15rem;font-weight:bold;color:var(--dark);margin-top:4px;}
 .date-display{text-align:center;font-size:1.3rem;color:var(--primary);font-weight:bold;margin-bottom:8px;}
-.controls{display:flex;justify-content:center;gap:10px;margin:16px 0;flex-wrap:wrap;}
-.controls button,.controls input{
-  padding:8px 16px;border:2px solid var(--secondary);border-radius:8px;
-  background:#fff;cursor:pointer;font-size:1rem;color:var(--primary);
-}
-.controls button:hover{background:var(--secondary);color:#fff;}
-/* calendar */
+.bangla-date{text-align:center;font-size:1.05rem;color:var(--dark);background:#fff4e6;border-radius:10px;padding:8px;margin-bottom:12px;}
 .cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
 .cal-header button{font-size:1.5rem;background:var(--secondary);color:#fff;border:none;width:40px;height:40px;border-radius:50%;cursor:pointer;}
-.cal-title{font-size:1.4rem;font-weight:bold;color:var(--primary);}
+.cal-title{font-size:1.3rem;font-weight:bold;color:var(--primary);}
 .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;}
-.cal-day-name{text-align:center;font-weight:bold;color:var(--primary);padding:8px 0;}
-.cal-cell{
-  background:#fff;border-radius:10px;min-height:78px;padding:6px;border:1px solid #ffe0c0;
-  cursor:pointer;transition:.2s;position:relative;
-}
+.cal-day-name{text-align:center;font-weight:bold;color:var(--primary);padding:8px 0;font-size:.9rem;}
+.cal-cell{background:#fff;border-radius:10px;min-height:78px;padding:6px;border:1px solid #ffe0c0;cursor:pointer;transition:.2s;}
 .cal-cell:hover{background:#fff4e6;transform:scale(1.03);}
 .cal-cell.empty{background:transparent;border:none;}
 .cal-cell.today{border:2px solid var(--primary);background:#fff0e0;}
-.cal-cell .num{font-weight:bold;font-size:1.1rem;}
-.cal-cell .tithi{font-size:.7rem;color:#a05000;margin-top:2px;}
-.cal-cell .fest{font-size:.65rem;color:var(--primary);font-weight:bold;}
-/* mantra */
-.mantra{
-  background:linear-gradient(135deg,#fff8f0,#ffeccc);border-radius:14px;padding:20px;
-  margin-bottom:16px;border-left:5px solid var(--primary);
-}
-.mantra .sanskrit{font-size:1.3rem;color:var(--dark);font-weight:bold;margin-bottom:8px;line-height:1.8;}
+.cal-cell .num{font-weight:bold;font-size:1.05rem;}
+.cal-cell .tithi{font-size:.68rem;color:#a05000;margin-top:2px;}
+.cal-cell .fest{font-size:.62rem;color:var(--primary);font-weight:bold;}
+.mantra{background:linear-gradient(135deg,#fff8f0,#ffeccc);border-radius:14px;padding:20px;margin-bottom:16px;border-left:5px solid var(--primary);}
+.mantra .sanskrit{font-size:1.25rem;color:var(--dark);font-weight:bold;margin-bottom:8px;line-height:1.8;}
 .mantra .meaning{font-style:italic;color:#5a3000;}
 .mantra .title{color:var(--primary);font-weight:bold;margin-bottom:6px;font-size:1.1rem;}
-footer{
-  background:var(--dark);color:#ffcc99;text-align:center;padding:24px 16px;margin-top:30px;
-}
+footer{background:var(--dark);color:#ffcc99;text-align:center;padding:24px 16px;margin-top:30px;}
 footer .om{font-size:1.6rem;color:var(--accent);}
-@media(max-width:600px){
-  header h1{font-size:1.3rem;}
-  nav button{padding:8px 12px;font-size:.9rem;}
-}
+@media(max-width:600px){header h1{font-size:1.3rem;}nav a{padding:8px 11px;font-size:.88rem;}}
 </style>
 </head>
 <body>
@@ -119,33 +62,29 @@ footer .om{font-size:1.6rem;color:var(--accent);}
 <header>
   <span class="om">🕉️</span>
   <h1 id="siteTitle">भारतीय पंचांग</h1>
+  <div class="region" id="regionLabel"></div>
 </header>
 
-<!-- Language selector -->
 <div class="lang-bar" id="langBar"></div>
-
-<!-- Navigation -->
 <nav id="mainNav"></nav>
 
 <div class="container">
-
-  <!-- DAILY PANCHANG -->
   <section class="page active" id="page-daily">
     <div class="card">
-      <h2>📅 <span data-i18n="dailyTitle">दैनिक पंचांग</span></h2>
+      <h2>📅 <span id="t-dailyTitle"></span></h2>
       <div class="date-display" id="todayDate"></div>
+      <div class="bangla-date" id="regionalDate" style="display:none;"></div>
       <div class="panchang-grid" id="dailyGrid"></div>
     </div>
     <div class="card">
-      <h2>⏰ <span data-i18n="muhuratTitle">शुभ-अशुभ मुहूर्त</span></h2>
+      <h2>⏰ <span id="t-muhuratTitle"></span></h2>
       <div class="panchang-grid" id="muhuratGrid"></div>
     </div>
   </section>
 
-  <!-- MONTHLY PANCHANG -->
   <section class="page" id="page-monthly">
     <div class="card">
-      <h2>🗓️ <span data-i18n="monthlyTitle">मासिक पंचांग</span></h2>
+      <h2>🗓️ <span id="t-monthlyTitle"></span></h2>
       <div class="cal-header">
         <button onclick="changeMonth(-1)">‹</button>
         <span class="cal-title" id="calTitle"></span>
@@ -154,175 +93,187 @@ footer .om{font-size:1.6rem;color:var(--accent);}
       <div class="calendar" id="calendar"></div>
     </div>
     <div class="card" id="dayDetailCard" style="display:none;">
-      <h2>📌 <span data-i18n="dayDetail">दिन का विवरण</span></h2>
+      <h2>📌 <span id="t-dayDetail"></span></h2>
       <div class="panchang-grid" id="dayDetailGrid"></div>
     </div>
   </section>
 
-  <!-- HINDU PANCHANG INFO -->
   <section class="page" id="page-hindu">
-    <div class="card">
-      <h2>📖 <span data-i18n="hinduTitle">हिंदू पंचांग - पाँच अंग</span></h2>
-      <div id="hinduContent"></div>
-    </div>
+    <div class="card"><h2>📖 <span id="t-hinduTitle"></span></h2><div id="hinduContent"></div></div>
   </section>
 
-  <!-- MANTRA -->
   <section class="page" id="page-mantra">
-    <div class="card">
-      <h2>🙏 <span data-i18n="mantraTitle">मंत्र संग्रह</span></h2>
-      <div id="mantraContent"></div>
-    </div>
+    <div class="card"><h2>🙏 <span id="t-mantraTitle"></span></h2><div id="mantraContent"></div></div>
   </section>
-
 </div>
 
 <footer>
   <div class="om">🕉️</div>
-  <p data-i18n="footerText">भारतीय पंचांग - सभी भारतीय भाषाओं में</p>
+  <p id="footerText"></p>
   <p style="font-size:.8rem;margin-top:8px;">© 2026 Bharatiya Panchang</p>
 </footer>
 
 <script>
-/* ============================================================
-   भारतीय पंचांग — Multi-language Panchang Application
-   Languages: Hindi, Maithili, Bengali, Assamese, Odia,
-   Telugu, Tamil, Malayalam, Kannada, Marathi, Gujarati,
-   Punjabi, Urdu, English
-   ============================================================ */
+/* =================================================================
+   भारतीय पंचांग — 22 Official Languages, Region-wise, Hash Routing
+   Languages (ISO codes): as,bn,brx,doi,gu,hi,kn,ks,kok,mai,ml,mni,
+   mr,ne,or,pa,sa,sat,sd,ta,te,ur
+   URL routing: index.html#<lang>  and  index.html#<lang>/<page>
+   ================================================================= */
 
-/* ---------- 1. UI TRANSLATIONS ---------- */
-const I18N = {
-  hi:{name:"हिन्दी",site:"भारतीय पंचांग",dailyTitle:"दैनिक पंचांग",monthlyTitle:"मासिक पंचांग",
-      hinduTitle:"हिंदू पंचांग - पाँच अंग",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",
-      dayDetail:"दिन का विवरण",footerText:"भारतीय पंचांग - सभी भारतीय भाषाओं में",
-      nav:{daily:"दैनिक पंचांग",monthly:"मासिक पंचांग",hindu:"हिंदू पंचांग",mantra:"मंत्र"},
-      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",
-              paksha:"पक्ष",maah:"मास",ritu:"ऋतु",samvat:"विक्रम संवत",sunrise:"सूर्योदय",
-              sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",
-              yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काल"}},
-  mai:{name:"मैथिली",site:"भारतीय पंचांग",dailyTitle:"दैनिक पंचांग",monthlyTitle:"मासिक पंचांग",
-      hinduTitle:"हिंदू पंचांग - पाँच अंग",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",
-      dayDetail:"दिनक विवरण",footerText:"भारतीय पंचांग - सभ भारतीय भाषा मे",
-      nav:{daily:"दैनिक पंचांग",monthly:"मासिक पंचांग",hindu:"हिंदू पंचांग",mantra:"मंत्र"},
-      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",
-              paksha:"पक्ष",maah:"मास",ritu:"ऋतु",samvat:"विक्रम संवत",sunrise:"सूर्योदय",
-              sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",
-              yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काल"}},
-  bn:{name:"বাংলা",site:"ভারতীয় পঞ্জিকা",dailyTitle:"দৈনিক পঞ্জিকা",monthlyTitle:"মাসিক পঞ্জিকা",
-      hinduTitle:"হিন্দু পঞ্জিকা - পাঁচ অঙ্গ",mantraTitle:"মন্ত্র সংগ্রহ",muhuratTitle:"শুভ-অশুভ মুহূর্ত",
-      dayDetail:"দিনের বিবরণ",footerText:"ভারতীয় পঞ্জিকা - সকল ভারতীয় ভাষায়",
-      nav:{daily:"দৈনিক পঞ্জিকা",monthly:"মাসিক পঞ্জিকা",hindu:"হিন্দু পঞ্জিকা",mantra:"মন্ত্র"},
-      labels:{tithi:"তিথি",vaar:"বার",nakshatra:"নক্ষত্র",yoga:"যোগ",karan:"করণ",
-              paksha:"পক্ষ",maah:"মাস",ritu:"ঋতু",samvat:"বিক্রম সংবৎ",sunrise:"সূর্যোদয়",
-              sunset:"সূর্যাস্ত",moonrise:"চন্দ্রোদয়",rahukaal:"রাহুকাল",gulika:"গুলিক কাল",
-              yamghant:"যমগণ্ড",abhijit:"অভিজিৎ মুহূর্ত",amrit:"অমৃত কাল"}},
-  as:{name:"অসমীয়া",site:"ভাৰতীয় পঞ্চাং",dailyTitle:"দৈনিক পঞ্চাং",monthlyTitle:"মাহেকীয়া পঞ্চাং",
-      hinduTitle:"হিন্দু পঞ্চাং - পাঁচ অংগ",mantraTitle:"মন্ত্ৰ সংগ্ৰহ",muhuratTitle:"শুভ-অশুভ মুহূৰ্ত",
-      dayDetail:"দিনৰ বিৱৰণ",footerText:"ভাৰতীয় পঞ্চাং - সকলো ভাৰতীয় ভাষাত",
-      nav:{daily:"দৈনিক পঞ্চাং",monthly:"মাহেকীয়া পঞ্চাং",hindu:"হিন্দু পঞ্চাং",mantra:"মন্ত্ৰ"},
-      labels:{tithi:"তিথি",vaar:"বাৰ",nakshatra:"নক্ষত্ৰ",yoga:"যোগ",karan:"কৰণ",
-              paksha:"পক্ষ",maah:"মাহ",ritu:"ঋতু",samvat:"বিক্ৰম সংবৎ",sunrise:"সূৰ্যোদয়",
-              sunset:"সূৰ্যাস্ত",moonrise:"চন্দ্ৰোদয়",rahukaal:"ৰাহুকাল",gulika:"গুলিক কাল",
-              yamghant:"যমগণ্ড",abhijit:"অভিজিৎ মুহূৰ্ত",amrit:"অমৃত কাল"}},
-  or:{name:"ଓଡ଼ିଆ",site:"ଭାରତୀୟ ପଞ୍ଜିକା",dailyTitle:"ଦୈନିକ ପଞ୍ଜିକା",monthlyTitle:"ମାସିକ ପଞ୍ଜିକା",
-      hinduTitle:"ହିନ୍ଦୁ ପଞ୍ଜିକା - ପାଞ୍ଚ ଅଙ୍ଗ",mantraTitle:"ମନ୍ତ୍ର ସଂଗ୍ରହ",muhuratTitle:"ଶୁଭ-ଅଶୁଭ ମୁହୂର୍ତ୍ତ",
-      dayDetail:"ଦିନର ବିବରଣୀ",footerText:"ଭାରତୀୟ ପଞ୍ଜିକା - ସମସ୍ତ ଭାରତୀୟ ଭାଷାରେ",
-      nav:{daily:"ଦୈନିକ ପଞ୍ଜିକା",monthly:"ମାସିକ ପଞ୍ଜିକା",hindu:"ହିନ୍ଦୁ ପଞ୍ଜିକା",mantra:"ମନ୍ତ୍ର"},
-      labels:{tithi:"ତିଥି",vaar:"ବାର",nakshatra:"ନକ୍ଷତ୍ର",yoga:"ଯୋଗ",karan:"କରଣ",
-              paksha:"ପକ୍ଷ",maah:"ମାସ",ritu:"ଋତୁ",samvat:"ବିକ୍ରମ ସମ୍ବତ",sunrise:"ସୂର୍ଯ୍ୟୋଦୟ",
-              sunset:"ସୂର୍ଯ୍ୟାସ୍ତ",moonrise:"ଚନ୍ଦ୍ରୋଦୟ",rahukaal:"ରାହୁକାଳ",gulika:"ଗୁଳିକ କାଳ",
-              yamghant:"ଯମଗଣ୍ଡ",abhijit:"ଅଭିଜିତ ମୁହୂର୍ତ୍ତ",amrit:"ଅମୃତ କାଳ"}},
-  te:{name:"తెలుగు",site:"భారతీయ పంచాంగం",dailyTitle:"దైనిక పంచాంగం",monthlyTitle:"మాసిక పంచాంగం",
-      hinduTitle:"హిందూ పంచాంగం - ఐదు అంగాలు",mantraTitle:"మంత్ర సంగ్రహం",muhuratTitle:"శుభ-అశుభ ముహూర్తం",
-      dayDetail:"రోజు వివరాలు",footerText:"భారతీయ పంచాంగం - అన్ని భారతీయ భాషలలో",
-      nav:{daily:"దైనిక పంచాంగం",monthly:"మాసిక పంచాంగం",hindu:"హిందూ పంచాంగం",mantra:"మంత్రం"},
-      labels:{tithi:"తిథి",vaar:"వారం",nakshatra:"నక్షత్రం",yoga:"యోగం",karan:"కరణం",
-              paksha:"పక్షం",maah:"మాసం",ritu:"ఋతువు",samvat:"విక్రమ శకం",sunrise:"సూర్యోదయం",
-              sunset:"సూర్యాస్తమయం",moonrise:"చంద్రోదయం",rahukaal:"రాహుకాలం",gulika:"గుళిక కాలం",
-              yamghant:"యమగండం",abhijit:"అభిజిత్ ముహూర్తం",amrit:"అమృత కాలం"}},
-  ta:{name:"தமிழ்",site:"இந்திய பஞ்சாங்கம்",dailyTitle:"தினசரி பஞ்சாங்கம்",monthlyTitle:"மாதாந்திர பஞ்சாங்கம்",
-      hinduTitle:"இந்து பஞ்சாங்கம் - ஐந்து அங்கங்கள்",mantraTitle:"மந்திர தொகுப்பு",muhuratTitle:"நல்ல-கெட்ட நேரம்",
-      dayDetail:"நாள் விவரம்",footerText:"இந்திய பஞ்சாங்கம் - அனைத்து இந்திய மொழிகளிலும்",
-      nav:{daily:"தினசரி பஞ்சாங்கம்",monthly:"மாதாந்திர பஞ்சாங்கம்",hindu:"இந்து பஞ்சாங்கம்",mantra:"மந்திரம்"},
-      labels:{tithi:"திதி",vaar:"வாரம்",nakshatra:"நட்சத்திரம்",yoga:"யோகம்",karan:"கரணம்",
-              paksha:"பக்ஷம்",maah:"மாதம்",ritu:"பருவம்",samvat:"விக்ரம ஆண்டு",sunrise:"சூரிய உதயம்",
-              sunset:"சூரிய அஸ்தமனம்",moonrise:"சந்திர உதயம்",rahukaal:"ராகு காலம்",gulika:"குளிகை காலம்",
-              yamghant:"எமகண்டம்",abhijit:"அபிஜித் முகூர்த்தம்",amrit:"அமிர்த காலம்"}},
-  ml:{name:"മലയാളം",site:"ഭാരതീയ പഞ്ചാംഗം",dailyTitle:"ദൈനിക പഞ്ചാംഗം",monthlyTitle:"മാസിക പഞ്ചാംഗം",
-      hinduTitle:"ഹിന്ദു പഞ്ചാംഗം - അഞ്ച് അംഗങ്ങൾ",mantraTitle:"മന്ത്ര സമാഹാരം",muhuratTitle:"ശുഭ-അശുഭ മുഹൂർത്തം",
-      dayDetail:"ദിവസ വിവരം",footerText:"ഭാരതീയ പഞ്ചാംഗം - എല്ലാ ഭാരതീയ ഭാഷകളിലും",
-      nav:{daily:"ദൈനിക പഞ്ചാംഗം",monthly:"മാസിക പഞ്ചാംഗം",hindu:"ഹിന്ദു പഞ്ചാംഗം",mantra:"മന്ത്രം"},
-      labels:{tithi:"തിഥി",vaar:"വാരം",nakshatra:"നക്ഷത്രം",yoga:"യോഗം",karan:"കരണം",
-              paksha:"പക്ഷം",maah:"മാസം",ritu:"ഋതു",samvat:"വിക്രമ വർഷം",sunrise:"സൂര്യോദയം",
-              sunset:"സൂര്യാസ്തമയം",moonrise:"ചന്ദ്രോദയം",rahukaal:"രാഹുകാലം",gulika:"ഗുളിക കാലം",
-              yamghant:"യമഗണ്ഡം",abhijit:"അഭിജിത് മുഹൂർത്തം",amrit:"അമൃത കാലം"}},
-  kn:{name:"ಕನ್ನಡ",site:"ಭಾರತೀಯ ಪಂಚಾಂಗ",dailyTitle:"ದೈನಿಕ ಪಂಚಾಂಗ",monthlyTitle:"ಮಾಸಿಕ ಪಂಚಾಂಗ",
-      hinduTitle:"ಹಿಂದೂ ಪಂಚಾಂಗ - ಐದು ಅಂಗಗಳು",mantraTitle:"ಮಂತ್ರ ಸಂಗ್ರಹ",muhuratTitle:"ಶುಭ-ಅಶುಭ ಮುಹೂರ್ತ",
-      dayDetail:"ದಿನದ ವಿವರ",footerText:"ಭಾರತೀಯ ಪಂಚಾಂಗ - ಎಲ್ಲಾ ಭಾರತೀಯ ಭಾಷೆಗಳಲ್ಲಿ",
-      nav:{daily:"ದೈನಿಕ ಪಂಚಾಂಗ",monthly:"ಮಾಸಿಕ ಪಂಚಾಂಗ",hindu:"ಹಿಂದೂ ಪಂಚಾಂಗ",mantra:"ಮಂತ್ರ"},
-      labels:{tithi:"ತಿಥಿ",vaar:"ವಾರ",nakshatra:"ನಕ್ಷತ್ರ",yoga:"ಯೋಗ",karan:"ಕರಣ",
-              paksha:"ಪಕ್ಷ",maah:"ಮಾಸ",ritu:"ಋತು",samvat:"ವಿಕ್ರಮ ಸಂವತ್",sunrise:"ಸೂರ್ಯೋದಯ",
-              sunset:"ಸೂರ್ಯಾಸ್ತ",moonrise:"ಚಂದ್ರೋದಯ",rahukaal:"ರಾಹುಕಾಲ",gulika:"ಗುಳಿಕ ಕಾಲ",
-              yamghant:"ಯಮಗಂಡ",abhijit:"ಅಭಿಜಿತ್ ಮುಹೂರ್ತ",amrit:"ಅಮೃತ ಕಾಲ"}},
-  mr:{name:"मराठी",site:"भारतीय पंचांग",dailyTitle:"दैनिक पंचांग",monthlyTitle:"मासिक पंचांग",
-      hinduTitle:"हिंदू पंचांग - पाच अंगे",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",
-      dayDetail:"दिवसाचा तपशील",footerText:"भारतीय पंचांग - सर्व भारतीय भाषांमध्ये",
-      nav:{daily:"दैनिक पंचांग",monthly:"मासिक पंचांग",hindu:"हिंदू पंचांग",mantra:"मंत्र"},
-      labels:{tithi:"तिथी",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",
-              paksha:"पक्ष",maah:"मास",ritu:"ऋतू",samvat:"विक्रम संवत",sunrise:"सूर्योदय",
-              sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाळ",gulika:"गुलिक काळ",
-              yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काळ"}},
-  gu:{name:"ગુજરાતી",site:"ભારતીય પંચાંગ",dailyTitle:"દૈનિક પંચાંગ",monthlyTitle:"માસિક પંચાંગ",
-      hinduTitle:"હિંદુ પંચાંગ - પાંચ અંગ",mantraTitle:"મંત્ર સંગ્રહ",muhuratTitle:"શુભ-અશુભ મુહૂર્ત",
-      dayDetail:"દિવસની વિગત",footerText:"ભારતીય પંચાંગ - બધી ભારતીય ભાષાઓમાં",
-      nav:{daily:"દૈનિક પંચાંગ",monthly:"માસિક પંચાંગ",hindu:"હિંદુ પંચાંગ",mantra:"મંત્ર"},
-      labels:{tithi:"તિથિ",vaar:"વાર",nakshatra:"નક્ષત્ર",yoga:"યોગ",karan:"કરણ",
-              paksha:"પક્ષ",maah:"માસ",ritu:"ઋતુ",samvat:"વિક્રમ સંવત",sunrise:"સૂર્યોદય",
-              sunset:"સૂર્યાસ્ત",moonrise:"ચંદ્રોદય",rahukaal:"રાહુકાળ",gulika:"ગુલિક કાળ",
-              yamghant:"યમગંડ",abhijit:"અભિજિત મુહૂર્ત",amrit:"અમૃત કાળ"}},
-  pa:{name:"ਪੰਜਾਬੀ",site:"ਭਾਰਤੀ ਪੰਚਾਂਗ",dailyTitle:"ਰੋਜ਼ਾਨਾ ਪੰਚਾਂਗ",monthlyTitle:"ਮਾਸਿਕ ਪੰਚਾਂਗ",
-      hinduTitle:"ਹਿੰਦੂ ਪੰਚਾਂਗ - ਪੰਜ ਅੰਗ",mantraTitle:"ਮੰਤਰ ਸੰਗ੍ਰਹਿ",muhuratTitle:"ਸ਼ੁਭ-ਅਸ਼ੁਭ ਮੁਹੂਰਤ",
-      dayDetail:"ਦਿਨ ਦਾ ਵੇਰਵਾ",footerText:"ਭਾਰਤੀ ਪੰਚਾਂਗ - ਸਾਰੀਆਂ ਭਾਰਤੀ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ",
-      nav:{daily:"ਰੋਜ਼ਾਨਾ ਪੰਚਾਂਗ",monthly:"ਮਾਸਿਕ ਪੰਚਾਂਗ",hindu:"ਹਿੰਦੂ ਪੰਚਾਂਗ",mantra:"ਮੰਤਰ"},
-      labels:{tithi:"ਤਿਥੀ",vaar:"ਵਾਰ",nakshatra:"ਨਛੱਤਰ",yoga:"ਯੋਗ",karan:"ਕਰਣ",
-              paksha:"ਪੱਖ",maah:"ਮਾਸ",ritu:"ਰੁੱਤ",samvat:"ਵਿਕਰਮ ਸੰਮਤ",sunrise:"ਸੂਰਜ ਚੜ੍ਹਨਾ",
-              sunset:"ਸੂਰਜ ਡੁੱਬਣਾ",moonrise:"ਚੰਦ ਚੜ੍ਹਨਾ",rahukaal:"ਰਾਹੂਕਾਲ",gulika:"ਗੁਲਿਕ ਕਾਲ",
-              yamghant:"ਯਮਗੰਡ",abhijit:"ਅਭਿਜੀਤ ਮੁਹੂਰਤ",amrit:"ਅੰਮ੍ਰਿਤ ਕਾਲ"}},
-  en:{name:"English",site:"Indian Panchang",dailyTitle:"Daily Panchang",monthlyTitle:"Monthly Panchang",
-      hinduTitle:"Hindu Panchang - Five Limbs",mantraTitle:"Mantra Collection",muhuratTitle:"Auspicious Timings",
-      dayDetail:"Day Details",footerText:"Indian Panchang - In all Indian languages",
-      nav:{daily:"Daily Panchang",monthly:"Monthly Panchang",hindu:"Hindu Panchang",mantra:"Mantra"},
-      labels:{tithi:"Tithi",vaar:"Weekday",nakshatra:"Nakshatra",yoga:"Yoga",karan:"Karan",
-              paksha:"Paksha",maah:"Month",ritu:"Season",samvat:"Vikram Samvat",sunrise:"Sunrise",
-              sunset:"Sunset",moonrise:"Moonrise",rahukaal:"Rahu Kaal",gulika:"Gulika Kaal",
-              yamghant:"Yamganda",abhijit:"Abhijit Muhurat",amrit:"Amrit Kaal"}}
+/* ---------- LANGUAGE META (region + calendar era info) ---------- */
+const LANGS={
+  as :{name:"অসমীয়া",   region:"অসম",            era:"শক"},
+  bn :{name:"বাংলা",     region:"পশ্চিমবঙ্গ",      era:"বঙ্গাব্দ"},
+  brx:{name:"बड़ो",       region:"बड़ोलैंड (असम)",  era:"शक"},
+  doi:{name:"डोगरी",     region:"जम्मू",          era:"विक्रम"},
+  gu :{name:"ગુજરાતી",   region:"ગુજરાત",         era:"વિક્રમ"},
+  hi :{name:"हिन्दी",     region:"उत्तर भारत",      era:"विक्रम"},
+  kn :{name:"ಕನ್ನಡ",     region:"ಕರ್ನಾಟಕ",        era:"ಶಾಲಿವಾಹನ ಶಕ"},
+  ks :{name:"کٲشُر",      region:"کشمیر",          era:"وکرم"},
+  kok:{name:"कोंकणी",    region:"गोंय",           era:"शक"},
+  mai:{name:"मैथिली",    region:"मिथिला",          era:"शक"},
+  ml :{name:"മലയാളം",   region:"കേരളം",          era:"കൊല്ലവർഷം"},
+  mni:{name:" মৈতৈলোন্",  region:"মণিপুর",         era:"শক"},
+  mr :{name:"मराठी",     region:"महाराष्ट्र",       era:"शालिवाहन शक"},
+  ne :{name:"नेपाली",    region:"नेपाल/सिक्किम",   era:"विक्रम"},
+  or :{name:"ଓଡ଼ିଆ",     region:"ଓଡ଼ିଶା",          era:"ଅମ୍ଳି"},
+  pa :{name:"ਪੰਜਾਬੀ",    region:"ਪੰਜਾਬ",          era:"ਨਾਨਕਸ਼ਾਹੀ"},
+  sa :{name:"संस्कृतम्",  region:"भारतम्",          era:"विक्रम"},
+  sat:{name:"ᱥᱟᱱᱛᱟᱲᱤ",   region:"ᱡᱷᱟᱨᱠᱷᱚᱝᱰ",      era:"शक"},
+  sd :{name:"سنڌي",       region:"سنڌ",            era:"وکرم"},
+  ta :{name:"தமிழ்",     region:"தமிழ்நாடு",       era:"திருவள்ளுவர்"},
+  te :{name:"తెలుగు",    region:"ఆంధ్ర/తెలంగాణ",  era:"శాలివాహన శక"},
+  ur :{name:"اردو",       region:"بھارت",          era:"وکرم"}
 };
 
-/* ---------- 2. PANCHANG DATA (names per language) ---------- */
-const TITHI = {
-  hi:["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा/अमावस्या"],
-  bn:["প্রতিপদ","দ্বিতীয়া","তৃতীয়া","চতুর্থী","পঞ্চমী","ষষ্ঠী","সপ্তমী","অষ্টমী","নবমী","দশমী","একাদশী","দ্বাদশী","ত্রয়োদশী","চতুর্দশী","পূর্ণিমা/অমাবস্যা"],
-  ta:["பிரதமை","துவிதியை","திருதியை","சதுர்த்தி","பஞ்சமி","சஷ்டி","சப்தமி","அஷ்டமி","நவமி","தசமி","ஏகாதசி","துவாதசி","திரயோதசி","சதுர்த்தசி","பௌர்ணமி/அமாவாசை"],
-  te:["పాడ్యమి","విదియ","తదియ","చవితి","పంచమి","షష్ఠి","సప్తమి","అష్టమి","నవమి","దశమి","ఏకాదశి","ద్వాదశి","త్రయోదశి","చతుర్దశి","పౌర్ణమి/అమావాస్య"],
-  default:["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा/अमावस्या"]
+/* ---------- UI STRINGS ---------- */
+function ui(lang){
+  // English fallback base
+  const base={
+    site:"Indian Panchang",dailyTitle:"Daily Panchang",monthlyTitle:"Monthly Panchang",
+    hinduTitle:"Hindu Panchang - Five Limbs",mantraTitle:"Mantra Collection",
+    muhuratTitle:"Auspicious & Inauspicious Timings",dayDetail:"Day Details",
+    footerText:"Indian Panchang - In all 22 official languages",
+    nav:{daily:"Daily",monthly:"Monthly",hindu:"Panchang Info",mantra:"Mantra"},
+    labels:{tithi:"Tithi",vaar:"Weekday",nakshatra:"Nakshatra",yoga:"Yoga",karan:"Karan",
+            paksha:"Paksha",maah:"Month",ritu:"Season",samvat:"Samvat / Era",sunrise:"Sunrise",
+            sunset:"Sunset",moonrise:"Moonrise",rahukaal:"Rahu Kaal",gulika:"Gulika Kaal",
+            yamghant:"Yamaganda",abhijit:"Abhijit Muhurat",amrit:"Amrit Kaal"}
+  };
+  const T={
+    hi:{site:"भारतीय पंचांग",dailyTitle:"दैनिक पंचांग",monthlyTitle:"मासिक पंचांग",hinduTitle:"हिंदू पंचांग - पाँच अंग",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",dayDetail:"दिन का विवरण",footerText:"भारतीय पंचांग - सभी 22 राजभाषाओं में",
+      nav:{daily:"दैनिक",monthly:"मासिक",hindu:"पंचांग जानकारी",mantra:"मंत्र"},
+      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"मास",ritu:"ऋतु",samvat:"संवत",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काल"}},
+    bn:{site:"বাংলা পঞ্জিকা",dailyTitle:"দৈনিক পঞ্জিকা",monthlyTitle:"মাসিক পঞ্জিকা",hinduTitle:"হিন্দু পঞ্জিকা - পাঁচ অঙ্গ",mantraTitle:"মন্ত্র সংগ্রহ",muhuratTitle:"শুভ-অশুভ মুহূর্ত",dayDetail:"দিনের বিবরণ",footerText:"ভারতীয় পঞ্জিকা - সকল ২২টি রাষ্ট্রভাষায়",
+      nav:{daily:"দৈনিক",monthly:"মাসিক",hindu:"পঞ্জিকা তথ্য",mantra:"মন্ত্র"},
+      labels:{tithi:"তিথি",vaar:"বার",nakshatra:"নক্ষত্র",yoga:"যোগ",karan:"করণ",paksha:"পক্ষ",maah:"মাস",ritu:"ঋতু",samvat:"বঙ্গাব্দ",sunrise:"সূর্যোদয়",sunset:"সূর্যাস্ত",moonrise:"চন্দ্রোদয়",rahukaal:"রাহুকাল",gulika:"গুলিক কাল",yamghant:"যমগণ্ড",abhijit:"অভিজিৎ মুহূর্ত",amrit:"অমৃত কাল"}},
+    as:{site:"অসমীয়া পঞ্চাং",dailyTitle:"দৈনিক পঞ্চাং",monthlyTitle:"মাহেকীয়া পঞ্চাং",hinduTitle:"হিন্দু পঞ্চাং - পাঁচ অংগ",mantraTitle:"মন্ত্ৰ সংগ্ৰহ",muhuratTitle:"শুভ-অশুভ মুহূৰ্ত",dayDetail:"দিনৰ বিৱৰণ",footerText:"ভাৰতীয় পঞ্চাং - সকলো ২২টা ৰাষ্ট্ৰভাষাত",
+      nav:{daily:"দৈনিক",monthly:"মাহেকীয়া",hindu:"পঞ্চাং তথ্য",mantra:"মন্ত্ৰ"},
+      labels:{tithi:"তিথি",vaar:"বাৰ",nakshatra:"নক্ষত্ৰ",yoga:"যোগ",karan:"কৰণ",paksha:"পক্ষ",maah:"মাহ",ritu:"ঋতু",samvat:"শক",sunrise:"সূৰ্যোদয়",sunset:"সূৰ্যাস্ত",moonrise:"চন্দ্ৰোদয়",rahukaal:"ৰাহুকাল",gulika:"গুলিক কাল",yamghant:"যমগণ্ড",abhijit:"অভিজিৎ মুহূৰ্ত",amrit:"অমৃত কাল"}},
+    mr:{site:"मराठी पंचांग",dailyTitle:"दैनिक पंचांग",monthlyTitle:"मासिक पंचांग",hinduTitle:"हिंदू पंचांग - पाच अंगे",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",dayDetail:"दिवसाचा तपशील",footerText:"भारतीय पंचांग - सर्व २२ राजभाषांमध्ये",
+      nav:{daily:"दैनिक",monthly:"मासिक",hindu:"पंचांग माहिती",mantra:"मंत्र"},
+      labels:{tithi:"तिथी",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"मास",ritu:"ऋतू",samvat:"शालिवाहन शक",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाळ",gulika:"गुलिक काळ",yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काळ"}},
+    te:{site:"తెలుగు పంచాంగం",dailyTitle:"దైనిక పంచాంగం",monthlyTitle:"మాసిక పంచాంగం",hinduTitle:"హిందూ పంచాంగం - ఐదు అంగాలు",mantraTitle:"మంత్ర సంగ్రహం",muhuratTitle:"శుభ-అశుభ ముహూర్తం",dayDetail:"రోజు వివరాలు",footerText:"భారతీయ పంచాంగం - అన్ని 22 అధికార భాషలలో",
+      nav:{daily:"దైనిక",monthly:"మాసిక",hindu:"పంచాంగ సమాచారం",mantra:"మంత్రం"},
+      labels:{tithi:"తిథి",vaar:"వారం",nakshatra:"నక్షత్రం",yoga:"యోగం",karan:"కరణం",paksha:"పక్షం",maah:"మాసం",ritu:"ఋతువు",samvat:"శాలివాహన శకం",sunrise:"సూర్యోదయం",sunset:"సూర్యాస్తమయం",moonrise:"చంద్రోదయం",rahukaal:"రాహుకాలం",gulika:"గుళిక కాలం",yamghant:"యమగండం",abhijit:"అభిజిత్ ముహూర్తం",amrit:"అమృత కాలం"}},
+    ta:{site:"தமிழ் பஞ்சாங்கம்",dailyTitle:"தினசரி பஞ்சாங்கம்",monthlyTitle:"மாதாந்திர பஞ்சாங்கம்",hinduTitle:"இந்து பஞ்சாங்கம் - ஐந்து அங்கங்கள்",mantraTitle:"மந்திர தொகுப்பு",muhuratTitle:"நல்ல-கெட்ட நேரம்",dayDetail:"நாள் விவரம்",footerText:"இந்திய பஞ்சாங்கம் - அனைத்து 22 அலுவல் மொழிகளிலும்",
+      nav:{daily:"தினசரி",monthly:"மாதம்",hindu:"பஞ்சாங்க தகவல்",mantra:"மந்திரம்"},
+      labels:{tithi:"திதி",vaar:"வாரம்",nakshatra:"நட்சத்திரம்",yoga:"யோகம்",karan:"கரணம்",paksha:"பக்ஷம்",maah:"மாதம்",ritu:"பருவம்",samvat:"வருடம்",sunrise:"சூரிய உதயம்",sunset:"சூரிய அஸ்தமனம்",moonrise:"சந்திர உதயம்",rahukaal:"ராகு காலம்",gulika:"குளிகை",yamghant:"எமகண்டம்",abhijit:"அபிஜித்",amrit:"அமிர்த காலம்"}},
+    ml:{site:"മലയാളം പഞ്ചാംഗം",dailyTitle:"ദൈനിക പഞ്ചാംഗം",monthlyTitle:"മാസിക പഞ്ചാംഗം",hinduTitle:"ഹിന്ദു പഞ്ചാംഗം - അഞ്ച് അംഗങ്ങൾ",mantraTitle:"മന്ത്ര സമാഹാരം",muhuratTitle:"ശുഭ-അശുഭ മുഹൂർത്തം",dayDetail:"ദിവസ വിവരം",footerText:"ഭാരതീയ പഞ്ചാംഗം - എല്ലാ 22 ഔദ്യോഗിക ഭാഷകളിലും",
+      nav:{daily:"ദൈനികം",monthly:"മാസികം",hindu:"പഞ്ചാംഗ വിവരം",mantra:"മന്ത്രം"},
+      labels:{tithi:"തിഥി",vaar:"വാരം",nakshatra:"നക്ഷത്രം",yoga:"യോഗം",karan:"കരണം",paksha:"പക്ഷം",maah:"മാസം",ritu:"ഋതു",samvat:"കൊല്ലവർഷം",sunrise:"സൂര്യോദയം",sunset:"സൂര്യാസ്തമയം",moonrise:"ചന്ദ്രോദയം",rahukaal:"രാഹുകാലം",gulika:"ഗുളിക കാലം",yamghant:"യമഗണ്ഡം",abhijit:"അഭിജിത്",amrit:"അമൃത കാലം"}},
+    kn:{site:"ಕನ್ನಡ ಪಂಚಾಂಗ",dailyTitle:"ದೈನಿಕ ಪಂಚಾಂಗ",monthlyTitle:"ಮಾಸಿಕ ಪಂಚಾಂಗ",hinduTitle:"ಹಿಂದೂ ಪಂಚಾಂಗ - ಐದು ಅಂಗಗಳು",mantraTitle:"ಮಂತ್ರ ಸಂಗ್ರಹ",muhuratTitle:"ಶುಭ-ಅಶುಭ ಮುಹೂರ್ತ",dayDetail:"ದಿನದ ವಿವರ",footerText:"ಭಾರತೀಯ ಪಂಚಾಂಗ - ಎಲ್ಲಾ 22 ಅಧಿಕೃತ ಭಾಷೆಗಳಲ್ಲಿ",
+      nav:{daily:"ದೈನಿಕ",monthly:"ಮಾಸಿಕ",hindu:"ಪಂಚಾಂಗ ಮಾಹಿತಿ",mantra:"ಮಂತ್ರ"},
+      labels:{tithi:"ತಿಥಿ",vaar:"ವಾರ",nakshatra:"ನಕ್ಷತ್ರ",yoga:"ಯೋಗ",karan:"ಕರಣ",paksha:"ಪಕ್ಷ",maah:"ಮಾಸ",ritu:"ಋತು",samvat:"ಶಾಲಿವಾಹನ ಶಕ",sunrise:"ಸೂರ್ಯೋದಯ",sunset:"ಸೂರ್ಯಾಸ್ತ",moonrise:"ಚಂದ್ರೋದಯ",rahukaal:"ರಾಹುಕಾಲ",gulika:"ಗುಳಿಕ ಕಾಲ",yamghant:"ಯಮಗಂಡ",abhijit:"ಅಭಿಜಿತ್",amrit:"ಅಮೃತ ಕಾಲ"}},
+    or:{site:"ଓଡ଼ିଆ ପଞ୍ଜିକା",dailyTitle:"ଦୈନିକ ପଞ୍ଜିକା",monthlyTitle:"ମାସିକ ପଞ୍ଜିକା",hinduTitle:"ହିନ୍ଦୁ ପଞ୍ଜିକା - ପାଞ୍ଚ ଅଙ୍ଗ",mantraTitle:"ମନ୍ତ୍ର ସଂଗ୍ରହ",muhuratTitle:"ଶୁଭ-ଅଶୁଭ ମୁହୂର୍ତ୍ତ",dayDetail:"ଦିନର ବିବରଣୀ",footerText:"ଭାରତୀୟ ପଞ୍ଜିକା - ସମସ୍ତ ୨୨ ସରକାରୀ ଭାଷାରେ",
+      nav:{daily:"ଦୈନିକ",monthly:"ମାସିକ",hindu:"ପଞ୍ଜିକା ସୂଚନା",mantra:"ମନ୍ତ୍ର"},
+      labels:{tithi:"ତିଥି",vaar:"ବାର",nakshatra:"ନକ୍ଷତ୍ର",yoga:"ଯୋଗ",karan:"କରଣ",paksha:"ପକ୍ଷ",maah:"ମାସ",ritu:"ଋତୁ",samvat:"ଅମ୍ଳି",sunrise:"ସୂର୍ଯ୍ୟୋଦୟ",sunset:"ସୂର୍ଯ୍ୟାସ୍ତ",moonrise:"ଚନ୍ଦ୍ରୋଦୟ",rahukaal:"ରାହୁକାଳ",gulika:"ଗୁଳିକ କାଳ",yamghant:"ଯମଗଣ୍ଡ",abhijit:"ଅଭିଜିତ",amrit:"ଅମୃତ କାଳ"}},
+    gu:{site:"ગુજરાતી પંચાંગ",dailyTitle:"દૈનિક પંચાંગ",monthlyTitle:"માસિક પંચાંગ",hinduTitle:"હિંદુ પંચાંગ - પાંચ અંગ",mantraTitle:"મંત્ર સંગ્રહ",muhuratTitle:"શુભ-અશુભ મુહૂર્ત",dayDetail:"દિવસની વિગત",footerText:"ભારતીય પંચાંગ - બધી 22 રાજભાષાઓમાં",
+      nav:{daily:"દૈનિક",monthly:"માસિક",hindu:"પંચાંગ માહિતી",mantra:"મંત્ર"},
+      labels:{tithi:"તિથિ",vaar:"વાર",nakshatra:"નક્ષત્ર",yoga:"યોગ",karan:"કરણ",paksha:"પક્ષ",maah:"માસ",ritu:"ઋતુ",samvat:"વિક્રમ સંવત",sunrise:"સૂર્યોદય",sunset:"સૂર્યાસ્ત",moonrise:"ચંદ્રોદય",rahukaal:"રાહુકાળ",gulika:"ગુલિક કાળ",yamghant:"યમગંડ",abhijit:"અભિજિત",amrit:"અમૃત કાળ"}},
+    pa:{site:"ਪੰਜਾਬੀ ਪੰਚਾਂਗ",dailyTitle:"ਰੋਜ਼ਾਨਾ ਪੰਚਾਂਗ",monthlyTitle:"ਮਾਸਿਕ ਪੰਚਾਂਗ",hinduTitle:"ਹਿੰਦੂ ਪੰਚਾਂਗ - ਪੰਜ ਅੰਗ",mantraTitle:"ਮੰਤਰ ਸੰਗ੍ਰਹਿ",muhuratTitle:"ਸ਼ੁਭ-ਅਸ਼ੁਭ ਮੁਹੂਰਤ",dayDetail:"ਦਿਨ ਦਾ ਵੇਰਵਾ",footerText:"ਭਾਰਤੀ ਪੰਚਾਂਗ - ਸਾਰੀਆਂ 22 ਰਾਜ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ",
+      nav:{daily:"ਰੋਜ਼ਾਨਾ",monthly:"ਮਾਸਿਕ",hindu:"ਪੰਚਾਂਗ ਜਾਣਕਾਰੀ",mantra:"ਮੰਤਰ"},
+      labels:{tithi:"ਤਿਥੀ",vaar:"ਵਾਰ",nakshatra:"ਨਛੱਤਰ",yoga:"ਯੋਗ",karan:"ਕਰਣ",paksha:"ਪੱਖ",maah:"ਮਾਸ",ritu:"ਰੁੱਤ",samvat:"ਨਾਨਕਸ਼ਾਹੀ",sunrise:"ਸੂਰਜ ਚੜ੍ਹਨਾ",sunset:"ਸੂਰਜ ਡੁੱਬਣਾ",moonrise:"ਚੰਦ ਚੜ੍ਹਨਾ",rahukaal:"ਰਾਹੂਕਾਲ",gulika:"ਗੁਲਿਕ ਕਾਲ",yamghant:"ਯਮਗੰਡ",abhijit:"ਅਭਿਜੀਤ",amrit:"ਅੰਮ੍ਰਿਤ ਕਾਲ"}},
+    mai:{site:"मैथिली पंचांग",dailyTitle:"दैनिक पंचांग",monthlyTitle:"मासिक पंचांग",hinduTitle:"हिंदू पंचांग - पाँच अंग",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",dayDetail:"दिनक विवरण",footerText:"भारतीय पंचांग - सभ 22 राजभाषा मे",
+      nav:{daily:"दैनिक",monthly:"मासिक",hindu:"पंचांग जानकारी",mantra:"मंत्र"},
+      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"मास",ritu:"ऋतु",samvat:"शक संवत",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काल"}},
+    ne:{site:"नेपाली पात्रो",dailyTitle:"दैनिक पात्रो",monthlyTitle:"मासिक पात्रो",hinduTitle:"हिन्दू पात्रो - पाँच अंग",mantraTitle:"मन्त्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",dayDetail:"दिनको विवरण",footerText:"भारतीय पात्रो - सबै 22 राजभाषामा",
+      nav:{daily:"दैनिक",monthly:"मासिक",hindu:"पात्रो जानकारी",mantra:"मन्त्र"},
+      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"महिना",ritu:"ऋतु",samvat:"विक्रम संवत",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चन्द्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",yamghant:"यमगण्ड",abhijit:"अभिजित मुहूर्त",amrit:"अमृत काल"}},
+    kok:{site:"कोंकणी पंचांग",dailyTitle:"दिसाळें पंचांग",monthlyTitle:"म्हयन्याळें पंचांग",hinduTitle:"हिंदू पंचांग - पाँच अंग",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",dayDetail:"दिसाची माहिती",footerText:"भारतीय पंचांग - सगळ्या 22 राजभाशांनी",
+      nav:{daily:"दिसाळें",monthly:"म्हयन्याळें",hindu:"पंचांग माहिती",mantra:"मंत्र"},
+      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"म्हयनो",ritu:"ऋतु",samvat:"शक",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काल"}},
+    doi:{site:"डोगरी पंचांग",dailyTitle:"रोज़ाना पंचांग",monthlyTitle:"मासिक पंचांग",hinduTitle:"हिंदू पंचांग - पाँच अंग",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",dayDetail:"दिने दा ब्यौरा",footerText:"भारती पंचांग - सब्भै 22 राजभाषाएं च",
+      nav:{daily:"रोज़ाना",monthly:"मासिक",hindu:"पंचांग जानकारी",mantra:"मंत्र"},
+      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"मास",ritu:"ऋतु",samvat:"विक्रम संवत",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काल"}},
+    brx:{site:"बड़ो पंचांग",dailyTitle:"सानजायारि पंचांग",monthlyTitle:"दानफोरनि पंचांग",hinduTitle:"हिंदू पंचांग - पाँच अंग",mantraTitle:"मंत्र संग्रह",muhuratTitle:"शुभ-अशुभ मुहूर्त",dayDetail:"साननि बिजिरना",footerText:"भारतनि पंचांग - गासै 22 राजभाषायाव",
+      nav:{daily:"सानजायारि",monthly:"दानफोरनि",hindu:"पंचांग जानकारी",mantra:"मंत्र"},
+      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"मास",ritu:"ऋतु",samvat:"शक",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",yamghant:"यमगंड",abhijit:"अभिजीत मुहूर्त",amrit:"अमृत काल"}},
+    sa:{site:"भारतीयपञ्चाङ्गम्",dailyTitle:"दैनिकपञ्चाङ्गम्",monthlyTitle:"मासिकपञ्चाङ्गम्",hinduTitle:"हिन्दूपञ्चाङ्गम् - पञ्चाङ्गानि",mantraTitle:"मन्त्रसङ्ग्रहः",muhuratTitle:"शुभाशुभमुहूर्तः",dayDetail:"दिनस्य विवरणम्",footerText:"भारतीयपञ्चाङ्गम् - सर्वासु २२ राजभाषासु",
+      nav:{daily:"दैनिकम्",monthly:"मासिकम्",hindu:"पञ्चाङ्गज्ञानम्",mantra:"मन्त्रः"},
+      labels:{tithi:"तिथिः",vaar:"वासरः",nakshatra:"नक्षत्रम्",yoga:"योगः",karan:"करणम्",paksha:"पक्षः",maah:"मासः",ritu:"ऋतुः",samvat:"विक्रमसंवत्",sunrise:"सूर्योदयः",sunset:"सूर्यास्तः",moonrise:"चन्द्रोदयः",rahukaal:"राहुकालः",gulika:"गुलिककालः",yamghant:"यमगण्डः",abhijit:"अभिजिन्मुहूर्तः",amrit:"अमृतकालः"}},
+    sat:{site:"ᱥᱟᱱᱛᱟᱲᱤ ᱯᱟᱸᱪᱟᱝ",dailyTitle:"ᱫᱤᱱᱟᱢ ᱯᱟᱸᱪᱟᱝ",monthlyTitle:"ᱪᱟᱸᱫᱳ ᱯᱟᱸᱪᱟᱝ",hinduTitle:"ᱦᱤᱱᱫᱩ ᱯᱟᱸᱪᱟᱝ",mantraTitle:"ᱢᱚᱱᱛᱚᱨ",muhuratTitle:"ᱱᱟᱯᱟᱭ-ᱵᱟᱱᱟᱯᱟᱭ ᱚᱠᱛᱚ",dayDetail:"ᱫᱤᱱ ᱵᱤᱵᱨᱚᱱ",footerText:"ᱵᱷᱟᱨᱚᱛ ᱯᱟᱸᱪᱟᱝ - 22 ᱯᱟᱹᱨᱥᱤ",
+      nav:{daily:"ᱫᱤᱱᱟᱢ",monthly:"ᱪᱟᱸᱫᱳ",hindu:"ᱯᱟᱸᱪᱟᱝ",mantra:"ᱢᱚᱱᱛᱚᱨ"},
+      labels:{tithi:"तिथि",vaar:"वार",nakshatra:"नक्षत्र",yoga:"योग",karan:"करण",paksha:"पक्ष",maah:"मास",ritu:"ऋतु",samvat:"शक",sunrise:"सूर्योदय",sunset:"सूर्यास्त",moonrise:"चंद्रोदय",rahukaal:"राहुकाल",gulika:"गुलिक काल",yamghant:"यमगंड",abhijit:"अभिजीत",amrit:"अमृत काल"}},
+    mni:{site:"মৈতৈ পঞ্চাং",dailyTitle:"নুমিৎকী পঞ্চাং",monthlyTitle:"থাগী পঞ্চাং",hinduTitle:"হিন্দু পঞ্চাং",mantraTitle:"মন্ত্র",muhuratTitle:"ফবা-ফত্তবা মতম",dayDetail:"নুমিৎকী মরোল",footerText:"ভারতকী পঞ্চাং - রাজভাষা 22",
+      nav:{daily:"নুমিৎ",monthly:"থা",hindu:"পঞ্চাং",mantra:"মন্ত্র"},
+      labels:{tithi:"তিথি",vaar:"বার",nakshatra:"নক্ষত্র",yoga:"যোগ",karan:"করণ",paksha:"পক্ষ",maah:"থা",ritu:"ঋতু",samvat:"শক",sunrise:"নুমিৎ থোকপা",sunset:"নুমিৎ তাবা",moonrise:"থা থোকপা",rahukaal:"রাহুকাল",gulika:"গুলিক কাল",yamghant:"যমগণ্ড",abhijit:"অভিজিৎ",amrit:"অমৃত কাল"}},
+    ks:{site:"کٲشُر پنچانگ",dailyTitle:"ڈیلی پنچانگ",monthlyTitle:"ماہوار پنچانگ",hinduTitle:"ہندو پنچانگ - پانٛژھ انگ",mantraTitle:"منتر",muhuratTitle:"شُبہ تہٕ اشُبہ وقت",dayDetail:"دۄہُک تفصیل",footerText:"بھارتی پنچانگ - ساری 22 سرکٲری زبانَن",
+      nav:{daily:"ڈیلی",monthly:"ماہوار",hindu:"پنچانگ",mantra:"منتر"},
+      labels:{tithi:"تِتھی",vaar:"وار",nakshatra:"نکشتر",yoga:"یوگ",karan:"کرن",paksha:"پکش",maah:"ماہ",ritu:"رُت",samvat:"وکرم سموت",sunrise:"آفتاب خاسُن",sunset:"آفتاب اوبرُن",moonrise:"زۆن خاسُن",rahukaal:"راہوکال",gulika:"گُلِک کال",yamghant:"یمگنڈ",abhijit:"ابھِجیت",amrit:"امرت کال"}},
+    sd:{site:"سنڌي پنچانگ",dailyTitle:"روزاني پنچانگ",monthlyTitle:"ماهوار پنچانگ",hinduTitle:"هندو پنچانگ - پنج انگ",mantraTitle:"منتر",muhuratTitle:"سٺو ۽ خراب وقت",dayDetail:"ڏينهن جي تفصيل",footerText:"ڀارتي پنچانگ - سڀني 22 سرڪاري ٻولين ۾",
+      nav:{daily:"روزاني",monthly:"ماهوار",hindu:"پنچانگ",mantra:"منتر"},
+      labels:{tithi:"تِٿي",vaar:"وار",nakshatra:"نڪشتر",yoga:"يوگ",karan:"ڪرڻ",paksha:"پکش",maah:"مهينو",ritu:"مند",samvat:"وڪرم سموت",sunrise:"سج اڀرڻ",sunset:"سج لهڻ",moonrise:"چنڊ اڀرڻ",rahukaal:"راهوڪال",gulika:"گلڪ ڪال",yamghant:"يمگنڊ",abhijit:"ابهيجيت",amrit:"امرت ڪال"}},
+    ur:{site:"اردو پنچانگ",dailyTitle:"روزانہ پنچانگ",monthlyTitle:"ماہانہ پنچانگ",hinduTitle:"ہندو پنچانگ - پانچ انگ",mantraTitle:"منتر مجموعہ",muhuratTitle:"شبھ-اشبھ وقت",dayDetail:"دن کی تفصیل",footerText:"بھارتی پنچانگ - تمام 22 سرکاری زبانوں میں",
+      nav:{daily:"روزانہ",monthly:"ماہانہ",hindu:"پنچانگ معلومات",mantra:"منتر"},
+      labels:{tithi:"تتھی",vaar:"وار",nakshatra:"نکشتر",yoga:"یوگ",karan:"کرن",paksha:"پکش",maah:"ماہ",ritu:"موسم",samvat:"وکرم سموت",sunrise:"طلوع آفتاب",sunset:"غروب آفتاب",moonrise:"طلوع ماہتاب",rahukaal:"راہوکال",gulika:"گلک کال",yamghant:"یمگنڈ",abhijit:"ابھیجیت",amrit:"امرت کال"}}
+  };
+  return T[lang]||base;
+}
+
+/* ---------- PANCHANG TERM NAMES (script-localized) ---------- */
+const SCRIPTS={ // map lang -> script group for shared term sets
+  deva:["hi","mr","mai","ne","kok","doi","brx","sa","sat"],
+  beng:["bn","as","mni"],
+  orya:["or"],tamil:["ta"],telu:["te"],mlym:["ml"],knda:["kn"],
+  gujr:["gu"],guru:["pa"],arab:["ur","ks","sd"]
 };
-const NAKSHATRA = {
-  hi:["अश्विनी","भरणी","कृत्तिका","रोहिणी","मृगशिरा","आर्द्रा","पुनर्वसु","पुष्य","आश्लेषा","मघा","पूर्वाफाल्गुनी","उत्तराफाल्गुनी","हस्त","चित्रा","स्वाति","विशाखा","अनुराधा","ज्येष्ठा","मूल","पूर्वाषाढ़ा","उत्तराषाढ़ा","श्रवण","धनिष्ठा","शतभिषा","पूर्वाभाद्रपद","उत्तराभाद्रपद","रेवती"],
-  ta:["அஸ்வினி","பரணி","கார்த்திகை","ரோகிணி","மிருகசீரிஷம்","திருவாதிரை","புனர்பூசம்","பூசம்","ஆயில்யம்","மகம்","பூரம்","உத்திரம்","அஸ்தம்","சித்திரை","சுவாதி","விசாகம்","அனுஷம்","கேட்டை","மூலம்","பூராடம்","உத்திராடம்","திருவோணம்","அவிட்டம்","சதயம்","பூரட்டாதி","உத்திரட்டாதி","ரேவதி"],
-  te:["అశ్విని","భరణి","కృత్తిక","రోహిణి","మృగశిర","ఆరుద్ర","పునర్వసు","పుష్యమి","ఆశ్లేష","మఘ","పుబ్బ","ఉత్తర","హస్త","చిత్త","స్వాతి","విశాఖ","అనూరాధ","జ్యేష్ఠ","మూల","పూర్వాషాఢ","ఉత్తరాషాఢ","శ్రవణం","ధనిష్ఠ","శతభిషం","పూర్వాభాద్ర","ఉత్తరాభాద్ర","రేవతి"],
-  default:["अश्विनी","भरणी","कृत्तिका","रोहिणी","मृगशिरा","आर्द्रा","पुनर्वसु","पुष्य","आश्लेषा","मघा","पूर्वाफाल्गुनी","उत्तराफाल्गुनी","हस्त","चित्रा","स्वाति","विशाखा","अनुराधा","ज्येष्ठा","मूल","पूर्वाषाढ़ा","उत्तराषाढ़ा","श्रवण","धनिष्ठा","शतभिषा","पूर्वाभाद्रपद","उत्तराभाद्रपद","रेवती"]
+function scriptOf(lang){for(const s in SCRIPTS)if(SCRIPTS[s].includes(lang))return s;return"deva";}
+
+const TITHI={
+  deva:["प्रतिपदा","द्वितीया","तृतीया","चतुर्थी","पंचमी","षष्ठी","सप्तमी","अष्टमी","नवमी","दशमी","एकादशी","द्वादशी","त्रयोदशी","चतुर्दशी","पूर्णिमा/अमावस्या"],
+  beng:["প্রতিপদ","দ্বিতীয়া","তৃতীয়া","চতুর্থী","পঞ্চমী","ষষ্ঠী","সপ্তমী","অষ্টমী","নবমী","দশমী","একাদশী","দ্বাদশী","ত্রয়োদশী","চতুর্দশী","পূর্ণিমা/অমাবস্যা"],
+  orya:["ପ୍ରତିପଦ","ଦ୍ୱିତୀୟା","ତୃତୀୟା","ଚତୁର୍ଥୀ","ପଞ୍ଚମୀ","ଷଷ୍ଠୀ","ସପ୍ତମୀ","ଅଷ୍ଟମୀ","ନବମୀ","ଦଶମୀ","ଏକାଦଶୀ","ଦ୍ୱାଦଶୀ","ତ୍ରୟୋଦଶୀ","ଚତୁର୍ଦଶୀ","ପୂର୍ଣ୍ଣିମା/ଅମାବାସ୍ୟା"],
+  tamil:["பிரதமை","துவிதியை","திருதியை","சதுர்த்தி","பஞ்சமி","சஷ்டி","சப்தமி","அஷ்டமி","நவமி","தசமி","ஏகாதசி","துவாதசி","திரயோதசி","சதுர்த்தசி","பௌர்ணமி/அமாவாசை"],
+  telu:["పాడ్యమి","విదియ","తదియ","చవితి","పంచమి","షష్ఠి","సప్తమి","అష్టమి","నవమి","దశమి","ఏకాదశి","ద్వాదశి","త్రయోదశి","చతుర్దశి","పౌర్ణమి/అమావాస్య"],
+  mlym:["പ്രതിപദം","ദ്വിതീയ","തൃതീയ","ചതുർത്ഥി","പഞ്ചമി","ഷഷ്ഠി","സപ്തമി","അഷ്ടമി","നവമി","ദശമി","ഏകാദശി","ദ്വാദശി","ത്രയോദശി","ചതുർദശി","പൗർണമി/അമാവാസി"],
+  knda:["ಪಾಡ್ಯ","ಬಿದಿಗೆ","ತದಿಗೆ","ಚೌತಿ","ಪಂಚಮಿ","ಷಷ್ಠಿ","ಸಪ್ತಮಿ","ಅಷ್ಟಮಿ","ನವಮಿ","ದಶಮಿ","ಏಕಾದಶಿ","ದ್ವಾದಶಿ","ತ್ರಯೋದಶಿ","ಚತುರ್ದಶಿ","ಹುಣ್ಣಿಮೆ/ಅಮಾವಾಸ್ಯೆ"],
+  gujr:["પ્રતિપદા","બીજ","ત્રીજ","ચોથ","પાંચમ","છઠ","સાતમ","આઠમ","નોમ","દશમ","એકાદશી","બારસ","તેરસ","ચૌદશ","પૂનમ/અમાસ"],
+  guru:["ਪ੍ਰਤਿਪਦਾ","ਦੁਤੀਆ","ਤ੍ਰਿਤੀਆ","ਚਤੁਰਥੀ","ਪੰਚਮੀ","ਖਸ਼ਟੀ","ਸਪਤਮੀ","ਅਸ਼ਟਮੀ","ਨਵਮੀ","ਦਸ਼ਮੀ","ਇਕਾਦਸ਼ੀ","ਦੁਆਦਸ਼ੀ","ਤ੍ਰਯੋਦਸ਼ੀ","ਚਤੁਰਦਸ਼ੀ","ਪੂਰਨਮਾਸ਼ੀ/ਮੱਸਿਆ"],
+  arab:["پرتپدا","دوتیہ","تریتیہ","چترتھی","پنچمی","ششٹھی","سپتمی","اشٹمی","نومی","دشمی","ایکادشی","دوادشی","ترایودشی","چترودشی","پورنیما/اماوسیہ"]
 };
-const YOGA = {
-  hi:["विष्कुम्भ","प्रीति","आयुष्मान","सौभाग्य","शोभन","अतिगण्ड","सुकर्मा","धृति","शूल","गण्ड","वृद्धि","ध्रुव","व्याघात","हर्षण","वज्र","सिद्धि","व्यतीपात","वरीयान","परिघ","शिव","सिद्ध","साध्य","शुभ","शुक्ल","ब्रह्म","ऐन्द्र","वैधृति"],
-  default:["विष्कुम्भ","प्रीति","आयुष्मान","सौभाग्य","शोभन","अतिगण्ड","सुकर्मा","धृति","शूल","गण्ड","वृद्धि","ध्रुव","व्याघात","हर्षण","वज्र","सिद्धि","व्यतीपात","वरीयान","परिघ","शिव","सिद्ध","साध्य","शुभ","शुक्ल","ब्रह्म","ऐन्द्र","वैधृति"]
+const NAKSHATRA={
+  deva:["अश्विनी","भरणी","कृत्तिका","रोहिणी","मृगशिरा","आर्द्रा","पुनर्वसु","पुष्य","आश्लेषा","मघा","पूर्वाफाल्गुनी","उत्तराफाल्गुनी","हस्त","चित्रा","स्वाति","विशाखा","अनुराधा","ज्येष्ठा","मूल","पूर्वाषाढ़ा","उत्तराषाढ़ा","श्रवण","धनिष्ठा","शतभिषा","पूर्वाभाद्रपद","उत्तराभाद्रपद","रेवती"],
+  beng:["অশ্বিনী","ভরণী","কৃত্তিকা","রোহিণী","মৃগশিরা","আর্দ্রা","পুনর্বসু","পুষ্যা","অশ্লেষা","মঘা","পূর্বফাল্গুনী","উত্তরফাল্গুনী","হস্তা","চিত্রা","স্বাতী","বিশাখা","অনুরাধা","জ্যেষ্ঠা","মূলা","পূর্বাষাঢ়া","উত্তরাষাঢ়া","শ্রবণা","ধনিষ্ঠা","শতভিষা","পূর্বভাদ্রপদ","উত্তরভাদ্রপদ","রেবতী"],
+  tamil:["அஸ்வினி","பரணி","கார்த்திகை","ரோகிணி","மிருகசீரிஷம்","திருவாதிரை","புனர்பூசம்","பூசம்","ஆயில்யம்","மகம்","பூரம்","உத்திரம்","அஸ்தம்","சித்திரை","சுவாதி","விசாகம்","அனுஷம்","கேட்டை","மூலம்","பூராடம்","உத்திராடம்","திருவோணம்","அவிட்டம்","சதயம்","பூரட்டாதி","உத்திரட்டாதி","ரேவதி"],
+  telu:["అశ్విని","భరణి","కృత్తిక","రోహిణి","మృగశిర","ఆరుద్ర","పునర్వసు","పుష్యమి","ఆశ్లేష","మఘ","పుబ్బ","ఉత్తర","హస్త","చిత్త","స్వాతి","విశాఖ","అనూరాధ","జ్యేష్ఠ","మూల","పూర్వాషాఢ","ఉత్తరాషాఢ","శ్రవణం","ధనిష్ఠ","శతభిషం","పూర్వాభాద్ర","ఉత్తరాభాద్ర","రేవతి"],
+  mlym:["അശ്വതി","ഭരണി","കാർത്തിക","രോഹിണി","മകയിരം","തിരുവാതിര","പുണർതം","പൂയം","ആയില്യം","മകം","പൂരം","ഉത്രം","അത്തം","ചിത്തിര","ചോതി","വിശാഖം","അനിഴം","തൃക്കേട്ട","മൂലം","പൂരാടം","ഉത്രാടം","തിരുവോണം","അവിട്ടം","ചതയം","പൂരുരുട്ടാതി","ഉത്രട്ടാതി","രേവതി"],
+  knda:["ಅಶ್ವಿನಿ","ಭರಣಿ","ಕೃತ್ತಿಕಾ","ರೋಹಿಣಿ","ಮೃಗಶಿರ","ಆರ್ದ್ರ","ಪುನರ್ವಸು","ಪುಷ್ಯ","ಆಶ್ಲೇಷ","ಮಘ","ಪೂರ್ವ","ಉತ್ತರ","ಹಸ್ತ","ಚಿತ್ತ","ಸ್ವಾತಿ","ವಿಶಾಖ","ಅನುರಾಧ","ಜ್ಯೇಷ್ಠ","ಮೂಲ","ಪೂರ್ವಾಷಾಢ","ಉತ್ತರಾಷಾಢ","ಶ್ರವಣ","ಧನಿಷ್ಠ","ಶತಭಿಷ","ಪೂರ್ವಾಭಾದ್ರ","ಉತ್ತರಾಭಾದ್ರ","ರೇವತಿ"],
+  orya:["ଅଶ୍ୱିନୀ","ଭରଣୀ","କୃତ୍ତିକା","ରୋହିଣୀ","ମୃଗଶିରା","ଆର୍ଦ୍ରା","ପୁନର୍ବସୁ","ପୁଷ୍ୟା","ଆଶ୍ଳେଷା","ମଘା","ପୂର୍ବଫାଲ୍ଗୁନୀ","ଉତ୍ତରଫାଲ୍ଗୁନୀ","ହସ୍ତା","ଚିତ୍ରା","ସ୍ୱାତୀ","ବିଶାଖା","ଅନୁରାଧା","ଜ୍ୟେଷ୍ଠା","ମୂଳା","ପୂର୍ବାଷାଢ଼ା","ଉତ୍ତରାଷାଢ଼ା","ଶ୍ରବଣା","ଧନିଷ୍ଠା","ଶତଭିଷା","ପୂର୍ବଭାଦ୍ରପଦ","ଉତ୍ତରଭାଦ୍ରପଦ","ରେବତୀ"],
+  gujr:["અશ્વિની","ભરણી","કૃત્તિકા","રોહિણી","મૃગશિરા","આર્દ્રા","પુનર્વસુ","પુષ્ય","આશ્લેષા","મઘા","પૂર્વાફાલ્ગુની","ઉત્તરાફાલ્ગુની","હસ્ત","ચિત્રા","સ્વાતિ","વિશાખા","અનુરાધા","જ્યેષ્ઠા","મૂળ","પૂર્વાષાઢા","ઉત્તરાષાઢા","શ્રવણ","ધનિષ્ઠા","શતભિષા","પૂર્વાભાદ્રપદ","ઉત્તરાભાદ્રપદ","રેવતી"],
+  guru:["ਅਸ਼ਵਿਨੀ","ਭਰਣੀ","ਕ੍ਰਿਤਿਕਾ","ਰੋਹਿਣੀ","ਮ੍ਰਿਗਸ਼ਿਰਾ","ਆਰਦਰਾ","ਪੁਨਰਵਸੁ","ਪੁਸ਼ਯ","ਅਸ਼ਲੇਸ਼ਾ","ਮਘਾ","ਪੂਰਵਾ ਫਾਲਗੁਨੀ","ਉਤਰਾ ਫਾਲਗੁਨੀ","ਹਸਤ","ਚਿਤਰਾ","ਸਵਾਤੀ","ਵਿਸ਼ਾਖਾ","ਅਨੁਰਾਧਾ","ਜਯੇਸ਼ਠਾ","ਮੂਲ","ਪੂਰਵਾਸ਼ਾੜਾ","ਉਤਰਾਸ਼ਾੜਾ","ਸ਼ਰਵਣ","ਧਨਿਸ਼ਠਾ","ਸ਼ਤਭਿਸ਼ਾ","ਪੂਰਵਾ ਭਾਦਰਪਦ","ਉਤਰਾ ਭਾਦਰਪਦ","ਰੇਵਤੀ"],
+  arab:["اشونی","بھرنی","کرتکا","روہنی","مرگشرا","آردرا","پنرسو","پشیہ","اشلیشا","مگھا","پوروا پھالگنی","اترا پھالگنی","ہست","چترا","سواتی","وشاکھا","انورادھا","جیشٹھا","مول","پوروا شاڑھا","اترا شاڑھا","شرون","دھنشٹھا","شتبھشا","پوروا بھادرپد","اترا بھادرپد","ریوتی"]
 };
-const KARAN = {
-  hi:["बव","बालव","कौलव","तैतिल","गर","वणिज","विष्टि","शकुनि","चतुष्पाद","नाग","किंस्तुघ्न"],
-  default:["बव","बालव","कौलव","तैतिल","गर","वणिज","विष्टि","शकुनि","चतुष्पाद","नाग","किंस्तुघ्न"]
-};
-const VAAR = {
+const YOGA={deva:["विष्कुम्भ","प्रीति","आयुष्मान","सौभाग्य","शोभन","अतिगण्ड","सुकर्मा","धृति","शूल","गण्ड","वृद्धि","ध्रुव","व्याघात","हर्षण","वज्र","सिद्धि","व्यतीपात","वरीयान","परिघ","शिव","सिद्ध","साध्य","शुभ","शुक्ल","ब्रह्म","ऐन्द्र","वैधृति"]};
+const KARAN={deva:["बव","बालव","कौलव","तैतिल","गर","वणिज","विष्टि","शकुनि","चतुष्पाद","नाग","किंस्तुघ्न"]};
+const RITU={deva:["वसंत","ग्रीष्म","वर्षा","शरद","हेमंत","शिशिर"],
+  beng:["বসন্ত","গ্রীষ্ম","বর্ষা","শরৎ","হেমন্ত","শীত"],
+  tamil:["வசந்தம்","கோடை","மழை","இலையுதிர்","குளிர்","பனி"]};
+const PAKSHA={deva:["शुक्ल पक्ष","कृष्ण पक्ष"],beng:["শুক্লপক্ষ","কৃষ্ণপক্ষ"],orya:["ଶୁକ୍ଳ ପକ୍ଷ","କୃଷ୍ଣ ପକ୍ଷ"],tamil:["சுக்ல பக்ஷம்","கிருஷ்ண பக்ஷம்"],telu:["శుక్ల పక్షం","కృష్ణ పక్షం"],mlym:["ശുക്ലപക്ഷം","കൃഷ്ണപക്ഷം"],knda:["ಶುಕ್ಲ ಪಕ್ಷ","ಕೃಷ್ಣ ಪಕ್ಷ"],gujr:["શુક્લ પક્ષ","કૃષ્ણ પક્ષ"],guru:["ਸ਼ੁਕਲ ਪੱਖ","ਕ੍ਰਿਸ਼ਨ ਪੱਖ"],arab:["شکل پکش","کرشن پکش"]};
+const VAAR={
   hi:["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"],
+  mr:["रविवार","सोमवार","मंगळवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"],
   bn:["রবিবার","সোমবার","মঙ্গলবার","বুধবার","বৃহস্পতিবার","শুক্রবার","শনিবার"],
   as:["দেওবাৰ","সোমবাৰ","মঙ্গলবাৰ","বুধবাৰ","বৃহস্পতিবাৰ","শুক্রবাৰ","শনিবাৰ"],
   or:["ରବିବାର","ସୋମବାର","ମଙ୍ଗଳବାର","ବୁଧବାର","ଗୁରୁବାର","ଶୁକ୍ରବାର","ଶନିବାର"],
@@ -330,211 +281,208 @@ const VAAR = {
   ta:["ஞாயிறு","திங்கள்","செவ்வாய்","புதன்","வியாழன்","வெள்ளி","சனி"],
   ml:["ഞായർ","തിങ്കൾ","ചൊവ്വ","ബുധൻ","വ്യാഴം","വെള്ളി","ശനി"],
   kn:["ಭಾನುವಾರ","ಸೋಮವಾರ","ಮಂಗಳವಾರ","ಬುಧವಾರ","ಗುರುವಾರ","ಶುಕ್ರವಾರ","ಶನಿವಾರ"],
-  mr:["रविवार","सोमवार","मंगळवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"],
   gu:["રવિવાર","સોમવાર","મંગળવાર","બુધવાર","ગુરુવાર","શુક્રવાર","શનિવાર"],
   pa:["ਐਤਵਾਰ","ਸੋਮਵਾਰ","ਮੰਗਲਵਾਰ","ਬੁੱਧਵਾਰ","ਵੀਰਵਾਰ","ਸ਼ੁੱਕਰਵਾਰ","ਸ਼ਨੀਵਾਰ"],
-  en:["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  ne:["आइतबार","सोमबार","मङ्गलबार","बुधबार","बिहीबार","शुक्रबार","शनिबार"],
+  sa:["रविवासरः","सोमवासरः","मङ्गलवासरः","बुधवासरः","गुरुवासरः","शुक्रवासरः","शनिवासरः"],
+  ur:["اتوار","پیر","منگل","بدھ","جمعرات","جمعہ","ہفتہ"],
+  ks:["آتھوار","ژٔندٕروار","بۆموار","بودوار","برٛٮ۪سوار","جُمہ","بٹہٕ وار"],
+  sd:["آچر","سومر","اڱارو","اربع","خميس","جمعو","ڇنڇر"],
   default:["रविवार","सोमवार","मंगलवार","बुधवार","गुरुवार","शुक्रवार","शनिवार"]
 };
-const MAAH = {
-  hi:["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"],
-  ta:["சித்திரை","வைகாசி","ஆனி","ஆடி","ஆவணி","புரட்டாசி","ஐப்பசி","கார்த்திகை","மார்கழி","தை","மாசி","பங்குனி"],
-  default:["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"]
+const MAAH={
+  deva:["चैत्र","वैशाख","ज्येष्ठ","आषाढ़","श्रावण","भाद्रपद","आश्विन","कार्तिक","मार्गशीर्ष","पौष","माघ","फाल्गुन"],
+  beng:["বৈশাখ","জ্যৈষ্ঠ","আষাঢ়","শ্রাবণ","ভাদ্র","আশ্বিন","কার্তিক","অগ্রহায়ণ","পৌষ","মাঘ","ফাল্গুন","চৈত্র"],
+  tamil:["சித்திரை","வைகாசி","ஆனி","ஆடி","ஆவணி","புரட்டாசி","ஐப்பசி","கார்த்திகை","மார்கழி","தை","மாசி","பங்குனி"]
 };
-const RITU = {
-  hi:["वसंत","ग्रीष्म","वर्षा","शरद","हेमंत","शिशिर"],
-  default:["वसंत","ग्रीष्म","वर्षा","शरद","हेमंत","शिशिर"]
-};
-const PAKSHA = {
-  hi:["शुक्ल पक्ष","कृष्ण पक्ष"],bn:["শুক্লপক্ষ","কৃষ্ণপক্ষ"],ta:["சுக்ல பக்ஷம்","கிருஷ்ண பக்ஷம்"],
-  te:["శుక్ల పక్షం","కృష్ణ పక్షం"],en:["Shukla Paksha","Krishna Paksha"],
-  default:["शुक्ल पक्ष","कृष्ण पक्ष"]
+function S(set,lang){const s=scriptOf(lang);return set[s]||set.deva||set.beng;}
+
+/* ---------- REGIONAL CALCULATION OFFSETS ---------- */
+/* Different regions use different sunrise reference longitudes & era offsets.
+   We model approximate longitude (for sunrise) + samvat era offset per language. */
+const REGION_CALC={
+  hi :{lon:78.0,eraAdd:57, type:"vikram"},   // North India / Ujjain
+  mr :{lon:74.0,eraAdd:78, type:"shaka"},    // Maharashtra Shalivahana Shaka
+  kok:{lon:74.0,eraAdd:78, type:"shaka"},
+  gu :{lon:72.5,eraAdd:57, type:"vikram"},
+  bn :{lon:88.4,eraAdd:-593,type:"bangla"},  // Bengali San (Bangabda)
+  as :{lon:91.7,eraAdd:78, type:"shaka"},
+  mni:{lon:93.9,eraAdd:78, type:"shaka"},
+  or :{lon:85.8,eraAdd:0,  type:"amli"},
+  te :{lon:79.7,eraAdd:78, type:"shaka"},
+  ta :{lon:80.2,eraAdd:0,  type:"tamil"},    // Tamil solar
+  ml :{lon:76.9,eraAdd:-824,type:"kollam"},  // Kollam era
+  kn :{lon:77.6,eraAdd:78, type:"shaka"},
+  pa :{lon:75.8,eraAdd:-1468,type:"nanak"},  // Nanakshahi
+  ne :{lon:85.3,eraAdd:57, type:"vikram"},
+  mai:{lon:85.9,eraAdd:78, type:"shaka"},
+  doi:{lon:74.9,eraAdd:57, type:"vikram"},
+  brx:{lon:92.0,eraAdd:78, type:"shaka"},
+  sa :{lon:78.0,eraAdd:57, type:"vikram"},
+  sat:{lon:86.0,eraAdd:78, type:"shaka"},
+  ks :{lon:74.8,eraAdd:57, type:"vikram"},
+  sd :{lon:68.9,eraAdd:57, type:"vikram"},
+  ur :{lon:78.0,eraAdd:57, type:"vikram"}
 };
 
-function pick(obj,lang){return obj[lang]||obj.default||obj.hi;}
-
-/* ---------- 3. ASTRONOMY CALCULATIONS (approx, no library) ---------- */
-// Reference new moon: 2000-01-06 18:14 UTC, synodic month 29.530588853 days
+/* ---------- ASTRONOMY (approx, region-aware via longitude) ---------- */
 const SYNODIC=29.530588853;
 const REF_NEWMOON=Date.UTC(2000,0,6,18,14)/86400000;
 const SIDEREAL=27.321661;
-
 function julianDays(d){return d.getTime()/86400000;}
-
-// Returns 0-29 (tithi index), 0-26 nakshatra, etc.
 function computePanchang(date){
   const jd=julianDays(date);
-  const moonAge=((jd-REF_NEWMOON)%SYNODIC+SYNODIC)%SYNODIC; // 0..29.53
-  const tithiNum=Math.floor(moonAge/ (SYNODIC/30)); // 0..29
+  const moonAge=((jd-REF_NEWMOON)%SYNODIC+SYNODIC)%SYNODIC;
+  const tithiNum=Math.floor(moonAge/(SYNODIC/30));
   const paksha=tithiNum<15?0:1;
-  const tithiInPaksha=tithiNum%15; // 0..14
-  // Nakshatra: moon longitude approx via age fraction of sidereal cycle
+  const tithiInPaksha=tithiNum%15;
   const nakAge=((jd-REF_NEWMOON)%SIDEREAL+SIDEREAL)%SIDEREAL;
   const nak=Math.floor(nakAge/(SIDEREAL/27))%27;
-  // Yoga & Karan derived deterministically
   const yoga=Math.floor((jd*1.07)%27+27)%27;
   const karan=tithiNum%11;
   const vaar=date.getDay();
-  // Lunar month approx from solar month
-  const maah=(date.getMonth()+ (tithiNum<15?0:0))%12;
-  const ritu=Math.floor(((date.getMonth())/2))%6;
+  const maah=date.getMonth()%12;
+  const ritu=Math.floor(date.getMonth()/2)%6;
   return {tithiNum,tithiInPaksha,paksha,nak,yoga,karan,vaar,maah,ritu};
 }
-
-// Sunrise/sunset approximation for India (lat ~23N) — simple model
-function sunTimes(date){
+function sunTimesRaw(date,lon){
   const day=Math.floor((date-new Date(date.getFullYear(),0,0))/86400000);
   const decl=23.45*Math.sin((360/365)*(day-81)*Math.PI/180);
-  const lat=23.0;
+  const lat=22.0;
   const ha=Math.acos(-Math.tan(lat*Math.PI/180)*Math.tan(decl*Math.PI/180))*180/Math.PI;
-  const noon=12.15; // approx solar noon IST adjustment
-  let sr=noon-ha/15, ss=noon+ha/15;
-  return {sunrise:fmtTime(sr),sunset:fmtTime(ss),
-          moonrise:fmtTime((sr+ (computePanchang(date).tithiNum*0.8))%24)};
+  // IST based on 82.5E; adjust solar noon by local longitude
+  const noon=12.0+(82.5-lon)*4/60;
+  return {sunrise:noon-ha/15,sunset:noon+ha/15};
 }
-function fmtTime(h){
-  h=(h+24)%24;let hh=Math.floor(h);let mm=Math.floor((h-hh)*60);
-  let ap=hh<12?"AM":"PM";let h12=hh%12||12;
-  return `${h12}:${mm<10?'0':''}${mm} ${ap}`;
-}
-// Rahukaal etc by weekday (sequence index of 8 day-segments)
-const RAHU_SEQ=[8,2,7,5,6,4,3]; // Sun..Sat (1-indexed segment)
-const GULIK_SEQ=[7,6,5,4,3,2,1];
-const YAM_SEQ=[5,4,3,2,1,7,6];
-function periodFromSeq(date,seqIdx){
-  const {sunrise,sunset}=sunTimesRaw(date);
-  const dayLen=sunset-sunrise;const seg=dayLen/8;
-  const start=sunrise+(seqIdx-1)*seg;const end=start+seg;
-  return `${fmtTime(start)} – ${fmtTime(end)}`;
-}
-function sunTimesRaw(date){
-  const day=Math.floor((date-new Date(date.getFullYear(),0,0))/86400000);
-  const decl=23.45*Math.sin((360/365)*(day-81)*Math.PI/180);
-  const lat=23.0;
-  const ha=Math.acos(-Math.tan(lat*Math.PI/180)*Math.tan(decl*Math.PI/180))*180/Math.PI;
-  const noon=12.15;return {sunrise:noon-ha/15,sunset:noon+ha/15};
+function fmtTime(h){h=(h+24)%24;let hh=Math.floor(h),mm=Math.floor((h-hh)*60),ap=hh<12?"AM":"PM",h12=hh%12||12;return `${h12}:${mm<10?'0':''}${mm} ${ap}`;}
+function sunTimes(date,lon){const r=sunTimesRaw(date,lon);const p=computePanchang(date);return {sunrise:fmtTime(r.sunrise),sunset:fmtTime(r.sunset),moonrise:fmtTime((r.sunrise+p.tithiNum*0.8)%24)};}
+const RAHU_SEQ=[8,2,7,5,6,4,3],GULIK_SEQ=[7,6,5,4,3,2,1],YAM_SEQ=[5,4,3,2,1,7,6];
+function periodFromSeq(date,seqIdx,lon){const r=sunTimesRaw(date,lon);const seg=(r.sunset-r.sunrise)/8;const start=r.sunrise+(seqIdx-1)*seg;return `${fmtTime(start)} – ${fmtTime(start+seg)}`;}
+
+/* ---------- BENGALI CALENDAR DATE (Bangabda) ---------- */
+const BANGLA_MONTHS=["বৈশাখ","জ্যৈষ্ঠ","আষাঢ়","শ্রাবণ","ভাদ্র","আশ্বিন","কার্তিক","অগ্রহায়ণ","পৌষ","মাঘ","ফাল্গুন","চৈত্র"];
+// Bangla month start dates (Gregorian, revised Bangladesh-style fixed reckoning approx for display)
+const BANGLA_START=[[3,14],[4,14],[5,15],[6,16],[7,16],[8,16],[9,17],[10,16],[11,15],[0,14],[1,13],[2,15]];
+function toBanglaDigits(n){return String(n).replace(/[0-9]/g,d=>"০১২৩৪৫৬৭৮৯"[d]);}
+function banglaDate(date){
+  const y=date.getFullYear();let mIdx=0,startD;
+  for(let i=BANGLA_MONTHS.length-1;i>=0;i--){
+    const[mm,dd]=BANGLA_START[i];
+    const s=new Date(y,mm,dd);
+    if(date>=s){mIdx=i;startD=s;break;}
+  }
+  if(startD===undefined){const[mm,dd]=BANGLA_START[11];startD=new Date(y-1,mm,dd);mIdx=11;}
+  const dayNum=Math.floor((date-startD)/86400000)+1;
+  // Bangabda year = Gregorian - 593 (approx, after Poila Boishakh)
+  let bYear=y-593; if(date<new Date(y,3,14))bYear=y-594;
+  return `${toBanglaDigits(dayNum)} ${BANGLA_MONTHS[mIdx]} ${toBanglaDigits(bYear)} বঙ্গাব্দ`;
 }
 
-/* ---------- 4. FESTIVALS (fixed + tithi based sample) ---------- */
-const FESTIVALS={
+/* ---------- FESTIVALS ---------- */
+const FEST_NATIONAL={
   hi:{"1-26":"गणतंत्र दिवस","8-15":"स्वतंत्रता दिवस","10-2":"गांधी जयंती"},
-  en:{"1-26":"Republic Day","8-15":"Independence Day","10-2":"Gandhi Jayanti"},
+  bn:{"1-26":"প্রজাতন্ত্র দিবস","8-15":"স্বাধীনতা দিবস","10-2":"গান্ধী জয়ন্তী","4-14":"পয়লা বৈশাখ"},
+  ta:{"1-26":"குடியரசு தினம்","8-15":"சுதந்திர தினம்","1-14":"பொங்கல்"},
   default:{"1-26":"गणतंत्र दिवस","8-15":"स्वतंत्रता दिवस","10-2":"गांधी जयंती"}
 };
-function festOf(date,lang){
-  const key=(date.getMonth()+1)+"-"+date.getDate();
-  const f=FESTIVALS[lang]||FESTIVALS.default;return f[key]||"";
-}
+function festOf(date,lang){const k=(date.getMonth()+1)+"-"+date.getDate();const f=FEST_NATIONAL[lang]||FEST_NATIONAL.default;return f[k]||"";}
 
-/* ---------- 5. MANTRAS (Sanskrit + per-language meaning) ---------- */
+/* ---------- MANTRAS ---------- */
 const MANTRAS=[
-  {sanskrit:"ॐ गं गणपतये नमः",
-   title:{hi:"गणेश मंत्र",en:"Ganesh Mantra",ta:"விநாயகர் மந்திரம்",te:"గణేశ మంత్రం",bn:"গণেশ মন্ত্র",default:"गणेश मंत्र"},
-   meaning:{hi:"विघ्नहर्ता गणेश को नमन, जो सभी बाधाएँ दूर करते हैं।",en:"Salutations to Lord Ganesha, remover of all obstacles.",default:"विघ्नहर्ता गणेश को नमन।"}},
-  {sanskrit:"ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्।",
-   title:{hi:"गायत्री मंत्र",en:"Gayatri Mantra",default:"गायत्री मंत्र"},
-   meaning:{hi:"उस सर्वव्यापी परमात्मा का ध्यान करें जो हमारी बुद्धि को प्रेरित करे।",en:"We meditate on the divine light; may it inspire our intellect.",default:"उस परमात्मा का ध्यान करें।"}},
-  {sanskrit:"ॐ नमः शिवाय",
-   title:{hi:"शिव मंत्र",en:"Shiva Mantra",default:"शिव मंत्र"},
-   meaning:{hi:"भगवान शिव को नमस्कार।",en:"Salutations to Lord Shiva.",default:"भगवान शिव को नमस्कार।"}},
-  {sanskrit:"ॐ नमो भगवते वासुदेवाय",
-   title:{hi:"विष्णु मंत्र",en:"Vishnu Mantra",default:"विष्णु मंत्र"},
-   meaning:{hi:"भगवान विष्णु (वासुदेव) को नमन।",en:"Salutations to Lord Vishnu (Vasudeva).",default:"भगवान विष्णु को नमन।"}},
-  {sanskrit:"ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय माऽमृतात्॥",
-   title:{hi:"महामृत्युंजय मंत्र",en:"Mahamrityunjaya Mantra",default:"महामृत्युंजय मंत्र"},
-   meaning:{hi:"त्रिनेत्रधारी शिव की उपासना; मृत्यु के बंधन से मुक्ति प्रदान करें।",en:"We worship the three-eyed Lord; free us from the bondage of death.",default:"मृत्यु से मुक्ति।"}},
-  {sanskrit:"ॐ श्री महालक्ष्म्यै नमः",
-   title:{hi:"लक्ष्मी मंत्र",en:"Lakshmi Mantra",default:"लक्ष्मी मंत्र"},
-   meaning:{hi:"धन-समृद्धि की देवी लक्ष्मी को नमन।",en:"Salutations to Goddess Lakshmi of wealth and prosperity.",default:"देवी लक्ष्मी को नमन।"}}
+  {sanskrit:"ॐ गं गणपतये नमः",title:{hi:"गणेश मंत्र",en:"Ganesh Mantra"},meaning:{hi:"विघ्नहर्ता गणेश को नमन।",en:"Salutations to Lord Ganesha, remover of obstacles."}},
+  {sanskrit:"ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात्।",title:{hi:"गायत्री मंत्र",en:"Gayatri Mantra"},meaning:{hi:"उस परम तेज का ध्यान करें जो हमारी बुद्धि को प्रेरित करे।",en:"We meditate on the divine light; may it inspire our intellect."}},
+  {sanskrit:"ॐ नमः शिवाय",title:{hi:"शिव मंत्र",en:"Shiva Mantra"},meaning:{hi:"भगवान शिव को नमस्कार।",en:"Salutations to Lord Shiva."}},
+  {sanskrit:"ॐ नमो भगवते वासुदेवाय",title:{hi:"विष्णु मंत्र",en:"Vishnu Mantra"},meaning:{hi:"भगवान विष्णु को नमन।",en:"Salutations to Lord Vishnu."}},
+  {sanskrit:"ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम्। उर्वारुकमिव बन्धनान्मृत्योर्मुक्षीय माऽमृतात्॥",title:{hi:"महामृत्युंजय मंत्र",en:"Mahamrityunjaya Mantra"},meaning:{hi:"त्रिनेत्रधारी शिव की उपासना; मृत्यु के बंधन से मुक्ति।",en:"We worship the three-eyed Lord; free us from death's bondage."}},
+  {sanskrit:"ॐ श्री महालक्ष्म्यै नमः",title:{hi:"लक्ष्मी मंत्र",en:"Lakshmi Mantra"},meaning:{hi:"धन-समृद्धि की देवी लक्ष्मी को नमन।",en:"Salutations to Goddess Lakshmi."}}
 ];
 
-/* ---------- 6. HINDU PANCHANG INFO ---------- */
+/* ---------- HINDU INFO ---------- */
 const HINDU_INFO={
-  hi:[
-    {t:"पंचांग क्या है?",d:"पंचांग संस्कृत के 'पंच' (पाँच) और 'अंग' (भाग) से बना है। यह हिंदू कैलेंडर है जो पाँच तत्वों पर आधारित है: तिथि, वार, नक्षत्र, योग और करण।"},
-    {t:"१. तिथि",d:"चंद्रमा और सूर्य के बीच कोणीय दूरी पर आधारित चंद्र दिवस। एक माह में ३० तिथियाँ होती हैं।"},
-    {t:"२. वार",d:"सप्ताह के सात दिन - रविवार से शनिवार तक।"},
-    {t:"३. नक्षत्र",d:"आकाश में चंद्रमा की स्थिति दर्शाने वाले २७ तारामंडल।"},
-    {t:"४. योग",d:"सूर्य और चंद्रमा की संयुक्त स्थिति से बनने वाले २७ योग।"},
-    {t:"५. करण",d:"तिथि का आधा भाग; कुल ११ करण होते हैं।"}
-  ],
-  en:[
-    {t:"What is Panchang?",d:"Panchang comes from Sanskrit 'Pancha' (five) and 'Anga' (limbs). It is the Hindu calendar based on five elements: Tithi, Vaar, Nakshatra, Yoga and Karan."},
-    {t:"1. Tithi",d:"Lunar day based on the angular distance between Moon and Sun. There are 30 tithis in a month."},
-    {t:"2. Vaar",d:"The seven days of the week - Sunday to Saturday."},
-    {t:"3. Nakshatra",d:"27 lunar mansions indicating the Moon's position in the sky."},
-    {t:"4. Yoga",d:"27 yogas formed by the combined positions of Sun and Moon."},
-    {t:"5. Karan",d:"Half of a tithi; there are 11 karans in total."}
-  ],
-  default:[]
+  hi:[{t:"पंचांग क्या है?",d:"'पंच' (पाँच) + 'अंग' (भाग)। हिंदू कैलेंडर पाँच तत्वों पर आधारित: तिथि, वार, नक्षत्र, योग, करण। हर क्षेत्र अपनी स्थानीय गणना (देशांतर व अयनांश) के अनुसार पंचांग बनाता है।"},
+    {t:"१. तिथि",d:"चंद्र-सूर्य कोणीय दूरी पर आधारित चंद्र दिवस। एक माह में ३० तिथियाँ।"},
+    {t:"२. वार",d:"सप्ताह के सात दिन।"},
+    {t:"३. नक्षत्र",d:"चंद्रमा की स्थिति दर्शाने वाले २७ तारामंडल।"},
+    {t:"४. योग",d:"सूर्य-चंद्र संयुक्त स्थिति से बनने वाले २७ योग।"},
+    {t:"५. करण",d:"तिथि का आधा भाग; कुल ११ करण।"},
+    {t:"क्षेत्रीय भिन्नता",d:"उत्तर भारत: पूर्णिमांत मास, विक्रम संवत। महाराष्ट्र/दक्षिण: अमांत मास, शालिवाहन शक। बंगाल: बंगाब्द। केरल: कोल्लम वर्षम। तमिलनाडु: सौर पंचांग।"}],
+  en:[{t:"What is Panchang?",d:"'Pancha' (five) + 'Anga' (limbs). The Hindu calendar based on Tithi, Vaar, Nakshatra, Yoga, Karan. Each region computes its own panchang based on local longitude and ayanamsha."},
+    {t:"1. Tithi",d:"Lunar day from Moon-Sun angular distance. 30 tithis per month."},
+    {t:"2. Vaar",d:"The seven weekdays."},
+    {t:"3. Nakshatra",d:"27 lunar mansions showing the Moon's position."},
+    {t:"4. Yoga",d:"27 yogas from combined Sun-Moon positions."},
+    {t:"5. Karan",d:"Half a tithi; 11 karans in total."},
+    {t:"Regional Variation",d:"North India: Purnimanta months, Vikram Samvat. Maharashtra/South: Amanta months, Shalivahana Shaka. Bengal: Bangabda. Kerala: Kollam Varsham. Tamil Nadu: Solar calendar."}]
 };
 
-/* ---------- 7. APP STATE & RENDERING ---------- */
+/* ============================================================
+   STATE + ROUTER (hash based: #lang  or  #lang/page)
+   ============================================================ */
 let currentLang="hi";
+let currentPage="daily";
 let calDate=new Date();
+const PAGES=["daily","monthly","hindu","mantra"];
 
-function t(key){return I18N[currentLang][key]||I18N.hi[key];}
+function parseHash(){
+  const h=location.hash.replace(/^#/,"");
+  const [l,p]=h.split("/");
+  if(l && LANGS[l])currentLang=l;
+  if(p && PAGES.includes(p))currentPage=p; else currentPage="daily";
+}
+function setHash(){location.hash=currentLang+"/"+currentPage;}
 
 function buildLangBar(){
   const bar=document.getElementById("langBar");bar.innerHTML="";
-  Object.keys(I18N).forEach(code=>{
-    const b=document.createElement("button");
-    b.textContent=I18N[code].name;b.dataset.lang=code;
-    if(code===currentLang)b.classList.add("active");
-    b.onclick=()=>{currentLang=code;document.documentElement.lang=code;renderAll();};
-    bar.appendChild(b);
+  Object.keys(LANGS).forEach(code=>{
+    const a=document.createElement("a");
+    a.textContent=LANGS[code].name;
+    a.href="#"+code+"/"+currentPage;
+    if(code===currentLang)a.classList.add("active");
+    bar.appendChild(a);
   });
 }
-
 function buildNav(){
   const nav=document.getElementById("mainNav");nav.innerHTML="";
-  const items=[["daily","page-daily"],["monthly","page-monthly"],["hindu","page-hindu"],["mantra","page-mantra"]];
-  items.forEach(([key,page],i)=>{
-    const b=document.createElement("button");
-    b.textContent=I18N[currentLang].nav[key];
-    if(i===0)b.classList.add("active");
-    b.onclick=()=>showPage(page,b);
-    nav.appendChild(b);
+  const U=ui(currentLang);
+  PAGES.forEach(p=>{
+    const a=document.createElement("a");
+    a.textContent=U.nav[p];a.href="#"+currentLang+"/"+p;
+    if(p===currentPage)a.classList.add("active");
+    nav.appendChild(a);
   });
 }
-function showPage(id,btn){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-  document.querySelectorAll("#mainNav button").forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
+function showPage(){
+  document.querySelectorAll(".page").forEach(s=>s.classList.remove("active"));
+  document.getElementById("page-"+currentPage).classList.add("active");
 }
 
-function item(label,value){
-  return `<div class="pitem"><div class="label">${label}</div><div class="value">${value}</div></div>`;
-}
+function item(label,value){return `<div class="pitem"><div class="label">${label}</div><div class="value">${value}</div></div>`;}
 
 function renderDaily(){
-  const lang=currentLang;const L=I18N[lang].labels;
-  const now=new Date();
-  const p=computePanchang(now);
-  const st=sunTimes(now);
-  const vaarName=pick(VAAR,lang)[p.vaar];
+  const lang=currentLang,U=ui(lang),L=U.labels,rc=REGION_CALC[lang]||REGION_CALC.hi;
+  const now=new Date();const p=computePanchang(now);const st=sunTimes(now,rc.lon);
+  const vaar=(VAAR[lang]||VAAR.default)[p.vaar];
   document.getElementById("todayDate").textContent=
-    now.toLocaleDateString(lang==="en"?"en-IN":"hi-IN",{day:"numeric",month:"long",year:"numeric"})+" • "+vaarName;
-  const grid=document.getElementById("dailyGrid");
-  grid.innerHTML=
-    item(L.tithi,pick(PAKSHA,lang)[p.paksha]+" "+pick(TITHI,lang)[p.tithiInPaksha])+
-    item(L.vaar,vaarName)+
-    item(L.nakshatra,pick(NAKSHATRA,lang)[p.nak])+
-    item(L.yoga,pick(YOGA,lang)[p.yoga])+
-    item(L.karan,pick(KARAN,lang)[p.karan])+
-    item(L.paksha,pick(PAKSHA,lang)[p.paksha])+
-    item(L.maah,pick(MAAH,lang)[p.maah])+
-    item(L.ritu,pick(RITU,lang)[p.ritu])+
-    item(L.samvat,(now.getFullYear()+57))+
-    item(L.sunrise,st.sunrise)+
-    item(L.sunset,st.sunset)+
-    item(L.moonrise,st.moonrise);
-  const m=document.getElementById("muhuratGrid");
-  m.innerHTML=
-    item(L.rahukaal,periodFromSeq(now,RAHU_SEQ[p.vaar]))+
-    item(L.gulika,periodFromSeq(now,GULIK_SEQ[p.vaar]))+
-    item(L.yamghant,periodFromSeq(now,YAM_SEQ[p.vaar]))+
+    now.getDate()+" / "+(now.getMonth()+1)+" / "+now.getFullYear()+" • "+vaar;
+  // regional date row (Bengali Bangla date highlighted)
+  const rd=document.getElementById("regionalDate");
+  if(lang==="bn"){rd.style.display="block";rd.textContent="📿 "+banglaDate(now);}
+  else{rd.style.display="block";rd.textContent=L.samvat+": "+(now.getFullYear()+rc.eraAdd)+" • "+LANGS[lang].era;}
+  document.getElementById("dailyGrid").innerHTML=
+    item(L.tithi,S(PAKSHA,lang)[p.paksha]+" "+S(TITHI,lang)[p.tithiInPaksha])+
+    item(L.vaar,vaar)+
+    item(L.nakshatra,S(NAKSHATRA,lang)[p.nak])+
+    item(L.yoga,S(YOGA,lang)[p.yoga]||YOGA.deva[p.yoga])+
+    item(L.karan,S(KARAN,lang)[p.karan]||KARAN.deva[p.karan])+
+    item(L.paksha,S(PAKSHA,lang)[p.paksha])+
+    item(L.maah,S(MAAH,lang)[p.maah]||MAAH.deva[p.maah])+
+    item(L.ritu,S(RITU,lang)[p.ritu]||RITU.deva[p.ritu])+
+    item(L.samvat,(now.getFullYear()+rc.eraAdd))+
+    item(L.sunrise,st.sunrise)+item(L.sunset,st.sunset)+item(L.moonrise,st.moonrise);
+  document.getElementById("muhuratGrid").innerHTML=
+    item(L.rahukaal,periodFromSeq(now,RAHU_SEQ[p.vaar],rc.lon))+
+    item(L.gulika,periodFromSeq(now,GULIK_SEQ[p.vaar],rc.lon))+
+    item(L.yamghant,periodFromSeq(now,YAM_SEQ[p.vaar],rc.lon))+
     item(L.abhijit,"11:48 AM – 12:36 PM")+
     item(L.amrit,"05:30 AM – 07:00 AM");
 }
@@ -542,81 +490,76 @@ function renderDaily(){
 function renderCalendar(){
   const lang=currentLang;
   const y=calDate.getFullYear(),mo=calDate.getMonth();
-  const monthName=calDate.toLocaleDateString(lang==="en"?"en-IN":"hi-IN",{month:"long",year:"numeric"});
-  document.getElementById("calTitle").textContent=monthName;
+  document.getElementById("calTitle").textContent=
+    new Intl.DateTimeFormat("en-IN",{month:"long",year:"numeric"}).format(calDate);
   const cal=document.getElementById("calendar");cal.innerHTML="";
-  const dayNames=lang==="en"?["S","M","T","W","T","F","S"]:["र","सो","मं","बु","गु","शु","श"];
-  dayNames.forEach(d=>{const e=document.createElement("div");e.className="cal-day-name";e.textContent=d;cal.appendChild(e);});
-  const first=new Date(y,mo,1).getDay();
-  const daysInMonth=new Date(y,mo+1,0).getDate();
+  const dn=(VAAR[lang]||VAAR.default).map(d=>d.slice(0,2));
+  dn.forEach(d=>{const e=document.createElement("div");e.className="cal-day-name";e.textContent=d;cal.appendChild(e);});
+  const first=new Date(y,mo,1).getDay(),dim=new Date(y,mo+1,0).getDate(),today=new Date();
   for(let i=0;i<first;i++){const e=document.createElement("div");e.className="cal-cell empty";cal.appendChild(e);}
-  const today=new Date();
-  for(let d=1;d<=daysInMonth;d++){
+  for(let d=1;d<=dim;d++){
     const cell=document.createElement("div");cell.className="cal-cell";
-    const cellDate=new Date(y,mo,d);
-    const p=computePanchang(cellDate);
-    const fest=festOf(cellDate,lang);
+    const cd=new Date(y,mo,d);const p=computePanchang(cd);const fest=festOf(cd,lang);
     if(d===today.getDate()&&mo===today.getMonth()&&y===today.getFullYear())cell.classList.add("today");
-    cell.innerHTML=`<div class="num">${d}</div>
-      <div class="tithi">${pick(TITHI,lang)[p.tithiInPaksha]}</div>
-      ${fest?`<div class="fest">${fest}</div>`:""}`;
-    cell.onclick=()=>showDayDetail(cellDate);
+    cell.innerHTML=`<div class="num">${d}</div><div class="tithi">${S(TITHI,lang)[p.tithiInPaksha]}</div>${fest?`<div class="fest">${fest}</div>`:""}`;
+    cell.onclick=()=>showDayDetail(cd);
     cal.appendChild(cell);
   }
 }
 function changeMonth(delta){calDate.setMonth(calDate.getMonth()+delta);renderCalendar();}
 function showDayDetail(date){
-  const lang=currentLang;const L=I18N[lang].labels;
-  const p=computePanchang(date);const st=sunTimes(date);
+  const lang=currentLang,U=ui(lang),L=U.labels,rc=REGION_CALC[lang]||REGION_CALC.hi;
+  const p=computePanchang(date);const st=sunTimes(date,rc.lon);
   document.getElementById("dayDetailCard").style.display="block";
   document.getElementById("dayDetailGrid").innerHTML=
-    item("📆",date.toLocaleDateString(lang==="en"?"en-IN":"hi-IN",{day:"numeric",month:"long",year:"numeric"}))+
-    item(L.vaar,pick(VAAR,lang)[p.vaar])+
-    item(L.tithi,pick(PAKSHA,lang)[p.paksha]+" "+pick(TITHI,lang)[p.tithiInPaksha])+
-    item(L.nakshatra,pick(NAKSHATRA,lang)[p.nak])+
-    item(L.yoga,pick(YOGA,lang)[p.yoga])+
-    item(L.karan,pick(KARAN,lang)[p.karan])+
-    item(L.sunrise,st.sunrise)+
-    item(L.sunset,st.sunset);
+    item("📆",date.getDate()+" / "+(date.getMonth()+1)+" / "+date.getFullYear())+
+    (lang==="bn"?item("📿",banglaDate(date)):"")+
+    item(L.vaar,(VAAR[lang]||VAAR.default)[p.vaar])+
+    item(L.tithi,S(PAKSHA,lang)[p.paksha]+" "+S(TITHI,lang)[p.tithiInPaksha])+
+    item(L.nakshatra,S(NAKSHATRA,lang)[p.nak])+
+    item(L.yoga,S(YOGA,lang)[p.yoga]||YOGA.deva[p.yoga])+
+    item(L.karan,S(KARAN,lang)[p.karan]||KARAN.deva[p.karan])+
+    item(L.sunrise,st.sunrise)+item(L.sunset,st.sunset);
   document.getElementById("dayDetailCard").scrollIntoView({behavior:"smooth"});
 }
-
 function renderHindu(){
-  const lang=currentLang;
-  const data=HINDU_INFO[lang]||HINDU_INFO.hi;
-  const c=document.getElementById("hinduContent");c.innerHTML="";
-  data.forEach(x=>{
-    c.innerHTML+=`<div class="mantra"><div class="title">${x.t}</div><div class="meaning">${x.d}</div></div>`;
-  });
+  const data=HINDU_INFO[currentLang]||HINDU_INFO.en;
+  document.getElementById("hinduContent").innerHTML=
+    data.map(x=>`<div class="mantra"><div class="title">${x.t}</div><div class="meaning">${x.d}</div></div>`).join("");
 }
-
 function renderMantra(){
   const lang=currentLang;
-  const c=document.getElementById("mantraContent");c.innerHTML="";
-  MANTRAS.forEach(m=>{
-    const title=m.title[lang]||m.title.default;
-    const meaning=m.meaning[lang]||m.meaning.default;
-    c.innerHTML+=`<div class="mantra">
-      <div class="title">${title}</div>
-      <div class="sanskrit">${m.sanskrit}</div>
-      <div class="meaning">${meaning}</div></div>`;
-  });
+  document.getElementById("mantraContent").innerHTML=MANTRAS.map(m=>{
+    const title=m.title[lang]||m.title.en||m.title.hi;
+    const meaning=m.meaning[lang]||m.meaning.en||m.meaning.hi;
+    return `<div class="mantra"><div class="title">${title}</div><div class="sanskrit">${m.sanskrit}</div><div class="meaning">${meaning}</div></div>`;
+  }).join("");
 }
-
-function applyI18nText(){
-  document.getElementById("siteTitle").textContent=I18N[currentLang].site;
-  document.querySelectorAll("[data-i18n]").forEach(el=>{
-    const key=el.dataset.i18n;if(I18N[currentLang][key])el.textContent=I18N[currentLang][key];
-  });
+function applyText(){
+  const U=ui(currentLang);
+  document.documentElement.lang=currentLang;
+  document.documentElement.dir=["ur","ks","sd"].includes(currentLang)?"rtl":"ltr";
+  document.getElementById("siteTitle").textContent=U.site;
+  document.getElementById("regionLabel").textContent="📍 "+LANGS[currentLang].region;
+  document.getElementById("footerText").textContent=U.footerText;
+  document.getElementById("t-dailyTitle").textContent=U.dailyTitle;
+  document.getElementById("t-monthlyTitle").textContent=U.monthlyTitle;
+  document.getElementById("t-hinduTitle").textContent=U.hinduTitle;
+  document.getElementById("t-mantraTitle").textContent=U.mantraTitle;
+  document.getElementById("t-muhuratTitle").textContent=U.muhuratTitle;
+  document.getElementById("t-dayDetail").textContent=U.dayDetail;
 }
-
 function renderAll(){
-  buildLangBar();buildNav();applyI18nText();
+  parseHash();
+  buildLangBar();buildNav();applyText();showPage();
   renderDaily();renderCalendar();renderHindu();renderMantra();
   document.getElementById("dayDetailCard").style.display="none";
 }
-
-/* ---------- INIT ---------- */
+window.addEventListener("hashchange",renderAll);
+window.addEventListener("DOMContentLoaded",()=>{
+  if(!location.hash){location.hash="hi/daily";}
+  renderAll();
+});
 renderAll();
 </script>
 </body>
