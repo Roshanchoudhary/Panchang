@@ -1,21 +1,19 @@
 /* panchang-core.js — Accurate Panchang using astronomy-engine (sidereal / Lahiri)
-   Requires: astronomy-engine loaded globally as `Astronomy`
-   All angles in degrees. Uses Lahiri ayanamsha for sidereal (Vedic) positions. */
+   Requires: astronomy-engine loaded globally as `Astronomy` */
 
 const PanchangCore = (function () {
 
-  // ---- Lahiri Ayanamsha (approx, arc-min accurate) ----
+  // ---- Lahiri (Chitrapaksha) Ayanamsha ----
+  // Astronomy.MakeTime(date).tt = days since J2000 (TT). Convert to centuries.
   function lahiriAyanamsha(date) {
-    // Reference: ayanamsha ~ 23.85° at J2000, precession ~50.29"/yr
-    const jd = Astronomy.MakeTime(date).tt; // days since J2000 (TT)
-    const T = jd / 36525.0;
-    // Lahiri: 23°51'11" at J2000 approx + precession
-    return 23.85272 + 1.396042 * T + 0.000308 * T * T;
+    const days = Astronomy.MakeTime(date).tt;   // days since J2000
+    const T = days / 36525.0;                    // Julian centuries
+    // Lahiri ≈ 23.85° at J2000; precession ≈ 1.3969°/century (50.2564"/yr)
+    return 23.853 + 1.3969 * T + 0.0000308 * T * T;
   }
 
   function norm360(x) { return ((x % 360) + 360) % 360; }
 
-  // Geocentric ecliptic longitude (tropical) of a body
   function tropicalLongitude(body, date) {
     const t = Astronomy.MakeTime(date);
     const vec = Astronomy.GeoVector(body, t, true);
@@ -27,29 +25,28 @@ const PanchangCore = (function () {
     return norm360(tropicalLongitude(body, date) - lahiriAyanamsha(date));
   }
 
-  // ---- Core five limbs ----
-  // Tithi: 1..30 based on (Moon - Sun) sidereal longitude / 12°
+  // ---- Tithi: (Moon - Sun) / 12° ----
   function computeTithi(date) {
     const sun = siderealLongitude(Astronomy.Body.Sun, date);
     const moon = siderealLongitude(Astronomy.Body.Moon, date);
     const diff = norm360(moon - sun);
-    const index = Math.floor(diff / 12); // 0..29
-    const paksha = index < 15 ? 0 : 1;   // 0=Shukla, 1=Krishna
-    const inPaksha = index % 15;         // 0..14
-    const fraction = (diff % 12) / 12;   // progress within tithi
+    const index = Math.floor(diff / 12);   // 0..29
+    const paksha = index < 15 ? 0 : 1;
+    const inPaksha = index % 15;
+    const fraction = (diff % 12) / 12;
     return { index, paksha, inPaksha, tithiNo: index + 1, fraction, diff };
   }
 
-  // Nakshatra: Moon sidereal longitude / (360/27)
+  // ---- Nakshatra: Moon / 13°20' ----
   function computeNakshatra(date) {
     const moon = siderealLongitude(Astronomy.Body.Moon, date);
-    const span = 360 / 27;
+    const span = 360 / 27;                 // 13.3333°
     const index = Math.floor(moon / span); // 0..26
     const pada = Math.floor((moon % span) / (span / 4)) + 1; // 1..4
     return { index, pada, longitude: moon };
   }
 
-  // Yoga: (Sun + Moon) sidereal / (360/27)
+  // ---- Yoga: (Sun + Moon) / 13°20' ----
   function computeYoga(date) {
     const sun = siderealLongitude(Astronomy.Body.Sun, date);
     const moon = siderealLongitude(Astronomy.Body.Moon, date);
@@ -58,62 +55,67 @@ const PanchangCore = (function () {
     return { index };
   }
 
-  // Karana: half-tithi. 60 karanas per lunar month; 11 distinct names.
+  // ---- Karana: 60 half-tithis per lunar month, 11 distinct names ----
+  // i18n karana array (11): [Bava,Balava,Kaulava,Taitila,Gara,Vanija,Vishti,
+  //                          Shakuni,Chatushpada,Naga,Kimstughna]
+  //   indices:                0     1       2       3      4    5      6
+  //                           7        8           9     10
+  // Sequence rule:
+  //  - half 0            -> Kimstughna (10)  [first half of Shukla Pratipada]
+  //  - half 1..56 (56)   -> 7 movable (0..6) repeating -> ((half-1) % 7)
+  //  - half 57,58,59     -> Shakuni(7), Chatushpada(8), Naga(9)
   function computeKarana(date) {
     const t = computeTithi(date);
-    const half = Math.floor(t.diff / 6); // 0..59
-    // Karana sequence mapping (standard Vedic)
+    const half = Math.floor(t.diff / 6);   // 0..59
     let name;
-    if (half === 0) name = 10;              // Kimstughna (first half of Shukla Pratipada) idx→ use 10
-    else if (half >= 57) name = 7 + (half - 57); // last three fixed: Shakuni,Chatushpada,Naga,Kimstughna
-    else name = (half - 1) % 7;             // 7 repeating movable karanas (0..6)
+    if (half === 0) name = 10;             // Kimstughna
+    else if (half <= 56) name = (half - 1) % 7;   // movable Bava..Vishti
+    else name = 7 + (half - 57);           // 57->Shakuni,58->Chatushpada,59->Naga
     return { index: name, half };
   }
 
-  function computeVaara(date) { return date.getDay(); } // 0=Sun
+  function computeVaara(date) { return date.getDay(); }
 
-  // ---- Sunrise / Sunset / Moonrise for a location ----
+  // ---- Rise / Set (accurate) ----
   function riseSet(body, date, lat, lon, direction) {
-    const observer = new Astronomy.Observer(lat, lon, 0);
-    const startTime = Astronomy.MakeTime(new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
-    const ev = Astronomy.SearchRiseSet(body, observer, direction, startTime, 1);
-    return ev ? ev.date : null;
+    try {
+      const observer = new Astronomy.Observer(lat, lon, 0);
+      const startTime = Astronomy.MakeTime(
+        new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
+      const ev = Astronomy.SearchRiseSet(body, observer, direction, startTime, 1);
+      return ev ? ev.date : null;
+    } catch (e) { return null; }
   }
+  function sunrise(date, lat, lon)  { return riseSet(Astronomy.Body.Sun, date, lat, lon, +1); }
+  function sunset(date, lat, lon)   { return riseSet(Astronomy.Body.Sun, date, lat, lon, -1); }
+  function moonrise(date, lat, lon) { return riseSet(Astronomy.Body.Moon, date, lat, lon, +1); }
 
-  function sunrise(date, lat, lon) { return riseSet(Astronomy.Body.Sun, date, lat, lon, +1); }
-  function sunset(date, lat, lon)  { return riseSet(Astronomy.Body.Sun, date, lat, lon, -1); }
-  function moonrise(date, lat, lon){ return riseSet(Astronomy.Body.Moon, date, lat, lon, +1); }
-
-  // ---- Rahu Kaal / Gulika / Yamaganda (based on real sunrise/sunset) ----
-  const RAHU = [8, 2, 7, 5, 6, 4, 3];   // Sun..Sat (1-indexed segment of 8)
+  // ---- Rahu / Gulika / Yamaganda (real sunrise..sunset, 8 segments) ----
+  const RAHU   = [8, 2, 7, 5, 6, 4, 3];  // Sun..Sat
   const GULIKA = [7, 6, 5, 4, 3, 2, 1];
-  const YAMA = [5, 4, 3, 2, 1, 7, 6];
+  const YAMA   = [5, 4, 3, 2, 1, 7, 6];
 
   function inauspiciousPeriod(seqArr, vaara, sr, ss) {
     if (!sr || !ss) return null;
     const seg = (ss - sr) / 8;
     const start = new Date(sr.getTime() + (seqArr[vaara] - 1) * seg);
-    const end = new Date(start.getTime() + seg);
-    return { start, end };
+    return { start, end: new Date(start.getTime() + seg) };
   }
 
-  // Abhijit Muhurat: midday ±24 min (8th muhurta of day)
+  // Abhijit: 8th of 15 day-muhurtas (midday)
   function abhijit(sr, ss) {
     if (!sr || !ss) return null;
-    const dayLen = ss - sr;
-    const muhurtaLen = dayLen / 15;
-    const start = new Date(sr.getTime() + 7 * muhurtaLen);
-    const end = new Date(start.getTime() + muhurtaLen);
-    return { start, end };
+    const mLen = (ss - sr) / 15;
+    const start = new Date(sr.getTime() + 7 * mLen);
+    return { start, end: new Date(start.getTime() + mLen) };
   }
 
-  // Full daily panchang for a date + location
+  // ---- Full daily panchang ----
   function daily(date, lat, lon) {
     const sr = sunrise(date, lat, lon);
     const ss = sunset(date, lat, lon);
     const vaara = computeVaara(date);
-    // Panchang elements are conventionally taken at sunrise
-    const refTime = sr || date;
+    const refTime = sr || date;   // panchang taken at sunrise
     return {
       date,
       tithi: computeTithi(refTime),
