@@ -4,70 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="theme-color" content="#c1272d">
-<meta name="description" content="भारतीय पंचांग - 22 राजभाषाओं में सटीक दैनिक/मासिक पंचांग, राशिफल। Indian Panchang in all 22 official languages.">
+<meta name="description" content="भारतीय पंचांग - 22 राजभाषाओं में सटीक दैनिक/मासिक पंचांग, राशिफल।">
 <title>भारतीय पंचांग | Indian Panchang</title>
 <link rel="stylesheet" href="css/styles.css">
 <style>
-/* ---- Landing page specific + mobile fixes (self-contained) ---- */
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{
-  font-family:'Noto Sans','Segoe UI',system-ui,sans-serif;
-  background:linear-gradient(180deg,#fff8f0,#fff1e0);
-  color:#2d1500;line-height:1.6;min-height:100vh;
-  -webkit-text-size-adjust:100%;
-}
-.hero{
-  background:linear-gradient(135deg,#c1272d,#f7931e);
-  color:#fff;padding:28px 16px;text-align:center;
-  box-shadow:0 4px 20px rgba(193,39,45,.25);
-}
+body{font-family:'Noto Sans','Segoe UI',system-ui,sans-serif;background:linear-gradient(180deg,#fff8f0,#fff1e0);color:#2d1500;line-height:1.6;min-height:100vh;-webkit-text-size-adjust:100%;}
+.hero{background:linear-gradient(135deg,#c1272d,#f7931e);color:#fff;padding:26px 16px;text-align:center;box-shadow:0 4px 20px rgba(193,39,45,.25);}
 .hero .om{font-size:2.4rem;display:block;line-height:1;}
 .hero h1{font-size:clamp(1.3rem,5vw,2rem);margin-top:8px;letter-spacing:.5px;}
 .hero .tagline{font-size:clamp(.8rem,3vw,1rem);opacity:.95;margin-top:8px;}
-.wrap{max-width:1100px;margin:0 auto;padding:20px 14px;}
-.section-title{
-  text-align:center;color:#c1272d;font-size:clamp(1.1rem,4vw,1.5rem);
-  margin:8px 0 20px;font-weight:700;
+
+/* ---- Professional language DROPDOWN in hero ---- */
+.lang-picker{max-width:460px;margin:20px auto 0;text-align:left;}
+.lang-picker label{display:block;font-size:.8rem;opacity:.95;margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase;text-align:center;}
+.select-shell{position:relative;}
+.select-shell select{
+  appearance:none;-webkit-appearance:none;width:100%;
+  background:#fff;color:#2d1500;border:none;border-radius:14px;
+  padding:15px 46px 15px 18px;font-size:1.05rem;font-weight:600;
+  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.2);outline:none;
 }
-/* Search box */
-.search-box{max-width:420px;margin:0 auto 22px;position:relative;}
-.search-box input{
-  width:100%;padding:14px 44px 14px 16px;border:2px solid #ffd9b3;
-  border-radius:30px;font-size:1rem;outline:none;transition:.2s;
+.select-shell select:focus{box-shadow:0 0 0 4px rgba(255,194,14,.5);}
+.select-shell::after{content:"▾";position:absolute;right:18px;top:50%;transform:translateY(-50%);color:#c1272d;font-size:1.3rem;pointer-events:none;}
+.go-btn{
+  display:block;width:100%;margin-top:12px;background:#4d1a00;color:#ffc20e;
+  border:none;border-radius:14px;padding:14px;font-size:1.05rem;font-weight:700;
+  cursor:pointer;transition:.2s;
 }
-.search-box input:focus{border-color:#f7931e;box-shadow:0 0 0 3px rgba(247,147,30,.2);}
-.search-box::after{content:"🔍";position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:.5;}
-/* Responsive language grid — key mobile fix */
-.lang-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
-  gap:14px;
-}
-.lang-card{
-  background:#fff;border-radius:16px;padding:20px 14px;text-align:center;
-  box-shadow:0 3px 14px rgba(193,39,45,.1);border-top:4px solid #f7931e;
-  transition:transform .2s,box-shadow .2s;text-decoration:none;color:inherit;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:120px;
-}
+.go-btn:hover{background:#3a1400;}
+.go-btn:active{transform:scale(.98);}
+
+.wrap{max-width:1100px;margin:0 auto;padding:24px 14px;}
+.section-title{text-align:center;color:#c1272d;font-size:clamp(1.1rem,4vw,1.5rem);margin:8px 0 8px;font-weight:700;}
+.section-sub{text-align:center;color:#8a5a30;font-size:.9rem;margin-bottom:20px;}
+
+/* Grid below (tap any language directly) */
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:14px;}
+.lang-card{background:#fff;border-radius:16px;padding:18px 12px;text-align:center;box-shadow:0 3px 14px rgba(193,39,45,.1);border-top:4px solid #f7931e;transition:transform .2s,box-shadow .2s;text-decoration:none;color:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:118px;}
 .lang-card:active{transform:scale(.97);}
 .lang-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(193,39,45,.2);}
-.lang-card .native{font-size:1.4rem;font-weight:700;color:#c1272d;word-break:break-word;}
-.lang-card .english{font-size:.78rem;color:#8a5a30;margin-top:4px;text-transform:uppercase;letter-spacing:.5px;}
-.lang-card .region{font-size:.8rem;color:#8a5a30;margin-top:6px;}
+.lang-card .native{font-size:1.35rem;font-weight:700;color:#c1272d;word-break:break-word;}
+.lang-card .english{font-size:.8rem;color:#8a5a30;margin-top:4px;letter-spacing:.3px;}
 .foot{background:#4d1a00;color:#ffcc99;text-align:center;padding:22px 16px;margin-top:26px;}
 .foot .om{font-size:1.5rem;color:#ffc20e;}
 .empty-msg{text-align:center;color:#8a5a30;padding:30px;grid-column:1/-1;}
-/* Small phones */
-@media(max-width:380px){
-  .lang-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
-  .lang-card{padding:16px 8px;min-height:100px;}
-  .lang-card .native{font-size:1.15rem;}
-}
-/* Tablets and up */
-@media(min-width:768px){
-  .lang-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));}
-}
+@media(max-width:380px){.lang-grid{grid-template-columns:repeat(2,1fr);gap:10px;}.lang-card{padding:14px 8px;min-height:100px;}.lang-card .native{font-size:1.15rem;}}
+@media(min-width:768px){.lang-grid{grid-template-columns:repeat(auto-fill,minmax(175px,1fr));}}
 </style>
 </head>
 <body>
@@ -76,15 +59,20 @@ body{
   <span class="om">🕉️</span>
   <h1>भारतीय पंचांग · Indian Panchang</h1>
   <div class="tagline">22 राजभाषाओं में · सटीक ज्योतिषीय गणना (Lahiri Ayanamsha)</div>
+
+  <!-- Professional dropdown -->
+  <div class="lang-picker">
+    <label for="langSelect">🌐 अपनी भाषा चुनें · Choose Your Language</label>
+    <div class="select-shell">
+      <select id="langSelect" aria-label="Select language"></select>
+    </div>
+    <button class="go-btn" id="goBtn">पंचांग खोलें · Open Panchang →</button>
+  </div>
 </header>
 
 <main class="wrap">
-  <h2 class="section-title" id="chooseTitle">अपनी भाषा चुनें · Choose Your Language</h2>
-
-  <div class="search-box">
-    <input type="text" id="langSearch" placeholder="भाषा खोजें / Search language..." aria-label="Search language">
-  </div>
-
+  <h2 class="section-title">सभी भाषाएँ · All Languages</h2>
+  <p class="section-sub">किसी भी भाषा पर टैप करें · Tap any language</p>
   <div class="lang-grid" id="langGrid"></div>
 </main>
 
@@ -93,7 +81,7 @@ body{
   <p>© 2026 भारतीय पंचांग · Indian Panchang</p>
 </footer>
 
-<!-- Load ALL 22 i18n files (this was the bug — only 3 were loaded) -->
+<!-- Load ALL 22 i18n files -->
 <script src="js/i18n/as.js"></script>
 <script src="js/i18n/bn.js"></script>
 <script src="js/i18n/brx.js"></script>
@@ -120,7 +108,6 @@ body{
 <script>
 const ORDER = ["as","bn","brx","doi","gu","hi","kn","ks","kok","mai","ml","mni","mr","ne","or","pa","sa","sat","sd","ta","te","ur"];
 
-// English display names (helps search + recognition on all devices)
 const ENGLISH_NAMES = {
   as:"Assamese", bn:"Bengali", brx:"Bodo", doi:"Dogri", gu:"Gujarati",
   hi:"Hindi", kn:"Kannada", ks:"Kashmiri", kok:"Konkani", mai:"Maithili",
@@ -129,52 +116,34 @@ const ENGLISH_NAMES = {
   te:"Telugu", ur:"Urdu"
 };
 
+const available = ORDER.filter(c => window.I18N && window.I18N[c]);
+const sel = document.getElementById("langSelect");
 const grid = document.getElementById("langGrid");
 
-function renderGrid(filter) {
-  const q = (filter || "").trim().toLowerCase();
-  const available = ORDER.filter(c => window.I18N && window.I18N[c]);
-  const items = available.filter(c => {
-    if (!q) return true;
+// Fill dropdown: "নেটিভ — English"
+if (available.length === 0) {
+  grid.innerHTML = `<div class="empty-msg">भाषा फाइलें लोड नहीं हुईं। js/i18n/ फोल्डर जाँचें।<br>Language files not loaded. Check js/i18n/.</div>`;
+} else {
+  sel.innerHTML = available.map(c => {
     const L = window.I18N[c];
-    const en = (ENGLISH_NAMES[c] || "").toLowerCase();
-    const native = (L.meta.name || "").toLowerCase();
-    const region = (L.meta.region || "").toLowerCase();
-    return c.includes(q) || en.includes(q) || native.includes(q) || region.includes(q);
-  });
+    return `<option value="${c}"${c==="hi"?" selected":""}>${L.meta.name} — ${ENGLISH_NAMES[c]||c}</option>`;
+  }).join("");
 
-  if (items.length === 0) {
-    grid.innerHTML = `<div class="empty-msg">कोई भाषा नहीं मिली · No language found</div>`;
-    return;
-  }
-
-  grid.innerHTML = items.map(c => {
+  // Grid: native + English on each card
+  grid.innerHTML = available.map(c => {
     const L = window.I18N[c];
     const dir = L.meta.dir === "rtl" ? ' dir="rtl"' : '';
     return `<a class="lang-card" href="daily.html?lang=${c}">
       <div class="native"${dir}>${L.meta.name}</div>
-      <div class="english">${ENGLISH_NAMES[c] || c}</div>
-      <div class="region">📍 ${L.meta.region}</div>
+      <div class="english">${ENGLISH_NAMES[c]||c}</div>
     </a>`;
   }).join("");
 }
 
-// Initial render
-renderGrid("");
-
-// If some i18n files fail to load, still show what loaded + a note
-window.addEventListener("load", () => {
-  const loaded = ORDER.filter(c => window.I18N && window.I18N[c]).length;
-  if (loaded === 0) {
-    grid.innerHTML = `<div class="empty-msg">
-      भाषा फाइलें लोड नहीं हुईं। कृपया जाँचें कि <code>js/i18n/</code> फोल्डर में सभी फाइलें मौजूद हैं।<br>
-      Language files not loaded. Ensure all files exist in <code>js/i18n/</code>.
-    </div>`;
-  }
+// Dropdown "Open" button
+document.getElementById("goBtn").addEventListener("click", () => {
+  if (sel.value) location.href = `daily.html?lang=${sel.value}`;
 });
-
-// Live search
-document.getElementById("langSearch").addEventListener("input", e => renderGrid(e.target.value));
 </script>
 </body>
 </html>
