@@ -1,6 +1,7 @@
 /* calendars.js — Regional calendar conversions
    Types: purnimanta (N.India), amanta (Maharashtra/South), bangla-solar,
-   tamil-solar, malayalam-solar (Kollam), gujarati (Kartikadi Vikram) */
+   tamil-solar, malayalam-solar (Kollam), gujarati (Kartikadi Vikram)
+   Depends on: PanchangCore, Astronomy */
 
 const Calendars = (function () {
 
@@ -10,12 +11,11 @@ const Calendars = (function () {
     return Math.floor(sunLon / 30); // 0..11
   }
 
-  // Day within the solar month = days since Sun entered current rashi
+  // Day within solar month = days since Sun entered current rashi
   function solarDayOfMonth(date) {
     const targetMonth = solarMonthIndex(date);
     let probe = new Date(date);
     let day = 1;
-    // walk backwards until previous day is in a different solar month
     for (let i = 0; i < 40; i++) {
       const prev = new Date(probe); prev.setDate(prev.getDate() - 1);
       if (solarMonthIndex(prev) !== targetMonth) break;
@@ -24,13 +24,9 @@ const Calendars = (function () {
     return day;
   }
 
-  // ---- Lunar month index (Amanta) from Sun's rashi at new moon ----
-  // Amanta month = solar month in which the *new moon* (Amavasya) that begins it falls.
+  // Amanta lunar month = solar rashi at the new moon (Amavasya) that begins it
   function amantaMonth(date) {
-    const t = PanchangCore.computeTithi(date);
-    // Find the most recent new moon (Amavasya) before/at date
     let d = new Date(date);
-    // search back up to 30 days for tithiNo transition to 1 (start of Shukla)
     let nm = new Date(date);
     for (let i = 0; i < 32; i++) {
       const tt = PanchangCore.computeTithi(d);
@@ -38,32 +34,27 @@ const Calendars = (function () {
       d.setDate(d.getDate() - 1);
     }
     const sunLon = PanchangCore.siderealLongitude(Astronomy.Body.Sun, nm);
-    return Math.floor(sunLon / 30) % 12; // 0=Chaitra region
+    return Math.floor(sunLon / 30) % 12; // 0 = Chaitra
   }
 
-  // Purnimanta month = Amanta shifted; a purnimanta month starts after Purnima.
-  // During Krishna paksha, Purnimanta month is one ahead of Amanta.
+  // Purnimanta month = one ahead of Amanta during Krishna paksha
   function purnimantaMonth(date) {
     const t = PanchangCore.computeTithi(date);
     let m = amantaMonth(date);
-    if (t.paksha === 1) m = (m + 1) % 12; // Krishna paksha -> next month name
+    if (t.paksha === 1) m = (m + 1) % 12;
     return m;
   }
 
-  // ---- Era year calculations ----
-  function vikramYear(date) {  // Chaitra-based (North)
-    const y = date.getFullYear();
-    return y + 57; // approx; refined by whether before Chaitra new year
-  }
+  // ---- Era years ----
+  function vikramYear(date) { return date.getFullYear() + 57; }
   function shakaYear(date) { return date.getFullYear() - 78; }
   function kollamYear(date) {
-    // Kollam era starts 825 CE; new year around mid-Aug (Chingam)
     const y = date.getFullYear();
     return (date.getMonth() >= 7) ? y - 824 : y - 825;
   }
 
   // ---- Bengali (Bangabda) — solar, Poila Boishakh ~Apr 14/15 ----
-  const BANGLA_MONTHS_START = [ // [month(0-idx), day] Gregorian approx
+  const BANGLA_MONTHS_START = [ // [gregorian month(0-idx), day]
     [3,15],[4,15],[5,15],[6,16],[7,16],[8,16],[9,17],[10,16],[11,15],[0,14],[1,13],[2,15]
   ];
   function banglaDate(date) {
@@ -81,21 +72,19 @@ const Calendars = (function () {
     return { monthIndex: mIdx, day, year: bYear };
   }
 
-  // ---- Tamil solar date (months: Chithirai..Panguni) ----
+  // ---- Tamil solar date (Chithirai..Panguni) ----
   function tamilDate(date) {
     const m = solarMonthIndex(date);   // 0=Mesha=Chithirai
     const d = solarDayOfMonth(date);
-    // Tamil year within 60-year cycle
-    const cycleYear = ((date.getFullYear() - 1987) % 60 + 60) % 60; // 1987 = Prabhava
+    const cycleYear = ((date.getFullYear() - 1987) % 60 + 60) % 60; // 1987=Prabhava
     return { monthIndex: m, day: d, cycleIndex: cycleYear };
   }
 
   // ---- Malayalam (Kollam) solar date ----
   function malayalamDate(date) {
-    const m = solarMonthIndex(date); // 0=Mesha=Medam? Kerala starts Chingam(Simha=4)
+    const m = solarMonthIndex(date);          // 0=Mesha
     const d = solarDayOfMonth(date);
-    // Reorder so Chingam (Simha, idx 4) = month 0
-    const keralaMonth = (m - 4 + 12) % 12;
+    const keralaMonth = (m - 4 + 12) % 12;    // Chingam (Simha, idx4) = month 0
     return { monthIndex: keralaMonth, day: d, year: kollamYear(date) };
   }
 
