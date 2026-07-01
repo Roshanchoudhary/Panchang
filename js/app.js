@@ -1,15 +1,12 @@
 /* app.js — Shared controller for all pages.
    Reads ?lang= from URL, renders daily / monthly / rashifal.
-   Depends on: PanchangCore, Calendars, Rashifal, window.I18N
-   ------------------------------------------------------------------ */
+   Depends on: PanchangCore, Calendars, Rashifal, window.I18N */
 
 const App = (function () {
 
-  // Fixed alphabetical order of all 22 official languages
   const LANG_ORDER = ["as","bn","brx","doi","gu","hi","kn","ks","kok","mai",
                       "ml","mni","mr","ne","or","pa","sa","sat","sd","ta","te","ur"];
 
-  // English display names for the selector + cards
   const ENGLISH_NAMES = {
     as:"Assamese", bn:"Bengali", brx:"Bodo", doi:"Dogri", gu:"Gujarati",
     hi:"Hindi", kn:"Kannada", ks:"Kashmiri", kok:"Konkani", mai:"Maithili",
@@ -24,7 +21,6 @@ const App = (function () {
     return (p && window.I18N && window.I18N[p]) ? p : "hi";
   }
 
-  // localize digits (0-9) into the language's own script
   function digits(lang, val) {
     const d = window.I18N[lang] && window.I18N[lang].meta && window.I18N[lang].meta.digits;
     if (!d) return String(val);
@@ -40,16 +36,11 @@ const App = (function () {
   }
   function fmtRange(lang, p) { return p ? fmtTime(lang, p.start) + " – " + fmtTime(lang, p.end) : "—"; }
 
-  // ---------- diagnostic banner (shows missing i18n files) ----------
   function checkMissing() {
-    const missing = LANG_ORDER.filter(c => !(window.I18N && window.I18N[c]));
-    if (missing.length) {
-      console.warn("i18n files NOT loaded:", missing);
-    }
-    return missing;
+    return LANG_ORDER.filter(c => !(window.I18N && window.I18N[c]));
   }
 
-  // ---------- header + language dropdown + tabs ----------
+  // ---------- header + dropdown + tabs ----------
   function buildChrome(lang, activeTab) {
     const L = window.I18N[lang];
     document.documentElement.lang = lang;
@@ -59,7 +50,6 @@ const App = (function () {
 
     const page = location.pathname.split("/").pop() || "daily.html";
 
-    // Only list languages whose i18n actually loaded — each as "Native — English"
     const loaded = LANG_ORDER.filter(code => window.I18N[code]);
     const options = loaded.map(code => {
       const nm = window.I18N[code].meta.name;
@@ -95,18 +85,15 @@ const App = (function () {
         ${tab("rashifal", L.ui.rashifal, "rashifal.html")}
       </nav>`;
 
-    // language switch -> same page, new lang
     const sel = document.getElementById("langSelect");
     if (sel) sel.addEventListener("change", () => { location.href = `${page}?lang=${sel.value}`; });
 
-    // show missing-file warning under the nav
     const missing = checkMissing();
     if (missing.length) {
       host.insertAdjacentHTML("beforeend",
         `<div style="background:#fff3cd;color:#8a5a30;text-align:center;padding:8px 12px;font-size:.82rem;">
           ⚠️ ${missing.length} भाषा फाइलें लोड नहीं हुईं / not loaded:
-          <b>${missing.join(", ")}</b> — <code>js/i18n/</code> जाँचें
-        </div>`);
+          <b>${missing.join(", ")}</b> — <code>js/i18n/</code> जाँचें</div>`);
     }
   }
 
@@ -114,7 +101,6 @@ const App = (function () {
   function monthName(lang, date, panchang) {
     const L = window.I18N[lang];
     const cal = L.meta.calendar;
-
     if (cal === "bangla-solar") {
       const b = Calendars.banglaDate(date);
       return { name: (L.maasa_solar || L.maasa_lunar)[b.monthIndex], day: b.day, year: b.year };
@@ -127,10 +113,7 @@ const App = (function () {
       const md = Calendars.malayalamDate(date);
       return { name: (L.maasa_solar || L.maasa_lunar)[md.monthIndex], day: md.day, year: md.year };
     }
-    // lunar (purnimanta / amanta / gujarati)
-    const mIdx = (cal === "purnimanta")
-      ? Calendars.purnimantaMonth(date)
-      : Calendars.amantaMonth(date);
+    const mIdx = (cal === "purnimanta") ? Calendars.purnimantaMonth(date) : Calendars.amantaMonth(date);
     const arr = L.maasa_lunar || L.maasa_solar;
     return { name: arr[mIdx], day: panchang.tithi.inPaksha + 1, year: null };
   }
@@ -155,22 +138,31 @@ const App = (function () {
   }
 
   // ================= DAILY PAGE =================
+  let dailyDate = new Date();
+
   function renderDaily() {
     if (!window.I18N || Object.keys(window.I18N).length === 0) { showFatal(); return; }
     const lang = getLang(); const L = window.I18N[lang];
     buildChrome(lang, "daily");
 
-    const now = new Date();
+    const now = dailyDate;
     const { lat, lon } = L.meta;
     const p = PanchangCore.daily(now, lat, lon);
     const el = document.getElementById("content");
 
     const greg = digits(lang, now.getDate()) + " / " + digits(lang, now.getMonth() + 1) + " / " + digits(lang, now.getFullYear());
     const local = localDateString(lang, now, p);
+    const iso = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
 
     el.innerHTML = `
       <div class="container">
         <div class="card">
+          <div class="date-picker">
+            <button id="prevD" aria-label="Previous day">‹</button>
+            <input type="date" id="pickD" value="${iso}">
+            <button id="nextD" aria-label="Next day">›</button>
+            <button id="todayD" class="today-btn">${L.ui.today || "आज · Today"}</button>
+          </div>
           <div class="date-hero">
             <div class="greg">${greg} · ${L.vaara[p.vaara]}</div>
             <div class="local">📿 ${local}</div>
@@ -198,10 +190,19 @@ const App = (function () {
           <div class="note">${L.meta.region} · Lahiri Ayanamsha · astronomy-engine</div>
         </div>
       </div>`;
+
+    document.getElementById("prevD").onclick = () => { dailyDate.setDate(dailyDate.getDate() - 1); renderDaily(); };
+    document.getElementById("nextD").onclick = () => { dailyDate.setDate(dailyDate.getDate() + 1); renderDaily(); };
+    document.getElementById("todayD").onclick = () => { dailyDate = new Date(); renderDaily(); };
+    document.getElementById("pickD").onchange = (e) => {
+      const [Y, M, D] = e.target.value.split("-").map(Number);
+      if (Y) { dailyDate = new Date(Y, M - 1, D); renderDaily(); }
+    };
   }
 
   // ================= MONTHLY PAGE =================
   let calDate = new Date();
+
   function renderMonthly() {
     if (!window.I18N || Object.keys(window.I18N).length === 0) { showFatal(); return; }
     const lang = getLang(); const L = window.I18N[lang];
@@ -275,7 +276,6 @@ const App = (function () {
   }
 
   // ================= RASHIFAL PAGE =================
-  // City list with coordinates (extend freely)
   const CITIES = [
     ["Delhi", 28.61, 77.21], ["Mumbai", 19.08, 72.88], ["Kolkata", 22.57, 88.36],
     ["Chennai", 13.08, 80.27], ["Bengaluru", 12.97, 77.59], ["Hyderabad", 17.38, 78.49],
@@ -325,17 +325,13 @@ const App = (function () {
     const dv = document.getElementById("bDate").value;
     const tv = document.getElementById("bTime").value || "12:00";
     const ci = +document.getElementById("bCity").value;
-    if (!dv) {
-      document.getElementById("rashiOut").innerHTML = `<div class="note">⚠️ ${L.ui.birthDate}?</div>`;
-      return;
-    }
+    if (!dv) { document.getElementById("rashiOut").innerHTML = `<div class="note">⚠️ ${L.ui.birthDate}?</div>`; return; }
     const [Y, M, D] = dv.split("-").map(Number);
     const [h, m] = tv.split(":").map(Number);
     const city = CITIES[ci];
     const birth = new Date(Y, M - 1, D, h, m);
     const r = Rashifal.janmaRashi(birth, city[1], city[2]);
     const idx = r.rashiIndex;
-
     document.getElementById("rashiOut").innerHTML = `
       <div class="rashi-result">
         <div class="big">${L.rashiSymbols[idx]} ${L.rashi[idx]}</div>
@@ -356,20 +352,13 @@ const App = (function () {
     document.getElementById("horoOut").scrollIntoView({ behavior: "smooth" });
   }
 
-  // ---------- fatal fallback if NO i18n loaded ----------
   function showFatal() {
     const el = document.getElementById("content") || document.body;
     el.innerHTML = `<div class="container"><div class="card">
       <h2 style="color:#c1272d">⚠️ भाषा फाइलें लोड नहीं हुईं</h2>
-      <p>कोई भी <code>js/i18n/*.js</code> फाइल लोड नहीं हुई। कृपया जाँचें:</p>
-      <ul style="margin:10px 0 0 20px">
-        <li>सभी 22 <code>&lt;script src="js/i18n/xx.js"&gt;</code> tags इस page में हैं?</li>
-        <li>फाइल नाम बिलकुल lowercase हैं? (जैसे <code>te.js</code>, <code>Te.js</code> नहीं)</li>
-        <li>Browser Console (F12) में कौन सी file 404 दे रही है?</li>
-      </ul>
+      <p>कोई भी <code>js/i18n/*.js</code> फाइल लोड नहीं हुई। जाँचें: script tags, lowercase नाम, Console (F12) में 404।</p>
     </div></div>`;
   }
 
-  // public API
   return { renderDaily, renderMonthly, renderRashifal, calcRashi, showHoroscope };
 })();
