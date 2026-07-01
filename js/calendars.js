@@ -1,43 +1,38 @@
-/* calendars.js — Regional calendar conversions
-   Types: purnimanta (N.India), amanta (Maharashtra/South), bangla-solar,
-   tamil-solar, malayalam-solar (Kollam), gujarati (Kartikadi Vikram)
+/* calendars.js — Regional civil calendars.
+   Only 7 languages have a distinct civil calendar (date/month/year differs).
    Depends on: PanchangCore, Astronomy */
 
 const Calendars = (function () {
 
-  // Solar month = which rashi the Sun occupies (sidereal). 0=Mesha..11=Meena
+  // Solar month = which rashi Sun occupies (sidereal). 0=Mesha..11=Meena
   function solarMonthIndex(date) {
     const sunLon = PanchangCore.siderealLongitude(Astronomy.Body.Sun, date);
-    return Math.floor(sunLon / 30); // 0..11
+    return Math.floor(sunLon / 30);
   }
 
   // Day within solar month = days since Sun entered current rashi
   function solarDayOfMonth(date) {
-    const targetMonth = solarMonthIndex(date);
-    let probe = new Date(date);
-    let day = 1;
+    const target = solarMonthIndex(date);
+    let probe = new Date(date), day = 1;
     for (let i = 0; i < 40; i++) {
       const prev = new Date(probe); prev.setDate(prev.getDate() - 1);
-      if (solarMonthIndex(prev) !== targetMonth) break;
+      if (solarMonthIndex(prev) !== target) break;
       day++; probe = prev;
     }
     return day;
   }
 
-  // Amanta lunar month = solar rashi at the new moon (Amavasya) that begins it
+  // ---- Lunar month (Amanta / Purnimanta) — for Gujarati & Hindu Panchang display ----
   function amantaMonth(date) {
-    let d = new Date(date);
-    let nm = new Date(date);
+    let d = new Date(date), nm = new Date(date);
     for (let i = 0; i < 32; i++) {
       const tt = PanchangCore.computeTithi(d);
       if (tt.paksha === 0 && tt.inPaksha === 0) { nm = new Date(d); break; }
       d.setDate(d.getDate() - 1);
     }
     const sunLon = PanchangCore.siderealLongitude(Astronomy.Body.Sun, nm);
-    return Math.floor(sunLon / 30) % 12; // 0 = Chaitra
+    return Math.floor(sunLon / 30) % 12; // 0=Chaitra
   }
-
-  // Purnimanta month = one ahead of Amanta during Krishna paksha
   function purnimantaMonth(date) {
     const t = PanchangCore.computeTithi(date);
     let m = amantaMonth(date);
@@ -46,52 +41,90 @@ const Calendars = (function () {
   }
 
   // ---- Era years ----
-  function vikramYear(date) { return date.getFullYear() + 57; }
   function shakaYear(date) { return date.getFullYear() - 78; }
   function kollamYear(date) {
     const y = date.getFullYear();
     return (date.getMonth() >= 7) ? y - 824 : y - 825;
   }
 
-  // ---- Bengali (Bangabda) — solar, Poila Boishakh ~Apr 14/15 ----
-  const BANGLA_MONTHS_START = [ // [gregorian month(0-idx), day]
-    [3,15],[4,15],[5,15],[6,16],[7,16],[8,16],[9,17],[10,16],[11,15],[0,14],[1,13],[2,15]
-  ];
+  // ===== 1. Bengali (Bangabda) — solar =====
+  // Months indexed 0=Mesha=Baishakh .. 11=Meena=Choitro
   function banglaDate(date) {
+    const m = solarMonthIndex(date);
+    const day = solarDayOfMonth(date);
     const y = date.getFullYear();
-    let mIdx = 11, start = null;
-    for (let i = BANGLA_MONTHS_START.length - 1; i >= 0; i--) {
-      const [mm, dd] = BANGLA_MONTHS_START[i];
-      const s = new Date(y, mm, dd);
-      if (date >= s) { mIdx = i; start = s; break; }
-    }
-    if (!start) { const [mm, dd] = BANGLA_MONTHS_START[11]; start = new Date(y - 1, mm, dd); mIdx = 11; }
-    const day = Math.floor((date - start) / 86400000) + 1;
-    let bYear = y - 593;
-    if (date < new Date(y, 3, 15)) bYear = y - 594;
-    return { monthIndex: mIdx, day, year: bYear };
+    // New year at Mesha sankranti (~Apr 14). Solar months Makar/Kumbha/Meena (9,10,11)
+    // fall Jan-mid Apr => still previous Bangabda year.
+    let bYear = (m >= 9) ? y - 594 : y - 593;
+    return { monthIndex: m, day, year: bYear };
   }
 
-  // ---- Tamil solar date (Chithirai..Panguni) ----
+  // ===== 2. Assamese (Bhaskarabda) — solar =====
+  // Same solar months as Bengali; Bhaskarabda year = Gregorian - 593 (approx, Bohag start)
+  function assameseDate(date) {
+    const m = solarMonthIndex(date);
+    const day = solarDayOfMonth(date);
+    const y = date.getFullYear();
+    let bYear = (m >= 9) ? y - 594 : y - 593;
+    return { monthIndex: m, day, year: bYear };
+  }
+
+  // ===== 3. Tamil — solar =====
+  // 0=Mesha=Chithirai .. 11=Meena=Panguni
   function tamilDate(date) {
-    const m = solarMonthIndex(date);   // 0=Mesha=Chithirai
-    const d = solarDayOfMonth(date);
+    const m = solarMonthIndex(date);
+    const day = solarDayOfMonth(date);
     const cycleYear = ((date.getFullYear() - 1987) % 60 + 60) % 60; // 1987=Prabhava
-    return { monthIndex: m, day: d, cycleIndex: cycleYear };
+    return { monthIndex: m, day, cycleIndex: cycleYear };
   }
 
-  // ---- Malayalam (Kollam) solar date ----
+  // ===== 4. Malayalam (Kollam) — solar =====
+  // Kerala year starts Chingam (Simha, rashi idx 4)
   function malayalamDate(date) {
-    const m = solarMonthIndex(date);          // 0=Mesha
-    const d = solarDayOfMonth(date);
-    const keralaMonth = (m - 4 + 12) % 12;    // Chingam (Simha, idx4) = month 0
-    return { monthIndex: keralaMonth, day: d, year: kollamYear(date) };
+    const m = solarMonthIndex(date);
+    const day = solarDayOfMonth(date);
+    const keralaMonth = (m - 4 + 12) % 12; // Chingam = month 0
+    return { monthIndex: keralaMonth, day, year: kollamYear(date) };
+  }
+
+  // ===== 5. Nepali (Bikram Sambat) — solar approximation =====
+  // 0=Mesha=Baishakh .. 11=Meena=Chaitra
+  function nepaliDate(date) {
+    const m = solarMonthIndex(date);
+    const day = solarDayOfMonth(date);
+    const y = date.getFullYear();
+    // Baishakh (Mesha) ~ mid-April. Solar months 9,10,11 (Jan-Apr) => prev BS year end.
+    let bsYear = (m >= 9) ? y + 56 : y + 57;
+    return { monthIndex: m, day, year: bsYear };
+  }
+
+  // ===== 6. Manipuri (Meitei) — solar =====
+  // Meitei year starts Sajibu (~Mesha). Use solar months in Meitei order (0=Mesha=Sajibu).
+  function meiteiDate(date) {
+    const m = solarMonthIndex(date);
+    const day = solarDayOfMonth(date);
+    const y = date.getFullYear();
+    let meiteiYear = (m >= 9) ? y - 33 : y - 32; // Meitei era ~ Gregorian - 32 (approx)
+    return { monthIndex: m, day, year: meiteiYear };
+  }
+
+  // ===== 7. Gujarati — Kartikadi Vikram Samvat (lunar, year starts Kartik/Diwali) =====
+  // Uses AMANTA lunar months, but the YEAR increments at Kartik Shukla Pratipada.
+  function gujaratiDate(date) {
+    const mIdx = amantaMonth(date);          // 0=Chaitra .. 11=Falgun
+    const t = PanchangCore.computeTithi(date);
+    const y = date.getFullYear();
+    // Vikram year normally = Greg + 57. But Gujarati increments at Kartik (month idx 7).
+    // From Kartik(7) onward in Oct-Dec, year = Greg + 57; Jan-Kartik = Greg + 56.
+    // Approx: if Gregorian month >= October => +57 else +56
+    let vsYear = (date.getMonth() >= 9) ? y + 57 : y + 56;
+    return { monthIndex: mIdx, tithiDay: t.inPaksha + 1, paksha: t.paksha, year: vsYear };
   }
 
   return {
-    solarMonthIndex, solarDayOfMonth,
-    amantaMonth, purnimantaMonth,
-    vikramYear, shakaYear, kollamYear,
-    banglaDate, tamilDate, malayalamDate
+    solarMonthIndex, solarDayOfMonth, amantaMonth, purnimantaMonth,
+    shakaYear, kollamYear,
+    banglaDate, assameseDate, tamilDate, malayalamDate,
+    nepaliDate, meiteiDate, gujaratiDate
   };
 })();
