@@ -1,0 +1,36 @@
+name: Generate Sitemap
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Sitemap Generator
+        run: npm install -g sitemap-generator-cli
+
+      - name: Generate Sitemap
+        run: sitemap-generator https://panchang.org.in --filepath sitemap.xml
+
+      - name: Commit Sitemap
+        run: |
+          git config --global user.name github-actions
+          git config --global user.email github-actions@github.com
+
+          git add sitemap.xml
+
+          git diff --cached --quiet || git commit -m "Update sitemap"
+
+          git push
