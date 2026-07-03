@@ -69,6 +69,7 @@ const App = (function () {
         ${tab("daily", L.ui.daily, "daily.html")}
         ${tab("monthly", L.ui.monthly, "monthly.html")}
         ${tab("muhurta", L.ui.muhurta, "muhurta.html")}
+        ${tab("mantra", L.ui.mantra, "mantra.html")}
         ${tab("rashifal", L.ui.rashifal, "rashifal.html")}
       </nav>`;
     const sel = document.getElementById("langSelect");
