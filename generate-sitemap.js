@@ -4,93 +4,118 @@ const path = require("path");
 const BASE_URL = "https://panchang.org.in";
 
 const LANGUAGES = [
-"as","bn","brx","doi","gu","hi","kn","ks","kok","mai",
-"ml","mni","mr","ne","or","pa","sa","sat","sd","ta","te","ur"
+  "as","bn","brx","doi","gu","hi","kn","ks","kok","mai",
+  "ml","mni","mr","ne","or","pa","sa","sat","sd","ta","te","ur"
 ];
 
-// जिन pages में ?lang= लगेगा
+// जिन Pages के Language Versions हैं
 const LANGUAGE_PAGES = [
-"daily.html",
-"monthly.html",
-"rashifal.html"
+  "daily.html",
+  "monthly.html",
+  "rashifal.html"
 ];
 
-function findHtmlFiles(dir){
+// Sitemap में शामिल नहीं होंगे
+const IGNORE_FILES = [
+  "404.html",
+  "test.html",
+  "admin.html",
+  "login.html"
+];
 
-    let files=[];
+function findHtmlFiles(dir) {
+  let files = [];
 
-    fs.readdirSync(dir).forEach(file=>{
+  fs.readdirSync(dir).forEach(file => {
 
-        if(file==="node_modules" || file===".git")
-            return;
+    if (file === ".git" || file === "node_modules") return;
 
-        const full=path.join(dir,file);
+    const full = path.join(dir, file);
 
-        if(fs.statSync(full).isDirectory()){
+    if (fs.statSync(full).isDirectory()) {
+      files = files.concat(findHtmlFiles(full));
+    } else {
 
-            files=files.concat(findHtmlFiles(full));
+      if (!file.endsWith(".html")) return;
 
-        }else if(file.endsWith(".html")){
+      if (IGNORE_FILES.includes(file)) return;
 
-            files.push(full.replace(/\\/g,"/"));
+      files.push(full.replace(/\\/g, "/").replace(/^\.\//, ""));
+    }
 
-        }
+  });
+
+  return files;
+}
+
+const htmlFiles = findHtmlFiles(".");
+
+let urls = [];
+
+htmlFiles.forEach(file => {
+
+  if (file === "index.html") {
+    urls.push({
+      url: BASE_URL + "/",
+      priority: "1.0",
+      changefreq: "daily"
+    });
+    return;
+  }
+
+  const filename = path.basename(file);
+
+  const cleanFile = file.replace(/\.html$/, "");
+
+  if (LANGUAGE_PAGES.includes(filename)) {
+
+    LANGUAGES.forEach(lang => {
+
+      urls.push({
+        url: `${BASE_URL}/${cleanFile}?lang=${lang}`,
+        priority: "0.9",
+        changefreq: "daily"
+      });
 
     });
 
-    return files;
-}
+  } else {
 
-const htmlFiles=findHtmlFiles(".");
+    urls.push({
+      url: `${BASE_URL}/${cleanFile}`,
+      priority: "0.8",
+      changefreq: "weekly"
+    });
 
-let urls=[];
-
-htmlFiles.forEach(file=>{
-
-    file=file.replace(/^\.\//,"");
-
-    if(file==="index.html"){
-
-        urls.push(BASE_URL+"/");
-        return;
-
-    }
-
-    if(LANGUAGE_PAGES.includes(path.basename(file))){
-
-        LANGUAGES.forEach(lang=>{
-
-            urls.push(BASE_URL+"/"+file+"?lang="+lang);
-
-        });
-
-    }else{
-
-        urls.push(BASE_URL+"/"+file);
-
-    }
+  }
 
 });
 
-urls=[...new Set(urls)].sort();
+urls.sort((a,b)=>a.url.localeCompare(b.url));
 
-let xml=`<?xml version="1.0" encoding="UTF-8"?>\n`;
-xml+=`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+const today = new Date().toISOString().split("T")[0];
 
-urls.forEach(url=>{
+let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
-xml+=`
-<url>
-<loc>${url}</loc>
-<changefreq>daily</changefreq>
-<priority>${url===BASE_URL+"/"?"1.0":"0.8"}</priority>
-</url>`;
+urls.forEach(item => {
+
+xml += `
+  <url>
+    <loc>${item.url}</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>${item.changefreq}</changefreq>
+    <priority>${item.priority}</priority>
+  </url>`;
 
 });
 
-xml+=`
+xml += `
 </urlset>`;
 
-fs.writeFileSync("sitemap.xml",xml);
+fs.writeFileSync("sitemap.xml", xml, "utf8");
 
-console.log("Total URLs:",urls.length);
+console.log("================================");
+console.log("Sitemap Generated Successfully");
+console.log("Total URLs:", urls.length);
+console.log("================================");
