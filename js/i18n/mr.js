@@ -1,7 +1,7 @@
 window.I18N = window.I18N || {};
 window.I18N.mr = {
   meta:{ name:"मराठी", dir:"ltr", region:"महाराष्ट्र (मुंबई)",
-         lat:19.08, lon:72.88, calendar:"amanta", era:"shaka", digits:"०१२३४५६७८९" },
+         lat:19.08, lon:72.88, calendar:"amanta", era:"shaka", digits:"0123456789" },
   ui:{ site:"मराठी पंचांग", daily:"दैनिक पंचांग", monthly:"मासिक पंचांग",
        rashifal:"राशिभविष्य", panchangInfo:"पंचांग परिचय", mantra:"मंत्र",
        muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"दिवसाचा तपशील",
