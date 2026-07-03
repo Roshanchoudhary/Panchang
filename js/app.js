@@ -68,6 +68,7 @@ const App = (function () {
       <nav class="tabs">
         ${tab("daily", L.ui.daily, "daily.html")}
         ${tab("monthly", L.ui.monthly, "monthly.html")}
+        ${tab("muhurta", L.ui.muhurta, "muhurta.html")}
         ${tab("rashifal", L.ui.rashifal, "rashifal.html")}
       </nav>`;
     const sel = document.getElementById("langSelect");
