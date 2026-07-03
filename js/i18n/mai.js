@@ -1,7 +1,7 @@
 window.I18N = window.I18N || {};
 window.I18N.mai = {
   meta:{ name:"मैथिली", dir:"ltr", region:"मिथिला (दरभंगा)",
-         lat:26.15, lon:85.90, calendar:"purnimanta", era:"shaka", digits:"०१२३४५६७८९" },
+         lat:26.15, lon:85.90, calendar:"purnimanta", era:"shaka", digits:"0123456789" },
   ui:{ site:"मैथिली पंचांग", daily:"दैनिक पंचांग", monthly:"मासिक पंचांग",
        rashifal:"राशिफल", panchangInfo:"पंचांग परिचय", mantra:"मंत्र",
        muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"दिनक विवरण",
