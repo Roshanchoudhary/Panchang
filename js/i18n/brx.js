@@ -1,7 +1,7 @@
 window.I18N = window.I18N || {};
 window.I18N.brx = {
   meta:{ name:"बड़ो", dir:"ltr", region:"बड़ोलैंड, असम (कोकराझार)",
-         lat:26.40, lon:90.27, calendar:"amanta", era:"shaka", digits:"०१२३४५६७८९" },
+         lat:26.40, lon:90.27, calendar:"amanta", era:"shaka", digits:"0123456789" },
   ui:{ site:"बड़ो पंचांग", daily:"सानजायारि पंचांग", monthly:"दानफोरनि पंचांग",
        rashifal:"राशिफल", panchangInfo:"पंचांगनि सोमोन्दै", mantra:"मंत्र",
        muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"साननि बिजिरना",
