@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.pa = {
   meta:{ name:"ਪੰਜਾਬੀ", dir:"ltr", region:"ਪੰਜਾਬ (ਅੰਮ੍ਰਿਤਸਰ)",
          lat:31.63, lon:74.87, calendar:"purnimanta", era:"vikram", digits:"੦੧੨੩੪੫੬੭੮੯" },
-  ui:{ site:"ਪੰਜਾਬੀ ਪੰਚਾਂਗ", daily:"ਰੋਜ਼ਾਨਾ ਪੰਚਾਂਗ", monthly:"ਮਾਸਿਕ ਪੰਚਾਂਗ",
+  ui:{ site:"ਪੰਜਾਬੀ ਪੰਚਾਂਗ", daily:"ਰੋਜ਼ਾਨਾ ਪੰਚਾਂਗ", monthly:"ਮਾਸਿਕ ਪੰਚਾਂਗ", muhurta:"ਮੁਹੂਰਤ",
        rashifal:"ਰਾਸ਼ੀਫਲ", panchangInfo:"ਪੰਚਾਂਗ ਜਾਣ-ਪਛਾਣ", mantra:"ਮੰਤਰ",
        muhurat:"ਸ਼ੁਭ-ਅਸ਼ੁਭ ਮੁਹੂਰਤ", dayDetail:"ਦਿਨ ਦਾ ਵੇਰਵਾ",
        footer:"ਭਾਰਤੀ ਪੰਚਾਂਗ · ਸਾਰੀਆਂ 22 ਰਾਜ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ",
