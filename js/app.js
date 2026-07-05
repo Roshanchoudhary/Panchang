@@ -434,7 +434,7 @@ function renderMuhurtaDetail(){
         </div>
 
     </div>`;
-}}   
+}   
   return {
     renderDaily,
     renderMonthly,
