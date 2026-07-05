@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.gu = {
   meta:{ name:"ગુજરાતી", dir:"ltr", region:"ગુજરાત (અમદાવાદ)",
          lat:23.03, lon:72.58, calendar:"amanta", era:"vikram", digits:"૦૧૨૩૪૫૬૭૮૯" },
-  ui:{ site:"ગુજરાતી પંચાંગ", daily:"દૈનિક પંચાંગ", monthly:"માસિક પંચાંગ",
+  ui:{ site:"ગુજરાતી પંચાંગ", daily:"દૈનિક પંચાંગ", monthly:"માસિક પંચાંગ", muhurta:"મુહૂર્ત",
        rashifal:"રાશિફળ", panchangInfo:"પંચાંગ પરિચય", mantra:"મંત્ર",
        muhurat:"શુભ-અશુભ મુહૂર્ત", dayDetail:"દિવસની વિગત",
        footer:"ભારતીય પંચાંગ · બધી 22 રાજભાષાઓમાં",
