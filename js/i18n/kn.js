@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.kn = {
   meta:{ name:"ಕನ್ನಡ", dir:"ltr", region:"ಕರ್ನಾಟಕ (ಬೆಂಗಳೂರು)",
          lat:12.97, lon:77.59, calendar:"amanta", era:"shaka", digits:"೦೧೨೩೪೫೬೭೮೯" },
-  ui:{ site:"ಕನ್ನಡ ಪಂಚಾಂಗ", daily:"ದೈನಿಕ ಪಂಚಾಂಗ", monthly:"ಮಾಸಿಕ ಪಂಚಾಂಗ",
+  ui:{ site:"ಕನ್ನಡ ಪಂಚಾಂಗ", daily:"ದೈನಿಕ ಪಂಚಾಂಗ", monthly:"ಮಾಸಿಕ ಪಂಚಾಂಗ", muhurta:"ಮುಹೂರ್ತ",
        rashifal:"ರಾಶಿಫಲ", panchangInfo:"ಪಂಚಾಂಗ ಪರಿಚಯ", mantra:"ಮಂತ್ರ",
        muhurat:"ಶುಭ-ಅಶುಭ ಮುಹೂರ್ತ", dayDetail:"ದಿನದ ವಿವರ",
        footer:"ಭಾರತೀಯ ಪಂಚಾಂಗ · ಎಲ್ಲಾ 22 ಅಧಿಕೃತ ಭಾಷೆಗಳಲ್ಲಿ",
