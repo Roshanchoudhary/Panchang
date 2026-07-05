@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.doi = {
   meta:{ name:"डोगरी", dir:"ltr", region:"जम्मू (जम्मू)",
          lat:32.73, lon:74.87, calendar:"purnimanta", era:"vikram", digits:"0123456789" },
-  ui:{ site:"डोगरी पंचांग", daily:"रोज़ाना पंचांग", monthly:"मासिक पंचांग",
+  ui:{ site:"डोगरी पंचांग", daily:"रोज़ाना पंचांग", monthly:"मासिक पंचांग", muhurta:"मुहूर्त",
        rashifal:"राशिफल", panchangInfo:"पंचांग जाण-पछाण", mantra:"मंत्र",
        muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"दिने दा ब्यौरा",
        footer:"भारती पंचांग · सब्भै 22 राजभाषाएं च",
