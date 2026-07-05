@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.ur = {
   meta:{ name:"اردو", dir:"rtl", region:"بھارت (دہلی/لکھنؤ)",
          lat:28.61, lon:77.21, calendar:"purnimanta", era:"vikram", digits:"۰۱۲۳۴۵۶۷۸۹" },
-  ui:{ site:"اردو پنچانگ", daily:"روزانہ پنچانگ", monthly:"ماہانہ پنچانگ",
+  ui:{ site:"اردو پنچانگ", daily:"روزانہ پنچانگ", monthly:"ماہانہ پنچانگ", muhurta:"مُہُورْت",
        rashifal:"راشی فل", panchangInfo:"پنچانگ تعارف", mantra:"منتر",
        muhurat:"شبھ-اشبھ وقت", dayDetail:"دن کی تفصیل",
        footer:"بھارتی پنچانگ · تمام 22 سرکاری زبانوں میں",
