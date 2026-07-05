@@ -748,3 +748,8 @@ font-size:.9rem;
         max-width: 200px;
     }
 }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tirhuta&display=swap');
+
+.tirhuta-font {
+    font-family: 'MithilaUni', 'Noto Sans Tirhuta', sans-serif !important;
+}
