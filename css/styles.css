@@ -670,15 +670,81 @@ font-size:.9rem;
 }
 
 }
-@font-face{
-    font-family:'MithilaUni';
-    src:url('../fonts/MithilaUni.ttf') format('truetype');
-    font-weight:normal;
-    font-style:normal;
-    font-display:swap;
+/* ============================================
+   TIRHUTA SCRIPT STYLES
+   ============================================ */
+
+/* तिरहुता फ़ॉन्ट */
+@font-face {
+    font-family: 'MithilaUni';
+    src: url('../fonts/MithilaUni.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
 
-.tirhuta,
-.tirhuta *{
-    font-family:'MithilaUni', serif !important;
+/* तिरहुता क्लास - पूरे पेज पर लागू */
+.tirhuta-font {
+    font-family: 'MithilaUni', 'Noto Sans Tirhuta', sans-serif;
+}
+
+/* तिरहुता में बड़ा फ़ॉन्ट साइज़ (लिपि छोटी दिखती है) */
+.tirhuta-font * {
+    font-size: 1.1em;
+}
+
+/* सिर्फ मैथिली कंटेंट के लिए */
+.lang-mai.tirhuta-font {
+    font-size: 1.15em;
+}
+
+/* लिपि चयनकर्ता स्टाइल */
+.script-select-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: 15px;
+    padding: 4px 10px;
+    background: #f0f0f0;
+    border-radius: 6px;
+}
+
+.script-select-wrap label {
+    font-weight: 600;
+    font-size: 0.9em;
+    color: #555;
+}
+
+.script-select-wrap select {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background: white;
+    font-size: 0.95em;
+    cursor: pointer;
+}
+
+.script-select-wrap select:focus {
+    outline: none;
+    border-color: #4a90d9;
+    box-shadow: 0 0 5px rgba(74, 144, 217, 0.3);
+}
+
+/* तिरहुता में दिनांक हीरो स्टाइल */
+.tirhuta-font .date-hero {
+    font-size: 1.1em;
+}
+
+/* मोबाइल रिस्पांसिव */
+@media (max-width: 768px) {
+    .script-select-wrap {
+        margin-left: 0;
+        width: 100%;
+        justify-content: center;
+        padding: 8px;
+    }
+    
+    .script-select-wrap select {
+        flex: 1;
+        max-width: 200px;
+    }
 }
