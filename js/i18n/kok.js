@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.kok = {
   meta:{ name:"कोंकणी", dir:"ltr", region:"गोंय (पणजी)",
          lat:15.50, lon:73.83, calendar:"amanta", era:"shaka", digits:"0123456789" },
-  ui:{ site:"कोंकणी पंचांग", daily:"दिसाळें पंचांग", monthly:"म्हयन्याळें पंचांग",
+  ui:{ site:"कोंकणी पंचांग", daily:"दिसाळें पंचांग", monthly:"म्हयन्याळें पंचांग", muhurta:"मुहूर्त",
        rashifal:"राशीभविष्य", panchangInfo:"पंचांग वळख", mantra:"मंत्र",
        muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"दिसाची म्हायती",
        footer:"भारतीय पंचांग · सगळ्या 22 राजभाशांनी",
