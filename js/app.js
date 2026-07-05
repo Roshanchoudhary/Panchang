@@ -104,7 +104,7 @@ const App = (function () {
     <label>📝 लिपि</label>
     <select id="scriptSelect">
         <option value="deva">देवनागरी</option>
-        <option value="tirhuta">𑒁𑒱𑒩𑒲𑒘𑒰</option>
+        <option value="tirhuta">𑒁𑒧𑒱𑒟𑒱𑒪𑒰𑒏𑓂𑒭𑒩</option>
     </select>
 </div>` : "";
     
