@@ -341,8 +341,7 @@ const App = (function () {
       <p>script tags, lowercase नाम, Console (F12) में 404 जाँचें।</p></div></div>`;
   }
 
-  return { renderDaily, renderMonthly, renderRashifal, calcRashi, showHoroscope };
-})();
+
 // ================= MUHURTA =================
 
 function renderMuhurta(){
@@ -436,3 +435,5 @@ function renderMuhurtaDetail(){
 
     </div>`;
 }
+  return { renderDaily, renderMonthly, renderRashifal, calcRashi, showHoroscope };
+})();
