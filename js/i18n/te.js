@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.te = {
   meta:{ name:"తెలుగు", dir:"ltr", region:"ఆంధ్ర/తెలంగాణ (హైదరాబాద్)",
          lat:17.38, lon:78.49, calendar:"amanta", era:"shaka", digits:"౦౧౨౩౪౫౬౭౮౯" },
-  ui:{ site:"తెలుగు పంచాంగం", daily:"దైనిక పంచాంగం", monthly:"మాసిక పంచాంగం",
+  ui:{ site:"తెలుగు పంచాంగం", daily:"దైనిక పంచాంగం", monthly:"మాసిక పంచాంగం", muhurta:"ముహూర్తం",
        rashifal:"రాశిఫలం", panchangInfo:"పంచాంగ పరిచయం", mantra:"మంత్రం",
        muhurat:"శుభ-అశుభ ముహూర్తం", dayDetail:"రోజు వివరాలు",
        footer:"భారతీయ పంచాంగం · అన్ని 22 అధికార భాషలలో",
