@@ -14,6 +14,7 @@ window.I18N.as = {
     site: "অসমীয়া পঞ্চাং",
     daily: "দৈনিক পঞ্চাং",
     monthly: "মাহেকীয়া পঞ্চাং",
+     muhurta:"মুহূৰ্তत",
     rashifal: "ৰাশিফল",
     panchangInfo: "পঞ্চাং পৰিচয়",
     mantra: "মন্ত্ৰ",
