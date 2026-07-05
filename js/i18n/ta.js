@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.ta = {
   meta:{ name:"தமிழ்", dir:"ltr", region:"தமிழ்நாடு (சென்னை)",
          lat:13.08, lon:80.27, calendar:"tamil-solar", era:"tamil", digits:"௦௧௨௩௪௫௬௭௮௯" },
-  ui:{ site:"தமிழ் பஞ்சாங்கம்", daily:"தினசரி பஞ்சாங்கம்", monthly:"மாதாந்திர பஞ்சாங்கம்",
+  ui:{ site:"தமிழ் பஞ்சாங்கம்", daily:"தினசரி பஞ்சாங்கம்", monthly:"மாதாந்திர பஞ்சாங்கம்", muhurta:"முகூர்த்தம்",
        rashifal:"ராசி பலன்", panchangInfo:"பஞ்சாங்கம் அறிமுகம்", mantra:"மந்திரம்",
        muhurat:"நல்ல-கெட்ட நேரம்", dayDetail:"நாள் விவரம்",
        footer:"இந்திய பஞ்சாங்கம் · அனைத்து 22 அலுவல் மொழிகளிலும்",
