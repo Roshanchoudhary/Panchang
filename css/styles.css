@@ -614,3 +614,59 @@ footer .om {
 .calendar::-webkit-scrollbar-track {
   background: #f5e6d8;
 }
+/* ================= MUHURTA ================= */
+
+.muhurta-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:16px;
+margin-top:20px;
+}
+
+.muhurta-card{
+background:#fff;
+border-radius:16px;
+padding:22px 15px;
+text-align:center;
+cursor:pointer;
+transition:.25s;
+box-shadow:var(--shadow);
+border-top:4px solid var(--secondary);
+}
+
+.muhurta-card:hover{
+transform:translateY(-5px);
+box-shadow:0 8px 28px rgba(193,39,45,.22);
+}
+
+.muhurta-card .icon{
+font-size:2.2rem;
+margin-bottom:10px;
+}
+
+.muhurta-card h3{
+color:var(--primary);
+font-size:1.05rem;
+margin-top:8px;
+}
+
+@media(max-width:600px){
+
+.muhurta-grid{
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.muhurta-card{
+padding:18px 10px;
+}
+
+.muhurta-card .icon{
+font-size:1.8rem;
+}
+
+.muhurta-card h3{
+font-size:.9rem;
+}
+
+}
