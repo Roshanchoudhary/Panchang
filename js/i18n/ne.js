@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.ne = {
   meta:{ name:"नेपाली", dir:"ltr", region:"नेपाल/सिक्किम (काठमाडौं)",
          lat:27.70, lon:85.32, calendar:"purnimanta", era:"vikram", digits:"०१२३४५६७८९" },
-  ui:{ site:"नेपाली पात्रो", daily:"दैनिक पात्रो", monthly:"मासिक पात्रो",
+  ui:{ site:"नेपाली पात्रो", daily:"दैनिक पात्रो", monthly:"मासिक पात्रो", muhurta:"मुहूर्त",
        rashifal:"राशिफल", panchangInfo:"पात्रो परिचय", mantra:"मन्त्र",
        muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"दिनको विवरण",
        footer:"भारतीय पात्रो · सबै 22 राजभाषामा",
