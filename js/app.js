@@ -169,6 +169,7 @@ if(sc){
   function renderDaily() {
     if (!window.I18N || Object.keys(window.I18N).length === 0) { showFatal(); return; }
     const lang = getLang(); const L = window.I18N[lang];
+     const script = localStorage.getItem("maiScript") || "deva";
     buildChrome(lang, "daily");
     const now = dailyDate;
     const { lat, lon } = L.meta;
@@ -420,6 +421,7 @@ function renderMuhurta(){
     ];
 
     document.getElementById("content").innerHTML=`
+    
     <div class="container">
 
         <div class="card">
@@ -448,6 +450,9 @@ function renderMuhurta(){
         </div>
 
     </div>`;
+   if(lang==="mai" && script==="tirhuta"){
+    convertPageToTirhuta(document.getElementById("content"));
+}
 }
 
 function renderMuhurtaDetail(){
@@ -476,6 +481,9 @@ const script=localStorage.getItem("maiScript") || "deva";
         </div>
 
     </div>`;
+   if(lang==="mai" && script==="tirhuta"){
+    convertPageToTirhuta(document.getElementById("content"));
+}
 }   
   return {
     renderDaily,
