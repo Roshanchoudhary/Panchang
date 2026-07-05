@@ -435,5 +435,12 @@ function renderMuhurtaDetail(){
 
     </div>`;
 }
-  return { renderDaily, renderMonthly, renderRashifal, calcRashi, showHoroscope };
-})();
+  return {
+    renderDaily,
+    renderMonthly,
+    renderMuhurta,
+    renderMuhurtaDetail,
+    renderRashifal,
+    calcRashi,
+    showHoroscope
+};
