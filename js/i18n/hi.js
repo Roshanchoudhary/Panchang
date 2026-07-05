@@ -4,7 +4,7 @@ window.I18N.hi = {
   meta: { name:"हिन्दी", dir:"ltr", region:"उत्तर भारत (उज्जैन)",
           lat:23.18, lon:75.78, calendar:"purnimanta", era:"vikram", digits:"०१२३४५६७८९" },
   ui: {
-    site:"भारतीय पंचांग", daily:"दैनिक पंचांग", monthly:"मासिक पंचांग",
+    site:"भारतीय पंचांग", daily:"दैनिक पंचांग", monthly:"मासिक पंचांग", muhurta:"मुहूर्त",
     rashifal:"राशिफल", panchangInfo:"पंचांग परिचय", mantra:"मंत्र",
     muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"दिन का विवरण",
     footer:"भारतीय पंचांग · सभी 22 राजभाषाओं में",
