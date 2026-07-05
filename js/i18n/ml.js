@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.ml = {
   meta:{ name:"മലയാളം", dir:"ltr", region:"കേരളം (തിരുവനന്തപുരം)",
          lat:8.52, lon:76.94, calendar:"malayalam-solar", era:"kollam", digits:"൦൧൨൩൪൫൬൭൮൯" },
-  ui:{ site:"മലയാളം പഞ്ചാംഗം", daily:"ദൈനിക പഞ്ചാംഗം", monthly:"മാസിക പഞ്ചാംഗം",
+  ui:{ site:"മലയാളം പഞ്ചാംഗം", daily:"ദൈനിക പഞ്ചാംഗം", monthly:"മാസിക പഞ്ചാംഗം", muhurta:"മുഹൂർത്തം",
        rashifal:"രാശിഫലം", panchangInfo:"പഞ്ചാംഗ പരിചയം", mantra:"മന്ത്രം",
        muhurat:"ശുഭ-അശുഭ മുഹൂർത്തം", dayDetail:"ദിവസ വിവരം",
        footer:"ഭാരതീയ പഞ്ചാംഗം · എല്ലാ 22 ഔദ്യോഗിക ഭാഷകളിലും",
