@@ -26,34 +26,88 @@ const App = (function () {
     const p = new URLSearchParams(location.search).get("lang");
     return (p && window.I18N && window.I18N[p]) ? p : "hi";
   }
+  
+  // ============================================================
+  // TIRHUTA HELPER FUNCTIONS
+  // ============================================================
+  function isTirhutaMode() {
+    const lang = getLang();
+    if (lang !== "mai") return false;
+    const script = localStorage.getItem("maiScript") || "deva";
+    return script === "tirhuta";
+  }
+  
+  function applyTirhutaConversion(element) {
+    if (isTirhutaMode() && typeof window.convertPageToTirhuta === 'function') {
+      setTimeout(function() {
+        window.convertPageToTirhuta(element || document.body);
+      }, 150);
+    }
+  }
+  
+  // ============================================================
+  // CORE FUNCTIONS
+  // ============================================================
   function digits(lang, val) {
     const d = window.I18N[lang] && window.I18N[lang].meta && window.I18N[lang].meta.digits;
     if (!d) return String(val);
     return String(val).replace(/[0-9]/g, n => d[+n]);
   }
+  
   function fmtTime(lang, date) {
     if (!date || isNaN(date)) return "—";
     let h = date.getHours(), m = date.getMinutes();
     const ap = h < 12 ? "AM" : "PM", h12 = h % 12 || 12;
     return digits(lang, h12) + ":" + digits(lang, (m < 10 ? "0" : "") + m) + " " + ap;
   }
-  function fmtRange(lang, p) { return p ? fmtTime(lang, p.start) + " – " + fmtTime(lang, p.end) : "—"; }
-  function checkMissing() { return LANG_ORDER.filter(c => !(window.I18N && window.I18N[c])); }
+  
+  function fmtRange(lang, p) { 
+    return p ? fmtTime(lang, p.start) + " – " + fmtTime(lang, p.end) : "—"; 
+  }
+  
+  function checkMissing() { 
+    return LANG_ORDER.filter(c => !(window.I18N && window.I18N[c])); 
+  }
 
+  // ============================================================
+  // BUILD CHROME (Header + Navigation)
+  // ============================================================
   function buildChrome(lang, activeTab) {
     const L = window.I18N[lang];
     document.documentElement.lang = lang;
     document.documentElement.dir = L.meta.dir || "ltr";
+    
+    // मैथिली के लिए क्लास
+    if (lang === 'mai') {
+      document.documentElement.classList.add('lang-mai');
+    } else {
+      document.documentElement.classList.remove('lang-mai');
+      document.documentElement.classList.remove('tirhuta-font');
+    }
+    
     const host = document.getElementById("chrome");
     if (!host) return;
+    
     const page = location.pathname.split("/").pop() || "daily.html";
     const loaded = LANG_ORDER.filter(code => window.I18N[code]);
     const options = loaded.map(code => {
       const nm = window.I18N[code].meta.name, en = ENGLISH_NAMES[code] || code;
       return `<option value="${code}"${code === lang ? " selected" : ""}>${nm} — ${en}</option>`;
     }).join("");
+    
     const tab = (id, label, file) =>
       `<a class="${activeTab === id ? 'active' : ''}" href="${file}?lang=${lang}">${label}</a>`;
+    
+    // स्क्रिप्ट सेलेक्टर - सिर्फ मैथिली के लिए
+    const scriptSelector = lang === "mai" ? `
+<div class="script-select-wrap">
+    <label>📝 लिपि</label>
+    <select id="scriptSelect">
+        <option value="deva">देवनागरी</option>
+        <option value="tirhuta">𑒁𑒱𑒩𑒲𑒘𑒰</option>
+    </select>
+</div>` : "";
+    
     host.innerHTML = `
       <header>
         <div class="header-top">
@@ -63,22 +117,8 @@ const App = (function () {
             <label for="langSelect" class="lang-select-label">🌐 ${L.ui.chooseLang || "भाषा · Language"}</label>
             <div class="select-shell"><select id="langSelect" class="lang-select">${options}</select></div>
           </div>
+          ${scriptSelector}
         </div>
-        ${lang==="mai" ? `
-<div class="script-select-wrap">
-    <label>लिपि</label>
-
-    <select id="scriptSelect">
-
-        <option value="deva">देवनागरी</option>
-
-        <option value="tirhuta">𑒁𑒱𑒩𑒲𑒘𑒰</option>
-
-    </select>
-
-</div>
-` : ""}
-
       </header>
       <nav class="tabs">
         ${tab("daily", L.ui.daily, "daily.html")}
@@ -87,39 +127,90 @@ const App = (function () {
         ${tab("mantra", L.ui.mantra, "mantra.html")}
         ${tab("rashifal", L.ui.rashifal, "rashifal.html")}
       </nav>`;
+    
+    // लैंग्वेज सेलेक्ट
     const sel = document.getElementById("langSelect");
-     const sc=document.getElementById("scriptSelect");
-
-if(sc){
-
-    sc.value=localStorage.getItem("maiScript") || "deva";
-
-    sc.onchange=function(){
-
-        localStorage.setItem("maiScript",this.value);
-
+    if (sel) {
+      sel.addEventListener("change", function() {
+        const newLang = this.value;
+        if (newLang !== 'mai') {
+          localStorage.removeItem('maiScript');
+        }
+        location.href = `${page}?lang=${newLang}`;
+      });
+    }
+    
+    // स्क्रिप्ट सेलेक्ट
+    const sc = document.getElementById("scriptSelect");
+    if (sc) {
+      const savedScript = localStorage.getItem("maiScript") || "deva";
+      sc.value = savedScript;
+      
+      sc.onchange = function() {
+        const newScript = this.value;
+        localStorage.setItem("maiScript", newScript);
+        
+        if (newScript === "tirhuta") {
+          if (typeof window.enableTirhuta === 'function') {
+            window.enableTirhuta();
+          } else {
+            document.documentElement.classList.add('tirhuta-font');
+            setTimeout(function() {
+              if (typeof window.convertPageToTirhuta === 'function') {
+                window.convertPageToTirhuta(document.body);
+              }
+            }, 100);
+          }
+        } else {
+          if (typeof window.disableTirhuta === 'function') {
+            window.disableTirhuta();
+          } else {
+            document.documentElement.classList.remove('tirhuta-font');
+          }
+        }
         location.reload();
-
-    };
-
-}
-    if (sel) sel.addEventListener("change", () => { location.href = `${page}?lang=${sel.value}`; });
+      };
+    }
+    
+    // मिसिंग भाषा चेक
     const missing = checkMissing();
-    if (missing.length) host.insertAdjacentHTML("beforeend",
-      `<div style="background:#fff3cd;color:#8a5a30;text-align:center;padding:8px 12px;font-size:.82rem;">
-        ⚠️ ${missing.length} भाषा फाइलें लोड नहीं हुईं: <b>${missing.join(", ")}</b></div>`);
+    if (missing.length) {
+      host.insertAdjacentHTML("beforeend",
+        `<div style="background:#fff3cd;color:#8a5a30;text-align:center;padding:8px 12px;font-size:.82rem;">
+          ⚠️ ${missing.length} भाषा फाइलें लोड नहीं हुईं: <b>${missing.join(", ")}</b></div>`
+      );
+    }
+    
+    // तिरहुता ऑटो-इनिशियलाइज़
+    if (lang === 'mai') {
+      const script = localStorage.getItem("maiScript") || "deva";
+      if (script === "tirhuta") {
+        if (typeof window.enableTirhuta === 'function') {
+          setTimeout(function() {
+            window.enableTirhuta();
+          }, 200);
+        } else {
+          document.documentElement.classList.add('tirhuta-font');
+          setTimeout(function() {
+            if (typeof window.convertPageToTirhuta === 'function') {
+              window.convertPageToTirhuta(document.body);
+            }
+          }, 300);
+        }
+      }
+    }
   }
 
-  // ---------- REGIONAL CIVIL DATE ----------
-  // For the 7 civil-calendar languages -> real day/month/year.
-  // For others -> null (they show only Gregorian + Hindu Panchang).
+  // ============================================================
+  // REGIONAL CIVIL DATE
+  // ============================================================
   function regionalDate(lang, date) {
     const L = window.I18N[lang];
     const cal = L.meta.calendar || "gregorian";
     if (!hasCivilCalendar(cal)) return null;
 
     if (cal === "bangla-solar")     { const b = Calendars.banglaDate(date);     return { day:b.day, monthName:L.maasa_solar[b.monthIndex], year:b.year, era:"বঙ্গাব্দ" }; }
-    if (cal === "assamese-solar")   { const a = Calendars.assameseDate(date);   return { day:a.day, monthName:L.maasa_solar[a.monthIndex], year:a.year, era:"ভাস্করাব্দ" }; }
+    if (cal === "assamese-solar")   { const a = Calendars.assameseDate(date);   return { day:a.day, monthName:L.maasa_solar[a.monthIndex], year:a.year, era:"ভাস্কৰাব্দ" }; }
     if (cal === "tamil-solar")      { const t = Calendars.tamilDate(date);      return { day:t.day, monthName:L.maasa_solar[t.monthIndex], year:null, era:"" }; }
     if (cal === "malayalam-solar")  { const m = Calendars.malayalamDate(date);  return { day:m.day, monthName:L.maasa_solar[m.monthIndex], year:m.year, era:"കൊല്ലവർഷം" }; }
     if (cal === "nepali-solar")     { const n = Calendars.nepaliDate(date);     return { day:n.day, monthName:L.maasa_solar[n.monthIndex], year:n.year, era:"वि.सं." }; }
@@ -129,22 +220,19 @@ if(sc){
     return null;
   }
 
-  // Hindu Panchang month name (for the 15 languages without a civil calendar)
   function panchangMonth(lang, date, panchang) {
     const L = window.I18N[lang];
-    // Purnimanta for North (hi, mai, ne, doi, sa, ks, ur, pa, sd, brx) else Amanta
     const purnimantaLangs = ["hi","mai","doi","sa","ks","ur","pa","sd","brx","kok"];
     const mIdx = purnimantaLangs.includes(lang) ? Calendars.purnimantaMonth(date) : Calendars.amantaMonth(date);
     const arr = L.maasa_lunar || L.maasa_solar;
     return arr[mIdx];
   }
 
-  // Full local date string shown in date-hero
   function localDateString(lang, date, panchang) {
     const L = window.I18N[lang];
     const rd = regionalDate(lang, date);
     if (rd) {
-      if (rd.lunar) { // Gujarati
+      if (rd.lunar) {
         let s = L.paksha[rd.paksha] + " " + L.tithi[panchang.tithi.index] + " · " + rd.monthName;
         if (rd.year != null) s += " · " + digits(lang, rd.year) + " " + rd.era;
         return s;
@@ -154,7 +242,6 @@ if(sc){
       if (rd.era) s += " " + rd.era;
       return s;
     }
-    // No civil calendar -> Hindu Panchang (month + paksha + tithi)
     const mn = panchangMonth(lang, date, panchang);
     return mn + " · " + L.paksha[panchang.tithi.paksha] + " · " + L.tithi[panchang.tithi.index];
   }
@@ -164,12 +251,15 @@ if(sc){
             <div class="value">${value}</div>${sub ? `<div class="sub">${sub}</div>` : ""}</div>`;
   }
 
-  // ================= DAILY =================
+  // ============================================================
+  // DAILY PAGE
+  // ============================================================
   let dailyDate = new Date();
+  
   function renderDaily() {
     if (!window.I18N || Object.keys(window.I18N).length === 0) { showFatal(); return; }
-    const lang = getLang(); const L = window.I18N[lang];
-     const script = localStorage.getItem("maiScript") || "deva";
+    const lang = getLang();
+    const L = window.I18N[lang];
     buildChrome(lang, "daily");
     const now = dailyDate;
     const { lat, lon } = L.meta;
@@ -184,7 +274,6 @@ if(sc){
     const yearDisplay = rd && rd.year != null ? digits(lang, rd.year) : "—";
 
     el.innerHTML = `
-  
       <div class="container">
         <div class="card">
           <div class="date-picker">
@@ -222,22 +311,33 @@ if(sc){
           <div class="note">${L.meta.region} · Lahiri Ayanamsha · astronomy-engine</div>
         </div>
       </div>`;
-  if(lang==="mai" && script==="tirhuta"){
-
-    convertPageToTirhuta(el);
-
-}
-    document.getElementById("prevD").onclick = () => { dailyDate.setDate(dailyDate.getDate() - 1); renderDaily(); };
-    document.getElementById("nextD").onclick = () => { dailyDate.setDate(dailyDate.getDate() + 1); renderDaily(); };
-    document.getElementById("todayD").onclick = () => { dailyDate = new Date(); renderDaily(); };
-    document.getElementById("pickD").onchange = (e) => {
+    
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(el);
+    
+    document.getElementById("prevD").onclick = function() { 
+      dailyDate.setDate(dailyDate.getDate() - 1); 
+      renderDaily(); 
+    };
+    document.getElementById("nextD").onclick = function() { 
+      dailyDate.setDate(dailyDate.getDate() + 1); 
+      renderDaily(); 
+    };
+    document.getElementById("todayD").onclick = function() { 
+      dailyDate = new Date(); 
+      renderDaily(); 
+    };
+    document.getElementById("pickD").onchange = function(e) {
       const [Y, M, D] = e.target.value.split("-").map(Number);
       if (Y) { dailyDate = new Date(Y, M - 1, D); renderDaily(); }
     };
   }
 
-  // ================= MONTHLY =================
+  // ============================================================
+  // MONTHLY PAGE
+  // ============================================================
   let calDate = new Date();
+  
   function renderMonthly() {
     if (!window.I18N || Object.keys(window.I18N).length === 0) { showFatal(); return; }
     const lang = getLang();
@@ -254,12 +354,20 @@ if(sc){
         </div>
         <div class="card" id="detail" style="display:none"></div>
       </div>`;
-    document.getElementById("prevM").onclick = () => { calDate.setMonth(calDate.getMonth() - 1); drawCal(lang); };
-    document.getElementById("nextM").onclick = () => { calDate.setMonth(calDate.getMonth() + 1); drawCal(lang); };
+    document.getElementById("prevM").onclick = function() { 
+      calDate.setMonth(calDate.getMonth() - 1); 
+      drawCal(lang); 
+    };
+    document.getElementById("nextM").onclick = function() { 
+      calDate.setMonth(calDate.getMonth() + 1); 
+      drawCal(lang); 
+    };
     drawCal(lang);
   }
+  
   function drawCal(lang) {
-    const L = window.I18N[lang]; const { lat, lon } = L.meta;
+    const L = window.I18N[lang]; 
+    const { lat, lon } = L.meta;
     const y = calDate.getFullYear(), mo = calDate.getMonth();
     let title = new Intl.DateTimeFormat("en-IN", { month: "long", year: "numeric" }).format(calDate);
     const mid = new Date(y, mo, 15);
@@ -269,28 +377,43 @@ if(sc){
     else title += ` · ${panchangMonth(lang, mid, midP)}`;
     document.getElementById("calTitle").textContent = title;
 
-    const cal = document.getElementById("cal"); cal.innerHTML = "";
-    L.vaara.forEach(v => { const e = document.createElement("div"); e.className = "cal-dn"; e.textContent = v.slice(0, 2); cal.appendChild(e); });
+    const cal = document.getElementById("cal"); 
+    cal.innerHTML = "";
+    L.vaara.forEach(function(v) { 
+      const e = document.createElement("div"); 
+      e.className = "cal-dn"; 
+      e.textContent = v.slice(0, 2); 
+      cal.appendChild(e); 
+    });
     const first = new Date(y, mo, 1).getDay(), dim = new Date(y, mo + 1, 0).getDate(), today = new Date();
-    for (let i = 0; i < first; i++) { const e = document.createElement("div"); e.className = "cal-cell empty"; cal.appendChild(e); }
+    for (let i = 0; i < first; i++) { 
+      const e = document.createElement("div"); 
+      e.className = "cal-cell empty"; 
+      cal.appendChild(e); 
+    }
     for (let d = 1; d <= dim; d++) {
       const cd = new Date(y, mo, d);
       const p = PanchangCore.daily(cd, lat, lon);
       const rdc = regionalDate(lang, cd);
-      // corner number: civil day (solar) OR tithi number (lunar/no-calendar)
       const cornerNum = (rdc && !rdc.lunar) ? rdc.day : (p.tithi.inPaksha + 1);
-      const cell = document.createElement("div"); cell.className = "cal-cell";
+      const cell = document.createElement("div"); 
+      cell.className = "cal-cell";
       if (d === today.getDate() && mo === today.getMonth() && y === today.getFullYear()) cell.classList.add("today");
       cell.innerHTML =
         `<span class="lnum">${digits(lang, cornerNum)}</span>
          <div class="num">${digits(lang, d)}</div>
          <div class="tithi">${L.tithi[p.tithi.index]}</div>`;
-      cell.onclick = () => showDetail(lang, cd);
+      cell.onclick = function() { showDetail(lang, cd); };
       cal.appendChild(cell);
     }
+    
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(document.getElementById("content"));
   }
+  
   function showDetail(lang, cd) {
-    const L = window.I18N[lang]; const { lat, lon } = L.meta;
+    const L = window.I18N[lang]; 
+    const { lat, lon } = L.meta;
     const p = PanchangCore.daily(cd, lat, lon);
     const box = document.getElementById("detail");
     box.style.display = "block";
@@ -306,9 +429,14 @@ if(sc){
          ${pitem(L.labels.sunset, fmtTime(lang, p.sunset))}
        </div>`;
     box.scrollIntoView({ behavior: "smooth" });
+    
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(box);
   }
 
-  // ================= RASHIFAL =================
+  // ============================================================
+  // RASHIFAL PAGE
+  // ============================================================
   const CITIES = [
     ["Delhi",28.61,77.21],["Mumbai",19.08,72.88],["Kolkata",22.57,88.36],
     ["Chennai",13.08,80.27],["Bengaluru",12.97,77.59],["Hyderabad",17.38,78.49],
@@ -318,14 +446,19 @@ if(sc){
     ["Nagpur",21.15,79.09],["Pune",18.52,73.86],["Ranchi",23.34,85.31],
     ["Panaji",15.50,73.83],["Jammu",32.73,74.87],["Imphal",24.82,93.94],["Kathmandu",27.70,85.32]
   ];
+  
   function renderRashifal() {
     if (!window.I18N || Object.keys(window.I18N).length === 0) { showFatal(); return; }
-    const lang = getLang(); const L = window.I18N[lang];
+    const lang = getLang(); 
+    const L = window.I18N[lang];
     buildChrome(lang, "rashifal");
-    const tiles = L.rashi.map((nm, i) =>
-      `<div class="rashi-tile" onclick="App.showHoroscope('${lang}',${i})">
-        <div class="sym">${L.rashiSymbols[i]}</div><div class="nm">${nm}</div></div>`).join("");
-    const cityOpts = CITIES.map((c, i) => `<option value="${i}">${c[0]}</option>`).join("");
+    const tiles = L.rashi.map(function(nm, i) {
+      return `<div class="rashi-tile" onclick="App.showHoroscope('${lang}',${i})">
+        <div class="sym">${L.rashiSymbols[i]}</div><div class="nm">${nm}</div></div>`;
+    }).join("");
+    const cityOpts = CITIES.map(function(c, i) { 
+      return `<option value="${i}">${c[0]}</option>`; 
+    }).join("");
     document.getElementById("content").innerHTML = `
       <div class="container">
         <div class="card">
@@ -344,13 +477,20 @@ if(sc){
           <div id="horoOut"></div>
         </div>
       </div>`;
+    
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(document.getElementById("content"));
   }
+  
   function calcRashi(lang) {
     const L = window.I18N[lang];
     const dv = document.getElementById("bDate").value;
     const tv = document.getElementById("bTime").value || "12:00";
     const ci = +document.getElementById("bCity").value;
-    if (!dv) { document.getElementById("rashiOut").innerHTML = `<div class="note">⚠️ ${L.ui.birthDate}?</div>`; return; }
+    if (!dv) { 
+      document.getElementById("rashiOut").innerHTML = `<div class="note">⚠️ ${L.ui.birthDate}?</div>`; 
+      return; 
+    }
     const [Y, M, D] = dv.split("-").map(Number);
     const [h, m] = tv.split(":").map(Number);
     const city = CITIES[ci];
@@ -360,16 +500,25 @@ if(sc){
       <div class="rashi-result"><div class="big">${L.rashiSymbols[idx]} ${L.rashi[idx]}</div>
       <div>${L.labels.nakshatra}: ${L.nakshatra[r.nakshatra.index]} (${L.labels.pada} ${digits(lang, r.nakshatra.pada)})</div></div>`;
     showHoroscope(lang, idx);
+    
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(document.getElementById("rashiOut"));
   }
+  
   function showHoroscope(lang, idx) {
     const L = window.I18N[lang];
     const hi = Rashifal.dailyHoroscopeIndex(idx, new Date());
     const text = L.horoscope.templates[hi % L.horoscope.templates.length];
-    document.getElementById("horoOut").innerHTML = `
+    const out = document.getElementById("horoOut");
+    out.innerHTML = `
       <div class="rashi-result"><div class="big">${L.rashiSymbols[idx]} ${L.rashi[idx]}</div>
       <p style="margin-top:10px">${text}</p></div>`;
-    document.getElementById("horoOut").scrollIntoView({ behavior: "smooth" });
+    out.scrollIntoView({ behavior: "smooth" });
+    
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(out);
   }
+  
   function showFatal() {
     const el = document.getElementById("content") || document.body;
     el.innerHTML = `<div class="container"><div class="card">
@@ -377,115 +526,94 @@ if(sc){
       <p>script tags, lowercase नाम, Console (F12) में 404 जाँचें।</p></div></div>`;
   }
 
-
-// ================= MUHURTA =================
-
-function renderMuhurta(){
-
-    if(!window.I18N || Object.keys(window.I18N).length===0){
-        showFatal();
-        return;
+  // ============================================================
+  // MUHURTA PAGES
+  // ============================================================
+  function renderMuhurta() {
+    if (!window.I18N || Object.keys(window.I18N).length === 0) {
+      showFatal();
+      return;
     }
 
-    const lang=getLang();
-    const L=window.I18N[lang];
-   const script=localStorage.getItem("maiScript") || "deva";
+    const lang = getLang();
+    const L = window.I18N[lang];
+    buildChrome(lang, "muhurta");
 
-    buildChrome(lang,"muhurta");
-
-    const M=[
-        ["vivah","💍",L.muhurta.vivah],
-        ["upanayan","🕉️",L.muhurta.upanayan],
-        ["grihapravesh","🏠",L.muhurta.grihapravesh],
-        ["griharambha","🧱",L.muhurta.griharambha],
-        ["bhoomipujan","🏡",L.muhurta.bhoomipujan],
-        ["namkaran","👶",L.muhurta.namkaran],
-        ["annaprashan","🍚",L.muhurta.annaprashan],
-        ["mundan","✂️",L.muhurta.mundan],
-        ["karnavedha","👂",L.muhurta.karnavedha],
-        ["vidyarambha","📚",L.muhurta.vidyarambha],
-        ["aksharabhyasa","✍️",L.muhurta.aksharabhyasa],
-        ["vehicle","🚗",L.muhurta.vehicle],
-        ["property","🏘️",L.muhurta.property],
-        ["shop","🏪",L.muhurta.shop],
-        ["office","🏢",L.muhurta.office],
-        ["factory","🏭",L.muhurta.factory],
-        ["travel","✈️",L.muhurta.travel],
-        ["medicine","💊",L.muhurta.medicine]
+    const M = [
+      ["vivah","💍",L.muhurta.vivah],
+      ["upanayan","🕉️",L.muhurta.upanayan],
+      ["grihapravesh","🏠",L.muhurta.grihapravesh],
+      ["griharambha","🧱",L.muhurta.griharambha],
+      ["bhoomipujan","🏡",L.muhurta.bhoomipujan],
+      ["namkaran","👶",L.muhurta.namkaran],
+      ["annaprashan","🍚",L.muhurta.annaprashan],
+      ["mundan","✂️",L.muhurta.mundan],
+      ["karnavedha","👂",L.muhurta.karnavedha],
+      ["vidyarambha","📚",L.muhurta.vidyarambha],
+      ["aksharabhyasa","✍️",L.muhurta.aksharabhyasa],
+      ["vehicle","🚗",L.muhurta.vehicle],
+      ["property","🏘️",L.muhurta.property],
+      ["shop","🏪",L.muhurta.shop],
+      ["office","🏢",L.muhurta.office],
+      ["factory","🏭",L.muhurta.factory],
+      ["travel","✈️",L.muhurta.travel],
+      ["medicine","💊",L.muhurta.medicine]
     ];
 
-    document.getElementById("content").innerHTML=`
+    const content = document.getElementById("content");
+    content.innerHTML = `
+    <div class="container">
+      <div class="card">
+        <h2 style="text-align:center">${L.ui.muhurta}</h2>
+        <div class="muhurta-grid">
+        ${M.map(function(x) {
+          return `
+          <div class="muhurta-card"
+          onclick="location.href='muhurta-detail.html?lang=${lang}&type=${x[0]}'">
+            <div class="icon">${x[1]}</div>
+            <h3>${x[2]}</h3>
+          </div>`;
+        }).join("")}
+        </div>
+      </div>
+    </div>`;
     
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(content);
+  }
+
+  function renderMuhurtaDetail() {
+    const lang = getLang();
+    const L = window.I18N[lang];
+    buildChrome(lang, "muhurta");
+
+    const type = new URLSearchParams(location.search).get("type");
+    const content = document.getElementById("content");
+    content.innerHTML = `
     <div class="container">
-
-        <div class="card">
-
-            <h2 style="text-align:center">
-                ${L.ui.muhurta}
-            </h2>
-
-            <div class="muhurta-grid">
-
-            ${
-            M.map(x=>`
-            <div class="muhurta-card"
-            onclick="location.href='muhurta-detail.html?lang=${lang}&type=${x[0]}'">
-
-                <div class="icon">${x[1]}</div>
-
-                <h3>${x[2]}</h3>
-
-            </div>
-            `).join("")
-            }
-
-            </div>
-
-        </div>
-
+      <div class="card">
+        <h2>${L.muhurta[type]}</h2>
+        <p style="margin-top:15px">${L.ui.comingSoon || "Coming Soon"}</p>
+      </div>
     </div>`;
-   if(lang==="mai" && script==="tirhuta"){
-    convertPageToTirhuta(document.getElementById("content"));
-}
-}
-
-function renderMuhurtaDetail(){
-
-    const lang=getLang();
-
-    const L=window.I18N[lang];
-const script=localStorage.getItem("maiScript") || "deva";
-    buildChrome(lang,"muhurta");
-
-    const type=new URLSearchParams(location.search).get("type");
-
-    document.getElementById("content").innerHTML=`
-    <div class="container">
-
-        <div class="card">
-
-            <h2>${L.muhurta[type]}</h2>
-
-            <p style="margin-top:15px">
-
-            ${L.ui.comingSoon || "Coming Soon"}
-
-            </p>
-
-        </div>
-
-    </div>`;
-   if(lang==="mai" && script==="tirhuta"){
-    convertPageToTirhuta(document.getElementById("content"));
-}
-}   
+    
+    // तिरहुता कन्वर्जन
+    applyTirhutaConversion(content);
+  }
+  
+  // ============================================================
+  // PUBLIC API
+  // ============================================================
   return {
-    renderDaily,
-    renderMonthly,
-    renderMuhurta,
-    renderMuhurtaDetail,
-    renderRashifal,
-    calcRashi,
-    showHoroscope
-};
+    renderDaily: renderDaily,
+    renderMonthly: renderMonthly,
+    renderMuhurta: renderMuhurta,
+    renderMuhurtaDetail: renderMuhurtaDetail,
+    renderRashifal: renderRashifal,
+    calcRashi: calcRashi,
+    showHoroscope: showHoroscope,
+    isTirhutaMode: isTirhutaMode,
+    applyTirhutaConversion: applyTirhutaConversion
+  };
+  
 })();
