@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.mni = {
   meta:{ name:"মৈতৈলোন্", dir:"ltr", region:"মণিপুর (ইম্ফাল)",
          lat:24.82, lon:93.94, calendar:"amanta", era:"shaka", digits:"০১২৩৪৫৬৭৮৯" },
-  ui:{ site:"মৈতৈ পঞ্চাং", daily:"নুমিৎকী পঞ্চাং", monthly:"থাগী পঞ্চাং",
+  ui:{ site:"মৈতৈ পঞ্চাং", daily:"নুমিৎকী পঞ্চাং", monthly:"থাগী পঞ্চাং", muhurta:"ꯃꯨꯍꯨꯔꯠ",
        rashifal:"রাশিফল", panchangInfo:"পঞ্চাং খংনবা", mantra:"মন্ত্র",
        muhurat:"ফবা-ফত্তবা মতম", dayDetail:"নুমিৎকী মরোল",
        footer:"ভারতকী পঞ্চাং · রাজভাষা 22 পুম্নমক্তা",
