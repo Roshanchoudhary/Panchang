@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.sat = {
   meta:{ name:"ᱥᱟᱱᱛᱟᱲᱤ", dir:"ltr", region:"ᱡᱷᱟᱨᱠᱷᱚᱸᱰ (ᱨᱟᱸᱪᱤ)",
          lat:23.34, lon:85.31, calendar:"amanta", era:"shaka", digits:"᱐᱑᱒᱓᱔᱕᱖᱗᱘᱙" },
-  ui:{ site:"ᱥᱟᱱᱛᱟᱲᱤ ᱯᱟᱸᱪᱟᱝ", daily:"ᱫᱤᱱᱟᱢ ᱯᱟᱸᱪᱟᱝ", monthly:"ᱪᱟ�etᱚ ᱯᱟᱸᱪᱟᱝ".replace("etᱚ","ᱟᱸᱫᱳ"),
+  ui:{ site:"ᱥᱟᱱᱛᱟᱲᱤ ᱯᱟᱸᱪᱟᱝ", daily:"ᱫᱤᱱᱟᱢ ᱯᱟᱸᱪᱟᱝ", monthly:"ᱪᱟ�etᱚ ᱯᱟᱸᱪᱟᱝ".replace("etᱚ","ᱟᱸᱫᱳ"), muhurta:"ᱢᱩᱦᱩᱨᱛ",
        rashifal:"ᱨᱟᱥᱤᱯᱷᱚᱞ", panchangInfo:"ᱯᱟᱸᱪᱟᱝ ᱵᱟᱰᱟᱭ", mantra:"ᱢᱚᱱᱛᱚᱨ",
        muhurat:"ᱱᱟᱯᱟᱭ-ᱵᱟᱝ ᱱᱟᱯᱟᱭ ᱚᱠᱛᱚ", dayDetail:"ᱫᱤᱱ ᱵᱤᱵᱨᱚᱱ",
        footer:"ᱵᱷᱟᱨᱚᱛ ᱯᱟᱸᱪᱟᱝ · ᱡᱚᱛᱚ 22 ᱯᱟᱹᱨᱥᱤ ᱨᱮ",
