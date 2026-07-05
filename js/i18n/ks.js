@@ -3,7 +3,7 @@ window.I18N.ks = {
   meta:{ name:"کٲشُر", dir:"rtl", region:"کشیٖر (سرینگر)",
          lat:34.08, lon:74.80, calendar:"purnimanta", era:"vikram", digits:"۰۱۲۳۴۵۶۷۸۹" },
   ui:{ site:"کٲشُر پنچانگ", daily:"ڈیلی پنچانگ", monthly:"ماہوار پنچانگ",
-       rashifal:"راشِ پھل", panchangInfo:"پنچانگ ژانہٕ پرٛژھ", mantra:"منتر",
+       rashifal:"راشِ پھل", panchangInfo:"پنچانگ ژانہٕ پرٛژھ", mantra:"منتر", muhurta:"مُہوٗرت",
        muhurat:"شُبہ تہٕ اشُبہ وقت", dayDetail:"دۄہُک تفصیٖل",
        footer:"بھارتی پنچانگ · سٲری 22 سرکٲری زبانن مَنٛز",
        chooseLang:"پنُن زبان ژارٚو", openPanchang:"پنچانگ کھولٟو",
