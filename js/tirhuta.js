@@ -410,29 +410,34 @@
     // 6. ENABLE / DISABLE FUNCTIONS
     // ============================================================
 
-    function applyTirhutaFont() {
-        document.documentElement.classList.add('tirhuta-font');
-        document.documentElement.classList.add('lang-mai');
-    }
+   function applyTirhutaFont() {
+    document.documentElement.classList.add('tirhuta-font');
+    document.documentElement.classList.add('lang-mai');
 
-    function removeTirhutaFont() {
-        document.documentElement.classList.remove('tirhuta-font');
-        document.documentElement.classList.remove('lang-mai');
+    // --- FONT KO DIRECT INJECT KAREIN ---
+    if (!document.getElementById('tirhuta-inline-font')) {
+        const fontStyle = document.createElement('style');
+        fontStyle.id = 'tirhuta-inline-font';
+        fontStyle.textContent = `
+            @font-face {
+                font-family: 'MithilaUni';
+                src: url('../fonts/MithilaUni.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+                font-display: swap;
+            }
+            .tirhuta-font, .tirhuta-font * {
+                font-family: 'MithilaUni', 'Noto Sans Tirhuta', sans-serif !important;
+            }
+            .lang-mai.tirhuta-font .date-hero {
+                font-size: 1.4em !important;
+                line-height: 1.8 !important;
+            }
+        `;
+        document.head.appendChild(fontStyle);
+        console.log('✅ फ़ॉन्ट सीधे इंजेक्ट किया गया!');
     }
-
-    function enableTirhuta() {
-        applyTirhutaFont();
-        convertPageToTirhuta(document.body);
-        startObserver();
-        console.log('✅ तिरहुता लिपि सक्रिय (Tirhuta script enabled)');
-    }
-
-    function disableTirhuta() {
-        removeTirhutaFont();
-        stopObserver();
-        console.log('❌ तिरहुता लिपि निष्क्रिय (Tirhuta script disabled)');
-    }
-
+}
     // ============================================================
     // 7. TOGGLE FUNCTION
     // ============================================================
