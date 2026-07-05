@@ -13,6 +13,8 @@
 <footer class="foot"><div class="om">🕉️</div><p>© 2026 भारतीय पंचांग · Indian Panchang</p></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/astronomy-engine@2.1.19/astronomy.browser.min.js"></script>
+
+<!-- i18n फ़ाइलें -->
 <script src="js/i18n/as.js"></script>
 <script src="js/i18n/bn.js"></script>
 <script src="js/i18n/brx.js"></script>
@@ -35,15 +37,23 @@
 <script src="js/i18n/ta.js"></script>
 <script src="js/i18n/te.js"></script>
 <script src="js/i18n/ur.js"></script>
+
+<!-- Core JS -->
 <script src="js/panchang-core.js"></script>
 <script src="js/calendars.js"></script>
 <script src="js/rashifal.js"></script>
+
+<!-- ⚠️ IMPORTANT: tirhuta.js पहले लोड करें, फिर app.js -->
+<script src="js/tirhuta.js"></script>
 <script src="js/app.js"></script>
+
 <script>
   if (typeof Astronomy === "undefined") {
     document.getElementById("content").innerHTML =
       '<div class="container"><div class="card"><h2 style="color:#c1272d">⚠️ astronomy-engine लोड नहीं हुआ</h2></div></div>';
-  } else { App.renderMonthly(); }
+  } else { 
+    App.renderMonthly(); 
+  }
 </script>
 </body>
 </html>
