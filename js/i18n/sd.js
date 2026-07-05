@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.sd = {
   meta:{ name:"سنڌي", dir:"rtl", region:"سنڌ (ڀارت ۾ ڪڇ/ گانڌيڌام)",
          lat:23.08, lon:70.13, calendar:"amanta", era:"vikram", digits:"۰۱۲۳۴۵۶۷۸۹" },
-  ui:{ site:"سنڌي پنچانگ", daily:"روزاني پنچانگ", monthly:"ماهوار پنچانگ",
+  ui:{ site:"سنڌي پنچانگ", daily:"روزاني پنچانگ", monthly:"ماهوار پنچانگ", muhurta:"مُهُورْت",
        rashifal:"راشيءَ جو حال", panchangInfo:"پنچانگ جي سڃاڻپ", mantra:"منتر",
        muhurat:"سٺو ۽ خراب وقت", dayDetail:"ڏينهن جي تفصيل",
        footer:"ڀارتي پنچانگ · سڀني 22 سرڪاري ٻولين ۾",
