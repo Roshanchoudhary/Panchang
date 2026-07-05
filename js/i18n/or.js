@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.or = {
   meta:{ name:"ଓଡ଼ିଆ", dir:"ltr", region:"ଓଡ଼ିଶା (ଭୁବନେଶ୍ୱର)",
          lat:20.30, lon:85.82, calendar:"amanta", era:"shaka", digits:"୦୧୨୩୪୫୬୭୮୯" },
-  ui:{ site:"ଓଡ଼ିଆ ପଞ୍ଜିକା", daily:"ଦୈନିକ ପଞ୍ଜିକା", monthly:"ମାସିକ ପଞ୍ଜିକା",
+  ui:{ site:"ଓଡ଼ିଆ ପଞ୍ଜିକା", daily:"ଦୈନିକ ପଞ୍ଜିକା", monthly:"ମାସିକ ପଞ୍ଜିକା", muhurta:"ମୁହୂର୍ତ୍ତ",
        rashifal:"ରାଶିଫଳ", panchangInfo:"ପଞ୍ଜିକା ପରିଚୟ", mantra:"ମନ୍ତ୍ର",
        muhurat:"ଶୁଭ-ଅଶୁଭ ମୁହୂର୍ତ୍ତ", dayDetail:"ଦିନର ବିବରଣୀ",
        footer:"ଭାରତୀୟ ପଞ୍ଜିକା · ସମସ୍ତ 22 ସରକାରୀ ଭାଷାରେ",
