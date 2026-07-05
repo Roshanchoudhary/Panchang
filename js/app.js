@@ -377,13 +377,7 @@ if(sc){
       <p>script tags, lowercase नाम, Console (F12) में 404 जाँचें।</p></div></div>`;
   }
 
-function convertPageToTirhuta(root){
 
-    root.classList.add("tirhuta-font");
-
-    root.innerHTML=toTirhuta(root.innerHTML);
-
-}
 // ================= MUHURTA =================
 
 function renderMuhurta(){
