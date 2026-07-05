@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.bn = {
   meta:{ name:"বাংলা", dir:"ltr", region:"পশ্চিমবঙ্গ (কলকাতা)",
          lat:22.57, lon:88.36, calendar:"bangla-solar", era:"bangabda", digits:"০১২৩৪৫৬৭৮৯" },
-  ui:{ site:"বাংলা পঞ্জিকা", daily:"দৈনিক পঞ্জিকা", monthly:"মাসিক পঞ্জিকা",
+  ui:{ site:"বাংলা পঞ্জিকা", daily:"দৈনিক পঞ্জিকা", monthly:"মাসিক পঞ্জিকা", muhurta:"মুহূর্ত",
        rashifal:"রাশিফল", panchangInfo:"পঞ্জিকা পরিচিতি", mantra:"মন্ত্র",
        muhurat:"শুভ-অশুভ মুহূর্ত", dayDetail:"দিনের বিবরণ",
        footer:"ভারতীয় পঞ্জিকা · সকল ২২টি রাষ্ট্রভাষায়",
