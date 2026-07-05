@@ -2,7 +2,7 @@ window.I18N = window.I18N || {};
 window.I18N.sa = {
   meta:{ name:"संस्कृतम्", dir:"ltr", region:"भारतम् (काशी)",
          lat:25.32, lon:82.99, calendar:"purnimanta", era:"vikram", digits:"०१२३४५६७८९" },
-  ui:{ site:"भारतीयपञ्चाङ्गम्", daily:"दैनिकपञ्चाङ्गम्", monthly:"मासिकपञ्चाङ्गम्",
+  ui:{ site:"भारतीयपञ्चाङ्गम्", daily:"दैनिकपञ्चाङ्गम्", monthly:"मासिकपञ्चाङ्गम्", muhurta:"मुहूर्तः",
        rashifal:"राशिफलम्", panchangInfo:"पञ्चाङ्गपरिचयः", mantra:"मन्त्रः",
        muhurat:"शुभाशुभमुहूर्तः", dayDetail:"दिनस्य विवरणम्",
        footer:"भारतीयपञ्चाङ्गम् · सर्वासु 22 राजभाषासु",
