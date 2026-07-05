@@ -1,78 +1,111 @@
 /* ===========================================================
    Tirhuta Converter
-   Part 1 : Mapping + Vowels
+   Part 1 : Base + Complete Mapping
    =========================================================== */
 
-(function(){
+(function () {
 
 const TIRHUTA_MAP = {
 
-//
-// Independent Vowels
-//
+    /* Independent Vowels */
 
-"अ":"𑒁",
-"आ":"𑒂",
-"इ":"𑒃",
-"ई":"𑒄",
-"उ":"𑒅",
-"ऊ":"𑒆",
-"ऋ":"𑒇",
-"ॠ":"𑒈",
-"ऌ":"𑒉",
-"ॡ":"𑒊",
-"ए":"𑒋",
-"ऐ":"𑒌",
-"ओ":"𑒍",
-"औ":"𑒎",
+    "अ":"𑒁",
+    "आ":"𑒂",
+    "इ":"𑒃",
+    "ई":"𑒄",
+    "उ":"𑒅",
+    "ऊ":"𑒆",
+    "ऋ":"𑒇",
+    "ॠ":"𑒈",
+    "ऌ":"𑒉",
+    "ॡ":"𑒊",
+    "ए":"𑒋",
+    "ऐ":"𑒌",
+    "ओ":"𑒍",
+    "औ":"𑒎",
 
-//
-// Matras
-//
+    /* Consonants */
 
-"ा":"𑒰",
-"ि":"𑒱",
-"ी":"𑒲",
-"ु":"𑒳",
-"ू":"𑒴",
-"ृ":"𑒵",
-"ॄ":"𑒶",
-"ॢ":"𑒷",
-"ॣ":"𑒸",
-"े":"𑒹",
-"ै":"𑒺",
-"ो":"𑒻",
-"ौ":"𑒼",
+    "क":"𑒏",
+    "ख":"𑒐",
+    "ग":"𑒑",
+    "घ":"𑒒",
+    "ङ":"𑒓",
 
-//
-// Signs
-//
+    "च":"𑒔",
+    "छ":"𑒕",
+    "ज":"𑒖",
+    "झ":"𑒗",
+    "ञ":"𑒘",
 
-"ं":"𑓀",
-"ः":"𑓁",
-"ँ":"𑒿",
-"्":"𑓂",
+    "ट":"𑒙",
+    "ठ":"𑒚",
+    "ड":"𑒛",
+    "ढ":"𑒜",
+    "ण":"𑒝",
 
-//
-// Om
-//
+    "त":"𑒞",
+    "थ":"𑒟",
+    "द":"𑒠",
+    "ध":"𑒡",
+    "न":"𑒢",
 
-"ॐ":"𑓇",
+    "प":"𑒣",
+    "फ":"𑒤",
+    "ब":"𑒥",
+    "भ":"𑒦",
+    "म":"𑒧",
 
-//
-// Digits
-//
+    "य":"𑒨",
+    "र":"𑒩",
+    "ल":"𑒪",
+    "व":"𑒫",
 
-"०":"𑓐",
-"१":"𑓑",
-"२":"𑓒",
-"३":"𑓓",
-"४":"𑓔",
-"५":"𑓕",
-"६":"𑓖",
-"७":"𑓗",
-"८":"𑓘",
-"९":"𑓙"
+    "श":"𑒬",
+    "ष":"𑒭",
+    "स":"𑒮",
+    "ह":"𑒯",
+
+    /* Matras */
+
+    "ा":"𑒰",
+    "ि":"𑒱",
+    "ी":"𑒲",
+    "ु":"𑒳",
+    "ू":"𑒴",
+    "ृ":"𑒵",
+    "ॄ":"𑒶",
+    "ॢ":"𑒷",
+    "ॣ":"𑒸",
+    "े":"𑒹",
+    "ै":"𑒺",
+    "ो":"𑒻",
+    "ौ":"𑒼",
+
+    /* Signs */
+
+    "ँ":"𑒿",
+    "ं":"𑓀",
+    "ः":"𑓁",
+    "्":"𑓂",
+
+    /* Digits */
+
+    "०":"𑓐",
+    "१":"𑓑",
+    "२":"𑓒",
+    "३":"𑓓",
+    "४":"𑓔",
+    "५":"𑓕",
+    "६":"𑓖",
+    "७":"𑓗",
+    "८":"𑓘",
+    "९":"𑓙",
+
+    /* Punctuation */
+
+    "।":"𑓇",
+    "॥":"𑓈"
 
 };
 
@@ -80,155 +113,98 @@ window.TIRHUTA_MAP = TIRHUTA_MAP;
 
 })();
 /* ===========================================================
-   Part 2 : Consonants Mapping
+   Part 2 : Basic Converter Functions
    =========================================================== */
 
-Object.assign(window.TIRHUTA_MAP,{
+function convertUsingMap(text){
 
-//
-// Ka Varga
-//
+    if(!text) return "";
 
-"क":"𑒏",
-"ख":"𑒐",
-"ग":"𑒑",
-"घ":"𑒒",
-"ङ":"𑒓",
+    for(const key in window.TIRHUTA_MAP){
 
-//
-// Cha Varga
-//
+        text = text.split(key).join(window.TIRHUTA_MAP[key]);
 
-"च":"𑒔",
-"छ":"𑒕",
-"ज":"𑒖",
-"झ":"𑒗",
-"ञ":"𑒘",
+    }
 
-//
-// Ta Varga (Retroflex)
-//
+    return text;
 
-"ट":"𑒙",
-"ठ":"𑒚",
-"ड":"𑒛",
-"ढ":"𑒜",
-"ण":"𑒝",
+}
 
-//
-// Ta Varga (Dental)
-//
-
-"त":"𑒞",
-"थ":"𑒟",
-"द":"𑒠",
-"ध":"𑒡",
-"न":"𑒢",
-
-//
-// Pa Varga
-//
-
-"प":"𑒣",
-"फ":"𑒤",
-"ब":"𑒥",
-"भ":"𑒦",
-"म":"𑒧",
-
-//
-// Semi Vowels
-//
-
-"य":"𑒨",
-"र":"𑒩",
-"ल":"𑒪",
-"व":"𑒫",
-
-//
-// Sibilants
-//
-
-"श":"𑒬",
-"ष":"𑒭",
-"स":"𑒮",
-"ह":"𑒯",
-
-//
-// Additional Letters
-//
-
-"ळ":"𑒰",
-"क्ष":"𑒁𑓂𑒭",
 /* ===========================================================
-   PART 3
-   Conjuncts + Special Replacements
-=========================================================== */
+   Individual Converters
+   =========================================================== */
+
+function convertIndependentVowels(text){
+
+    return convertUsingMap(text);
+
+}
+
+function convertConsonants(text){
+
+    return convertUsingMap(text);
+
+}
+
+function convertMatras(text){
+
+    return convertUsingMap(text);
+
+}
+
+function convertNumbers(text){
+
+    return convertUsingMap(text);
+
+}
+
+function convertSigns(text){
+
+    return convertUsingMap(text);
+
+}
+/* ===========================================================
+   Part 3 : Special Conjuncts + Main Converter
+   =========================================================== */
+
+/* Common Sanskrit / Hindi Conjuncts */
 
 const SPECIAL_WORDS = {
-    "क्ष":"𑒏𑓂𑒫",
+
+    "क्ष":"𑒏𑓂𑒭",
     "त्र":"𑒞𑓂𑒩",
-    "ज्ञ":"𑒕𑓂𑒖",
-    "श्र":"𑒫𑓂𑒩"
+    "ज्ञ":"𑒖𑓂𑒘",
+    "श्र":"𑒬𑓂𑒩"
+
 };
 
-function replaceSpecialWords(str){
 
-    Object.keys(SPECIAL_WORDS).forEach(function(k){
+/* ===========================================================
+   Replace Common Conjuncts
+   =========================================================== */
 
-        str = str.split(k).join(SPECIAL_WORDS[k]);
+function replaceSpecialWords(text){
 
-    });
+    if(!text) return "";
 
-    return str;
+    for(const key in SPECIAL_WORDS){
 
-}
+        text = text.split(key).join(SPECIAL_WORDS[key]);
 
+    }
 
-/* ===========================
-   Halant Processing
-=========================== */
-
-function applyHalant(str){
-
-    str = str.replace(/्/g,"𑓂");
-
-    return str;
+    return text;
 
 }
 
 
-/* ===========================
-   Nukta
-=========================== */
-
-function applyNukta(str){
-
-    str = str.replace(/़/g,"");
-
-    return str;
-
-}
-
-
-/* ===========================
-   Danda
-=========================== */
-
-function replaceSymbols(str){
-
-    str = str.replace(/।/g,"𑓇");
-    str = str.replace(/॥/g,"𑓈");
-
-    return str;
-
-}
-
-
-/* ===========================
-   Complete Converter
-=========================== */
+/* ===========================================================
+   Main Converter
+   =========================================================== */
 
 function devanagariToTirhuta(text){
+
+    if(!text) return "";
 
     text = replaceSpecialWords(text);
 
@@ -238,25 +214,29 @@ function devanagariToTirhuta(text){
 
     text = convertMatras(text);
 
+    text = convertSigns(text);
+
     text = convertNumbers(text);
-
-    text = applyHalant(text);
-
-    text = applyNukta(text);
-
-    text = replaceSymbols(text);
 
     return text;
 
 }
+
+
 /* ===========================================================
-   PART 4
-   DOM Converter
-=========================================================== */
+   Export
+   =========================================================== */
+
+window.devanagariToTirhuta = devanagariToTirhuta;
+/* ===========================================================
+   Part 4 : DOM Converter
+   =========================================================== */
 
 function convertTextNode(node){
 
-    if(!node || !node.nodeValue) return;
+    if(!node) return;
+
+    if(!node.nodeValue) return;
 
     node.nodeValue = devanagariToTirhuta(node.nodeValue);
 
@@ -264,10 +244,10 @@ function convertTextNode(node){
 
 
 /* ===========================================================
-   Walk Through DOM
-=========================================================== */
+   Walk DOM
+   =========================================================== */
 
-function walk(node){
+function walkDOM(node){
 
     if(!node) return;
 
@@ -279,7 +259,11 @@ function walk(node){
 
     }
 
-    if(node.nodeType!==1) return;
+    if(node.nodeType!==1){
+
+        return;
+
+    }
 
     const tag=node.tagName.toLowerCase();
 
@@ -287,15 +271,17 @@ function walk(node){
         tag==="script" ||
         tag==="style" ||
         tag==="textarea" ||
-        tag==="code" ||
-        tag==="pre"
+        tag==="pre" ||
+        tag==="code"
     ){
+
         return;
+
     }
 
     for(let i=0;i<node.childNodes.length;i++){
 
-        walk(node.childNodes[i]);
+        walkDOM(node.childNodes[i]);
 
     }
 
@@ -303,25 +289,25 @@ function walk(node){
 
 
 /* ===========================================================
-   Public Function
-=========================================================== */
+   Convert Whole Page
+   =========================================================== */
 
 function convertPageToTirhuta(root){
 
     root=root||document.body;
 
-    walk(root);
+    walkDOM(root);
 
 }
 
 
 /* ===========================================================
-   Convert Placeholder
-=========================================================== */
+   Convert Input Placeholder
+   =========================================================== */
 
 function convertPlaceholders(){
 
-    document.querySelectorAll("input").forEach(function(el){
+    document.querySelectorAll("input,textarea").forEach(function(el){
 
         if(el.placeholder){
 
@@ -335,8 +321,8 @@ function convertPlaceholders(){
 
 
 /* ===========================================================
-   Convert Buttons
-=========================================================== */
+   Convert Button Text
+   =========================================================== */
 
 function convertButtons(){
 
@@ -351,12 +337,23 @@ function convertButtons(){
     });
 
 }
+
+
 /* ===========================================================
-   PART 5
-   Auto Update + Mutation Observer
-=========================================================== */
+   Export
+   =========================================================== */
+
+window.convertPageToTirhuta = convertPageToTirhuta;
+/* ===========================================================
+   Part 5 : Auto Update + Observer
+   =========================================================== */
 
 let tirhutaObserver = null;
+
+
+/* ===========================================================
+   Start Observer
+   =========================================================== */
 
 function startTirhutaObserver(){
 
@@ -368,15 +365,17 @@ function startTirhutaObserver(){
 
     tirhutaObserver = new MutationObserver(function(mutations){
 
-        mutations.forEach(function(m){
+        mutations.forEach(function(mutation){
 
-            m.addedNodes.forEach(function(node){
+            mutation.addedNodes.forEach(function(node){
 
                 if(node.nodeType===3){
 
                     convertTextNode(node);
 
-                }else if(node.nodeType===1){
+                }
+
+                else if(node.nodeType===1){
 
                     convertPageToTirhuta(node);
 
@@ -400,7 +399,7 @@ function startTirhutaObserver(){
 
 /* ===========================================================
    Stop Observer
-=========================================================== */
+   =========================================================== */
 
 function stopTirhutaObserver(){
 
@@ -416,8 +415,8 @@ function stopTirhutaObserver(){
 
 
 /* ===========================================================
-   Main Function
-=========================================================== */
+   Enable Tirhuta
+   =========================================================== */
 
 function enableTirhuta(){
 
@@ -433,8 +432,8 @@ function enableTirhuta(){
 
 
 /* ===========================================================
-   Disable
-=========================================================== */
+   Disable Tirhuta
+   =========================================================== */
 
 function disableTirhuta(){
 
@@ -444,10 +443,48 @@ function disableTirhuta(){
 
 
 /* ===========================================================
-   Export
-=========================================================== */
+   Auto Font Class
+   =========================================================== */
 
-window.convertPageToTirhuta = convertPageToTirhuta;
-window.enableTirhuta = enableTirhuta;
-window.disableTirhuta = disableTirhuta;
-window.devanagariToTirhuta = devanagariToTirhuta;
+function applyTirhutaFont(){
+
+    document.documentElement.classList.add("tirhuta-font");
+
+}
+
+
+/* ===========================================================
+   Remove Font Class
+   =========================================================== */
+
+function removeTirhutaFont(){
+
+    document.documentElement.classList.remove("tirhuta-font");
+
+}
+
+
+/* ===========================================================
+   Enable Complete Tirhuta Mode
+   =========================================================== */
+
+window.enableCompleteTirhuta=function(){
+
+    applyTirhutaFont();
+
+    enableTirhuta();
+
+};
+
+
+/* ===========================================================
+   Disable Complete Tirhuta Mode
+   =========================================================== */
+
+window.disableCompleteTirhuta=function(){
+
+    removeTirhutaFont();
+
+    disableTirhuta();
+
+};
