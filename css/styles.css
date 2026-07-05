@@ -670,3 +670,12 @@ font-size:.9rem;
 }
 
 }
+@font-face{
+    font-family:'MithilaUni';
+    src:url('/fonts/MithilaUni.ttf') format('truetype');
+    font-display:swap;
+}
+
+.tirhuta{
+    font-family:'MithilaUni',serif;
+}
