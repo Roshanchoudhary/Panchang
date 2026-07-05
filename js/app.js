@@ -64,6 +64,21 @@ const App = (function () {
             <div class="select-shell"><select id="langSelect" class="lang-select">${options}</select></div>
           </div>
         </div>
+        ${lang==="mai" ? `
+<div class="script-select-wrap">
+    <label>लिपि</label>
+
+    <select id="scriptSelect">
+
+        <option value="deva">देवनागरी</option>
+
+        <option value="tirhuta">𑒁𑒱𑒩𑒲𑒘𑒰</option>
+
+    </select>
+
+</div>
+` : ""}
+
       </header>
       <nav class="tabs">
         ${tab("daily", L.ui.daily, "daily.html")}
@@ -73,6 +88,21 @@ const App = (function () {
         ${tab("rashifal", L.ui.rashifal, "rashifal.html")}
       </nav>`;
     const sel = document.getElementById("langSelect");
+     const sc=document.getElementById("scriptSelect");
+
+if(sc){
+
+    sc.value=localStorage.getItem("maiScript") || "deva";
+
+    sc.onchange=function(){
+
+        localStorage.setItem("maiScript",this.value);
+
+        location.reload();
+
+    };
+
+}
     if (sel) sel.addEventListener("change", () => { location.href = `${page}?lang=${sel.value}`; });
     const missing = checkMissing();
     if (missing.length) host.insertAdjacentHTML("beforeend",
@@ -153,6 +183,7 @@ const App = (function () {
     const yearDisplay = rd && rd.year != null ? digits(lang, rd.year) : "—";
 
     el.innerHTML = `
+  
       <div class="container">
         <div class="card">
           <div class="date-picker">
@@ -190,7 +221,11 @@ const App = (function () {
           <div class="note">${L.meta.region} · Lahiri Ayanamsha · astronomy-engine</div>
         </div>
       </div>`;
+  if(lang==="mai" && script==="tirhuta"){
 
+    convertPageToTirhuta(el);
+
+}
     document.getElementById("prevD").onclick = () => { dailyDate.setDate(dailyDate.getDate() - 1); renderDaily(); };
     document.getElementById("nextD").onclick = () => { dailyDate.setDate(dailyDate.getDate() + 1); renderDaily(); };
     document.getElementById("todayD").onclick = () => { dailyDate = new Date(); renderDaily(); };
@@ -341,7 +376,13 @@ const App = (function () {
       <p>script tags, lowercase नाम, Console (F12) में 404 जाँचें।</p></div></div>`;
   }
 
+function convertPageToTirhuta(root){
 
+    root.classList.add("tirhuta-font");
+
+    root.innerHTML=toTirhuta(root.innerHTML);
+
+}
 // ================= MUHURTA =================
 
 function renderMuhurta(){
@@ -353,6 +394,7 @@ function renderMuhurta(){
 
     const lang=getLang();
     const L=window.I18N[lang];
+   const script=localStorage.getItem("maiScript") || "deva";
 
     buildChrome(lang,"muhurta");
 
@@ -413,7 +455,7 @@ function renderMuhurtaDetail(){
     const lang=getLang();
 
     const L=window.I18N[lang];
-
+const script=localStorage.getItem("maiScript") || "deva";
     buildChrome(lang,"muhurta");
 
     const type=new URLSearchParams(location.search).get("type");
