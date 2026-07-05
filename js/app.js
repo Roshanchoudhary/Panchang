@@ -343,3 +343,96 @@ const App = (function () {
 
   return { renderDaily, renderMonthly, renderRashifal, calcRashi, showHoroscope };
 })();
+// ================= MUHURTA =================
+
+function renderMuhurta(){
+
+    if(!window.I18N || Object.keys(window.I18N).length===0){
+        showFatal();
+        return;
+    }
+
+    const lang=getLang();
+    const L=window.I18N[lang];
+
+    buildChrome(lang,"muhurta");
+
+    const M=[
+        ["vivah","💍",L.muhurta.vivah],
+        ["upanayan","🕉️",L.muhurta.upanayan],
+        ["grihapravesh","🏠",L.muhurta.grihapravesh],
+        ["griharambha","🧱",L.muhurta.griharambha],
+        ["bhoomipujan","🏡",L.muhurta.bhoomipujan],
+        ["namkaran","👶",L.muhurta.namkaran],
+        ["annaprashan","🍚",L.muhurta.annaprashan],
+        ["mundan","✂️",L.muhurta.mundan],
+        ["karnavedha","👂",L.muhurta.karnavedha],
+        ["vidyarambha","📚",L.muhurta.vidyarambha],
+        ["aksharabhyasa","✍️",L.muhurta.aksharabhyasa],
+        ["vehicle","🚗",L.muhurta.vehicle],
+        ["property","🏘️",L.muhurta.property],
+        ["shop","🏪",L.muhurta.shop],
+        ["office","🏢",L.muhurta.office],
+        ["factory","🏭",L.muhurta.factory],
+        ["travel","✈️",L.muhurta.travel],
+        ["medicine","💊",L.muhurta.medicine]
+    ];
+
+    document.getElementById("content").innerHTML=`
+    <div class="container">
+
+        <div class="card">
+
+            <h2 style="text-align:center">
+                ${L.ui.muhurta}
+            </h2>
+
+            <div class="muhurta-grid">
+
+            ${
+            M.map(x=>`
+            <div class="muhurta-card"
+            onclick="location.href='muhurta-detail.html?lang=${lang}&type=${x[0]}'">
+
+                <div class="icon">${x[1]}</div>
+
+                <h3>${x[2]}</h3>
+
+            </div>
+            `).join("")
+            }
+
+            </div>
+
+        </div>
+
+    </div>`;
+}
+
+function renderMuhurtaDetail(){
+
+    const lang=getLang();
+
+    const L=window.I18N[lang];
+
+    buildChrome(lang,"muhurta");
+
+    const type=new URLSearchParams(location.search).get("type");
+
+    document.getElementById("content").innerHTML=`
+    <div class="container">
+
+        <div class="card">
+
+            <h2>${L.muhurta[type]}</h2>
+
+            <p style="margin-top:15px">
+
+            ${L.ui.comingSoon || "Coming Soon"}
+
+            </p>
+
+        </div>
+
+    </div>`;
+}
