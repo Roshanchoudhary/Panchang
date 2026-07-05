@@ -485,3 +485,45 @@
     console.log('📜 तिरहुता कन्वर्टर लोड हुआ (Tirhuta Converter loaded)');
 
 })();
+// ============================================================
+// 10. FORCE APPLY - हमेशा काम करेगा
+// ============================================================
+
+(function forceApply() {
+    console.log('🔥 FORCE APPLY RUNNING...');
+    
+    // सीधे CSS इंजेक्ट करें
+    const style = document.createElement('style');
+    style.id = 'tirhuta-force-style';
+    style.textContent = `
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tirhuta&display=swap');
+        .tirhuta-font, .tirhuta-font * {
+            font-family: 'Noto Sans Tirhuta', 'MithilaUni', sans-serif !important;
+        }
+        .lang-mai.tirhuta-font .date-hero {
+            font-size: 1.4em !important;
+            line-height: 1.8 !important;
+        }
+        .lang-mai.tirhuta-font .grid .pitem {
+            font-size: 1.2em !important;
+        }
+        .lang-mai.tirhuta-font .cal-cell {
+            font-size: 1.1em !important;
+        }
+    `;
+    document.head.appendChild(style);
+    console.log('✅ CSS इंजेक्ट हो गया!');
+    
+    // क्लास ऐड करें
+    document.documentElement.classList.add('tirhuta-font');
+    document.documentElement.classList.add('lang-mai');
+    console.log('✅ क्लास ऐड हो गई!');
+    
+    // कन्वर्ट करें
+    if (typeof window.convertPageToTirhuta === 'function') {
+        setTimeout(function() {
+            window.convertPageToTirhuta(document.body);
+            console.log('✅ कन्वर्जन हो गया!');
+        }, 200);
+    }
+})();
