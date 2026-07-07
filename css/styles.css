@@ -689,12 +689,12 @@ font-size:.9rem;
 
 /* तिरहुता में बड़ा फ़ॉन्ट साइज़ (लिपि छोटी दिखती है) */
 .tirhuta-font * {
-    font-size: 1.1em;
+    font-size: 1.0em;
 }
 
 /* सिर्फ मैथिली कंटेंट के लिए */
 .lang-mai.tirhuta-font {
-    font-size: 1.15em;
+    font-size: 1.0em;
 }
 
 /* लिपि चयनकर्ता स्टाइल */
