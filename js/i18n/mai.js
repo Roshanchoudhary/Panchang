@@ -3,7 +3,7 @@ window.I18N.mai = {
   meta:{ name:"मैथिली", dir:"ltr", region:"मिथिला (दड़िभङ्गा)",
          lat:26.15, lon:85.90, calendar:"purnimanta", era:"shaka", digits:"0123456789" },
   ui:{ site:"मैथिली पञ्चाङ्ग", daily:"दैनिक पञ्चाङ्ग", monthly:"मासिक पञ्चाङ्ग", muhurta:"मुहूर्त",
-       rashifal:"राशिफल", panchangInfo:"पञ्चाङ्ग परिचय", mantra:"मंत्र",
+       rashifal:"राशिफल", panchangInfo:"पञ्चाङ्ग परिचय", mantra:"मन्त्र",
        muhurat:"शुभ-अशुभ मुहूर्त", dayDetail:"दिनक विवरण",
        footer:"भारतीय पञ्चाङ्ग · सभ 22 राजभाषा मे",
        chooseLang:"अपन भाषा चुनू", openPanchang:"पञ्चाङ्ग खोलू",
